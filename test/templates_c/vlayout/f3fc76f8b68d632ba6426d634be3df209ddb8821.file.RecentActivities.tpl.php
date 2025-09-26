@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2019-11-26 12:34:07
+<?php /* Smarty version Smarty-3.1.7, created on 2025-09-26 23:06:38
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/RecentActivities.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:4908543465ddd1bbf4ba782-73605708%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f3fc76f8b68d632ba6426d634be3df209ddb8821' => 
     array (
       0 => '/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/RecentActivities.tpl',
-      1 => 1468488064,
+      1 => 1623062736,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_5ddd1bbf4f1c2',
   'variables' => 
   array (
     'PAGING_MODEL' => 0,
@@ -26,8 +28,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'FIELDMODEL' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5ddd1bbf4f1c2',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_5ddd1bbf4f1c2')) {function content_5ddd1bbf4f1c2($_smarty_tpl) {?>
 <div class="recentActivitiesContainer" id="updates"><input type="hidden" id="updatesCurrentPage" value="<?php echo $_smarty_tpl->tpl_vars['PAGING_MODEL']->value->get('page');?>

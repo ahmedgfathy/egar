@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2019-11-26 11:07:26
+<?php /* Smarty version Smarty-3.1.7, created on 2025-09-26 23:06:35
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/DetailViewHeader.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:15750415685ddd076e2caa45-02703017%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '3ca5d45518fa10f316515130d9f619d30b88d56e' => 
     array (
       0 => '/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/DetailViewHeader.tpl',
-      1 => 1468488064,
+      1 => 1623062736,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_5ddd076e2e8b8',
   'variables' => 
   array (
     'MODULE_MODEL' => 0,
@@ -31,8 +33,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'PICKLIST_DEPENDENCY_DATASOURCE' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5ddd076e2e8b8',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_5ddd076e2e8b8')) {function content_5ddd076e2e8b8($_smarty_tpl) {?>
 <?php $_smarty_tpl->tpl_vars["MODULE_NAME"] = new Smarty_variable($_smarty_tpl->tpl_vars['MODULE_MODEL']->value->get('name'), null, 0);?><input id="recordId" type="hidden" value="<?php echo $_smarty_tpl->tpl_vars['RECORD']->value->getId();?>
