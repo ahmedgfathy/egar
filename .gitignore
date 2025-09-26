@@ -1,0 +1,75 @@
+# Configuration files with sensitive information
+config.db.php
+config.csrf-secret.php
+config.security.php
+gcp_config.inc.php
+
+# Log files
+error_log
+logs/
+*.log
+
+# Cache directories
+cache/
+storage/temp/
+storage/cache/
+
+# Upload directories with user content
+cache/upload/
+kcfinder/upload/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Composer
+vendor/
+composer.lock
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+
+# Archive files
+*.tar.gz
+*.zip
+*.rar
+
+# Backup files
+*.bak
+*.backup
+
+# Runtime files
+user_privileges/sharing_privileges_*
+user_privileges/user_privileges_*
+
+# Test files
+test/tmp/
+phpunit.xml
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Package files
+pkg/vtiger/modules/*/
+pkg/vtiger/patches/*/
