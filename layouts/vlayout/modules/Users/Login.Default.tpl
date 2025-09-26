@@ -193,7 +193,7 @@
 						<div class="span6 pull-left" >
 							<div class="footer-content">
 								
-									<a href="https://www.e-egar.com">ElHadaba-RS.COM</a><small>&nbsp By JETHOSTED&nbsp&copy {date('Y')}&nbsp;<!-- | 
+									<a href="https://www.e-egar.com">EGAR</a><small>&nbsp By JETHOSTED&nbsp&copy {date('Y')}&nbsp;<!-- | 
 									<a href="https://www.vtiger.com/LICENSE.txt">Read License</a> | 
 									<a href="https://www.vtiger.com/products/crm/privacy_policy.html">Privacy Policy</a>--> </small>
 							</div>
