@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2019-11-22 01:35:50
+<?php /* Smarty version Smarty-3.1.7, created on 2025-09-27 14:05:37
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Reports/ListViewContents.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:5404355325dd73b76e38850-21451634%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'eaa016881adc6e02ec50f96362bd716f8821cf70' => 
     array (
       0 => '/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Reports/ListViewContents.tpl',
-      1 => 1468488064,
+      1 => 1623062736,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_5dd73b76e8ca0',
   'variables' => 
   array (
     'PAGING_MODEL' => 0,
@@ -38,8 +40,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'SINGLE_MODULE' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5dd73b76e8ca0',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_5dd73b76e8ca0')) {function content_5dd73b76e8ca0($_smarty_tpl) {?>
 <input type="hidden" id="pageStartRange" value="<?php echo $_smarty_tpl->tpl_vars['PAGING_MODEL']->value->getRecordStartRange();?>

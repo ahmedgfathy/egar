@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2019-12-14 12:02:48
+<?php /* Smarty version Smarty-3.1.7, created on 2025-09-27 15:23:33
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/Export.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:20069956325df4cf6887c346-88364649%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f965bb8426c64ebb2d9bcca8578c1f59481b23f8' => 
     array (
       0 => '/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/Export.tpl',
-      1 => 1468488064,
+      1 => 1623062736,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_5df4cf688ddf8',
   'variables' => 
   array (
     'LEFTPANELHIDE' => 0,
@@ -30,8 +32,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'SEARCH_PARAMS' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5df4cf688ddf8',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_5df4cf688ddf8')) {function content_5df4cf688ddf8($_smarty_tpl) {?>
 <div id="toggleButton" class="toggleButton" title="<?php echo vtranslate('LBL_LEFT_PANEL_SHOW_HIDE','Vtiger');?>

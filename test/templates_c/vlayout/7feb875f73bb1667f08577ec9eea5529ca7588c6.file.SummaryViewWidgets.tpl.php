@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2019-12-02 06:25:08
+<?php /* Smarty version Smarty-3.1.7, created on 2025-09-27 21:04:35
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/SummaryViewWidgets.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:9214726255de4ae44cfa4c6-56188251%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7feb875f73bb1667f08577ec9eea5529ca7588c6' => 
     array (
       0 => '/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/SummaryViewWidgets.tpl',
-      1 => 1468488064,
+      1 => 1623062736,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_5de4ae44d0979',
   'variables' => 
   array (
     'MODULE_SUMMARY' => 0,
@@ -24,8 +26,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'RELATED_ACTIVITIES' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5de4ae44d0979',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_5de4ae44d0979')) {function content_5de4ae44d0979($_smarty_tpl) {?>
 <?php if (!empty($_smarty_tpl->tpl_vars['MODULE_SUMMARY']->value)){?><div class="row-fluid"><div class="span7"><div class="summaryView row-fluid"><?php echo $_smarty_tpl->tpl_vars['MODULE_SUMMARY']->value;?>
