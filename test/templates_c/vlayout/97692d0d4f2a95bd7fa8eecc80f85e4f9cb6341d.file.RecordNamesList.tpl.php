@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2019-11-29 23:12:39
+<?php /* Smarty version Smarty-3.1.7, created on 2025-09-27 02:00:46
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/RecordNamesList.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:5270733725de1a5e7a0e8e1-45082684%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '97692d0d4f2a95bd7fa8eecc80f85e4f9cb6341d' => 
     array (
       0 => '/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/RecordNamesList.tpl',
-      1 => 1468488064,
+      1 => 1623062736,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_5de1a5e7a1998',
   'variables' => 
   array (
     'RECORDS' => 0,
@@ -22,8 +24,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'MODULE' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5de1a5e7a1998',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_5de1a5e7a1998')) {function content_5de1a5e7a1998($_smarty_tpl) {?>
 <div class="recordNamesList"><div class="row-fluid"><div class=""><ul class="nav nav-list"><?php  $_smarty_tpl->tpl_vars['recordsModel'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['recordsModel']->_loop = false;
