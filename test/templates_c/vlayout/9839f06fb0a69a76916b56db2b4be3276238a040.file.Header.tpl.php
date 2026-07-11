@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2025-09-27 02:00:44
+<?php /* Smarty version Smarty-3.1.7, created on 2026-07-11 20:31:22
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/Header.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:8002752185dd73939452686-31952731%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:12040222036a52a81aedac78-23156791%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '8002752185dd73939452686-31952731',
+  'nocache_hash' => '12040222036a52a81aedac78-23156791',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5dd739394d58f',
   'variables' => 
   array (
     'PAGETITLE' => 0,
@@ -29,8 +27,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'CURRENT_USER_MODEL' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_6a52a81aee871',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5dd739394d58f')) {function content_5dd739394d58f($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_6a52a81aee871')) {function content_6a52a81aee871($_smarty_tpl) {?>
 <!DOCTYPE html><html><head><title><?php echo vtranslate($_smarty_tpl->tpl_vars['PAGETITLE']->value,$_smarty_tpl->tpl_vars['MODULE_NAME']->value);?>
 </title><link rel="manifest" href="manifest.json"><meta name="format-detection" content="telephone=no"><link REL="SHORTCUT ICON" HREF="layouts/vlayout/skins/images/favicon.ico"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><link rel="stylesheet" href="libraries/jquery/chosen/chosen.css" type="text/css" media="screen" /><link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" media="screen" /><link rel="stylesheet" href="libraries/jquery/select2/select2.css" type="text/css" media="screen" /><link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" /><link rel="stylesheet" href="libraries/bootstrap/css/jqueryBxslider.css" type="text/css" media="screen" /><link rel="stylesheet" href="resources/styles.css" type="text/css" media="screen" /><link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" /><link rel="stylesheet" href="libraries/jquery/select2/select2.css" /><link rel="stylesheet" href="libraries/guidersjs/guiders-1.2.6.css"/><link rel="stylesheet" href="libraries/jquery/pnotify/jquery.pnotify.default.css"/><link rel="stylesheet" href="libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/><link rel="stylesheet" media="screen" type="text/css" href="libraries/jquery/datepicker/css/datepicker.css" /><?php  $_smarty_tpl->tpl_vars['cssModel'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['cssModel']->_loop = false;
  $_smarty_tpl->tpl_vars['index'] = new Smarty_Variable;

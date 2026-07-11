@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2025-09-26 21:46:37
+<?php /* Smarty version Smarty-3.1.7, created on 2026-07-11 20:31:22
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/MenuBar.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:7074955985dd73b318cc838-42138193%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:4690598966a52a81aeeebc6-75937512%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '7074955985dd73b318cc838-42138193',
+  'nocache_hash' => '4690598966a52a81aeeebc6-75937512',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5dd73b31a236e',
   'variables' => 
   array (
     'MENU_STRUCTURE' => 0,
@@ -55,8 +53,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'VIEW' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_6a52a81b01144',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5dd73b31a236e')) {function content_5dd73b31a236e($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_6a52a81b01144')) {function content_6a52a81b01144($_smarty_tpl) {?>
 <?php $_smarty_tpl->tpl_vars["topMenus"] = new Smarty_variable($_smarty_tpl->tpl_vars['MENU_STRUCTURE']->value->getTop(), null, 0);?><?php $_smarty_tpl->tpl_vars["moreMenus"] = new Smarty_variable($_smarty_tpl->tpl_vars['MENU_STRUCTURE']->value->getMore(), null, 0);?><?php $_smarty_tpl->tpl_vars['NUMBER_OF_PARENT_TABS'] = new Smarty_variable(count(array_keys($_smarty_tpl->tpl_vars['moreMenus']->value)), null, 0);?><div class="navbar" id="topMenus" style="overflow: hidden;height:40px;"><div class="navbar-inner" id="nav-inner"><div class="menuBar row-fluid"><div class="span9"><ul class="nav modulesList" id="largeNav"><li class="tabs"><a class="alignMiddle <?php if ($_smarty_tpl->tpl_vars['MODULE']->value=='Home'){?> selected <?php }?>" href="<?php echo $_smarty_tpl->tpl_vars['HOME_MODULE_MODEL']->value->getDefaultUrl();?>
 "><img src="<?php echo vimage_path('home.png');?>
 " alt="<?php echo vtranslate('LBL_HOME',$_smarty_tpl->tpl_vars['moduleName']->value);?>

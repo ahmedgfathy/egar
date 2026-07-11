@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2025-09-26 22:06:09
+<?php /* Smarty version Smarty-3.1.7, created on 2026-07-11 20:31:23
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/Footer.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:4711481275dd7393951cfb1-74360694%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:19313269316a52a81b138103-04369184%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '4711481275dd7393951cfb1-74360694',
+  'nocache_hash' => '19313269316a52a81b138103-04369184',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5dd7393953d0d',
   'variables' => 
   array (
     'ACTIVITY_REMINDER' => 0,
@@ -30,8 +28,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'VTIGER_VERSION' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_6a52a81b14128',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5dd7393953d0d')) {function content_5dd7393953d0d($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_6a52a81b14128')) {function content_6a52a81b14128($_smarty_tpl) {?>
 <input id='activityReminder' class='hide noprint' type="hidden" value="<?php echo $_smarty_tpl->tpl_vars['ACTIVITY_REMINDER']->value;?>
 "/><?php if ($_smarty_tpl->tpl_vars['HEADER_LINKS']->value&&$_smarty_tpl->tpl_vars['MAIN_PRODUCT_SUPPORT']->value&&!$_smarty_tpl->tpl_vars['MAIN_PRODUCT_WHITELABEL']->value){?><?php $_smarty_tpl->tpl_vars["FIRSTHEADERLINK"] = new Smarty_variable($_smarty_tpl->tpl_vars['HEADER_LINKS']->value[0], null, 0);?><?php $_smarty_tpl->tpl_vars["FIRSTHEADERLINKCHILDRENS"] = new Smarty_variable($_smarty_tpl->tpl_vars['FIRSTHEADERLINK']->value->get('childlinks'), null, 0);?><?php $_smarty_tpl->tpl_vars["FEEDBACKLINKMODEL"] = new Smarty_variable($_smarty_tpl->tpl_vars['FIRSTHEADERLINKCHILDRENS']->value[2], null, 0);?><div id="userfeedback" class="feedback noprint"><a href="https://discussions.vtiger.com" target="_blank" xonclick="<?php echo $_smarty_tpl->tpl_vars['FEEDBACKLINKMODEL']->value->get('linkurl');?>
 " class="handle"><?php echo vtranslate("LBL_FEEDBACK","Vtiger");?>

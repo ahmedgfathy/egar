@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2025-09-27 14:05:41
+<?php /* Smarty version Smarty-3.1.7, created on 2026-07-11 20:31:47
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/AdvanceFilter.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:10880682335dd8c945419044-34893028%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:20597472346a52a8330310b4-69662803%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '10880682335dd8c945419044-34893028',
+  'nocache_hash' => '20597472346a52a8330310b4-69662803',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5dd8c94548152',
   'variables' => 
   array (
     'ADVANCE_CRITERIA' => 0,
@@ -34,8 +32,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'GROUP_CONDITION' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_6a52a83304c96',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5dd8c94548152')) {function content_5dd8c94548152($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_6a52a83304c96')) {function content_6a52a83304c96($_smarty_tpl) {?>
 <?php $_smarty_tpl->tpl_vars['ALL_CONDITION_CRITERIA'] = new Smarty_variable($_smarty_tpl->tpl_vars['ADVANCE_CRITERIA']->value[1], null, 0);?><?php $_smarty_tpl->tpl_vars['ANY_CONDITION_CRITERIA'] = new Smarty_variable($_smarty_tpl->tpl_vars['ADVANCE_CRITERIA']->value[2], null, 0);?><?php if (empty($_smarty_tpl->tpl_vars['ALL_CONDITION_CRITERIA']->value)){?><?php $_smarty_tpl->tpl_vars['ALL_CONDITION_CRITERIA'] = new Smarty_variable(array(), null, 0);?><?php }?><?php if (empty($_smarty_tpl->tpl_vars['ANY_CONDITION_CRITERIA']->value)){?><?php $_smarty_tpl->tpl_vars['ANY_CONDITION_CRITERIA'] = new Smarty_variable(array(), null, 0);?><?php }?><div class="filterContainer"><input type="hidden" name="date_filters" data-value='<?php echo Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($_smarty_tpl->tpl_vars['DATE_FILTERS']->value));?>
 ' /><input type="hidden" name="advanceFilterOpsByFieldType" data-value='<?php echo ZEND_JSON::encode($_smarty_tpl->tpl_vars['ADVANCED_FILTER_OPTIONS_BY_TYPE']->value);?>
 ' /><?php  $_smarty_tpl->tpl_vars['ADVANCE_FILTER_OPTION'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['ADVANCE_FILTER_OPTION']->_loop = false;

@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2025-09-26 21:46:37
+<?php /* Smarty version Smarty-3.1.7, created on 2026-07-11 20:31:23
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/SideBarWidgets.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:20682463105dd73b31ad9194-66808402%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:4683466086a52a81b04df01-05648520%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '20682463105dd73b31ad9194-66808402',
+  'nocache_hash' => '4683466086a52a81b04df01-05648520',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5dd73b31af5ff',
   'variables' => 
   array (
     'QUICK_LINKS' => 0,
@@ -24,8 +22,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'SIDEBARWIDGET' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_6a52a81b0576a',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5dd73b31af5ff')) {function content_5dd73b31af5ff($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_6a52a81b0576a')) {function content_6a52a81b0576a($_smarty_tpl) {?>
 <div class="quickWidgetContainer accordion"><?php $_smarty_tpl->tpl_vars['val'] = new Smarty_variable(1, null, 0);?><?php  $_smarty_tpl->tpl_vars['SIDEBARWIDGET'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['SIDEBARWIDGET']->_loop = false;
  $_smarty_tpl->tpl_vars['index'] = new Smarty_Variable;
  $_from = $_smarty_tpl->tpl_vars['QUICK_LINKS']->value['SIDEBARWIDGET']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}

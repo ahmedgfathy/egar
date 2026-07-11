@@ -34,7 +34,7 @@ $CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
-$HELPDESK_SUPPORT_EMAIL_ID = 'ahmedgfathy@icloud.com';
+$HELPDESK_SUPPORT_EMAIL_ID = 'ahmedgfathy@gmail.com';
 $HELPDESK_SUPPORT_NAME = 'Ahmed Fathy';
 $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 
@@ -49,8 +49,8 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 
 $dbconfig['db_server'] = 'localhost';
 $dbconfig['db_port'] = ':3306';
-$dbconfig['db_username'] = 'arafa';
-$dbconfig['db_password'] = 'arafaCRM20!@';
+$dbconfig['db_username'] = 'root';
+$dbconfig['db_password'] = 'zerocall';
 $dbconfig['db_name'] = 'egar';
 $dbconfig['db_type'] = 'mysqli';
 $dbconfig['db_status'] = 'true';
@@ -82,8 +82,8 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'https://egar.contaboo.com';
-//$site_URL = 'https://crm.elhadaba-rs.com/404.html';
+$site_URL = 'https://egar.marakezeg.net';
+//$site_URL = 'https://egar.contaboo.com/404.html';
 
 // url for customer portal (Example: http://vtiger.com/portal)
 //$PORTAL_URL = $site_URL.'/customerportal';

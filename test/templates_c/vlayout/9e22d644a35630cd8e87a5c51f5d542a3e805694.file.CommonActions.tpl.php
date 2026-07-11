@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2025-09-26 21:46:37
+<?php /* Smarty version Smarty-3.1.7, created on 2026-07-11 20:31:23
          compiled from "/var/www/html/egar/includes/runtime/../../layouts/vlayout/modules/Vtiger/CommonActions.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:8090554805dd73b31a3b6c8-53235570%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:10962469876a52a81b019898-37503217%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '8090554805dd73b31a3b6c8-53235570',
+  'nocache_hash' => '10962469876a52a81b019898-37503217',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.7',
-  'unifunc' => 'content_5dd73b31a8f9e',
   'variables' => 
   array (
     'ANNOUNCEMENT' => 0,
@@ -36,8 +34,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'moduleName' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.7',
+  'unifunc' => 'content_6a52a81b03109',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5dd73b31a8f9e')) {function content_5dd73b31a8f9e($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_6a52a81b03109')) {function content_6a52a81b03109($_smarty_tpl) {?>
 
 <?php $_smarty_tpl->tpl_vars["announcement"] = new Smarty_variable($_smarty_tpl->tpl_vars['ANNOUNCEMENT']->value->get('announcement'), null, 0);?><?php $_smarty_tpl->tpl_vars['count'] = new Smarty_variable(0, null, 0);?><?php $_smarty_tpl->tpl_vars["dateFormat"] = new Smarty_variable($_smarty_tpl->tpl_vars['USER_MODEL']->value->get('date_format'), null, 0);?><div class="navbar commonActionsContainer noprint"><div class="actionsContainer row-fluid clearfix"><div class="span2"><span class="companyLogo"><img src="<?php echo $_smarty_tpl->tpl_vars['COMPANY_LOGO']->value->get('imagepath');?>
 " title="<?php echo $_smarty_tpl->tpl_vars['COMPANY_LOGO']->value->get('title');?>
