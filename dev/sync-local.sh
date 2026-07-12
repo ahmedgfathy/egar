@@ -22,7 +22,7 @@ mkdir -p "$RUNTIME_ROOT/cache/images" "$RUNTIME_ROOT/cache/import" \
 chmod -R a+rwX "$RUNTIME_ROOT/cache" "$RUNTIME_ROOT/storage" \
   "$RUNTIME_ROOT/test/templates_c" "$RUNTIME_ROOT/user_privileges"
 
-install -m 0660 "$SOURCE_ROOT/config.csrf-secret.php" "$RUNTIME_ROOT/config.csrf-secret.php"
+install -m 0644 "$SOURCE_ROOT/config.csrf-secret.php" "$RUNTIME_ROOT/config.csrf-secret.php"
 cat > "$RUNTIME_ROOT/config.local.php" <<PHP
 <?php
 \$dbconfig['db_server'] = 'localhost';
