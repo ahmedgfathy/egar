@@ -50,6 +50,19 @@ Add these GitHub repository Actions secrets:
 Do not add the PEM file itself to Git. The production checkout must have a
 working GitHub remote and its own deploy-key access to that private repository.
 
+### Deployment approval rule
+
+Never synchronize, deploy, pull, migrate, or otherwise change production until
+the owner has been shown the exact scope and has explicitly approved that
+specific production action.
+
+## React migration rule
+
+Before replacing a legacy screen, trace its PHP controller, Smarty includes,
+JavaScript/CSS, CSRF, permissions, session, workflow, and module dependencies.
+Remove the legacy frontend only after the React replacement passes equivalent
+local behavior checks and no other screen references the old frontend files.
+
 ## Sensitive data
 
 PEM keys, `config.local.php`, SQL dumps, uploads, logs, and caches are ignored.

@@ -9,6 +9,7 @@ rsync -a --delete \
   --exclude='.git/' \
   --exclude='frontend/' \
   --exclude='node_modules/' \
+  --exclude='mcp/' \
   --exclude='*.pem' \
   --exclude='*.sql' \
   --exclude='config.local.php' \

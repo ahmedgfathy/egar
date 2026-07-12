@@ -62,12 +62,17 @@ npm-debug.log*
 # Database exports (never commit production/customer data)
 *.sql
 
+# Editor recovery files
+*.swp
+*.swo
+
 # Runtime files
 user_privileges/sharing_privileges_*
 user_privileges/user_privileges_*
 
 # Test files
 test/tmp/
+test/templates_c/
 phpunit.xml
 
 # Environment files

@@ -14,7 +14,7 @@ body { min-width: 320px; }
 .brand-mark { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid rgba(255,255,255,.28); border-radius: 14px; background: rgba(255,255,255,.1); backdrop-filter: blur(12px); }
 .story-copy { margin-top: auto; max-width: 660px; }
 .eyebrow { display: inline-flex; padding: 8px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(8,29,37,.32); color: #d7e7df; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; backdrop-filter: blur(10px); }
-.story-copy h1 { margin: 24px 0 18px; font: 600 clamp(38px, 4.2vw, 68px)/1.04 'Manrope', sans-serif; letter-spacing: -.055em; text-wrap: balance; }
+.story-copy h1 { margin: 24px 0 18px; color: #fff; font: 600 clamp(38px, 4.2vw, 68px)/1.04 'Manrope', sans-serif; letter-spacing: -.055em; text-wrap: balance; }
 .story-copy > p { max-width: 570px; margin: 0; color: rgba(255,255,255,.75); font-size: 17px; line-height: 1.65; }
 .trust-row { display: flex; flex-wrap: wrap; gap: 11px 24px; margin-top: 30px; color: rgba(255,255,255,.82); font-size: 13px; font-weight: 500; }
 .trust-row span { display: flex; align-items: center; gap: 7px; }
