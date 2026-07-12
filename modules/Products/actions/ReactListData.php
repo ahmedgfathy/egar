@@ -22,7 +22,7 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
 
     private function processRequest(Vtiger_Request $request) {
         $page = max(1, (int) $request->get('page'));
-        $limit = min(50, max(10, (int) $request->get('limit') ?: 25));
+        $limit = min(100, max(10, (int) $request->get('limit') ?: 25));
         $filterId = (int) $request->get('filter');
         $search = trim($request->get('search'));
         $alphabet = strtoupper(substr(trim($request->get('alphabet')), 0, 1));
@@ -66,13 +66,22 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
         $paging->set('viewid', $filterId);
         $records = $listModel->getListViewEntries($paging);
 
+        $filteredCount = 0;
+        try {
+            $filteredCount = (int) $listModel->getListViewCount();
+        } catch (Throwable $countError) {
+            $filteredCount = count($records) + (($page - 1) * $limit) + ($paging->isNextPageExists() ? 1 : 0);
+        }
+        $pageCount = max(1, (int) ceil($filteredCount / $limit));
+
         $headerPayload = array();
         foreach ($headers as $name => $field) {
             if (!$field) continue;
             $headerPayload[] = array(
                 'name' => $name,
                 'label' => vtranslate($field->get('label'), 'Products'),
-                'sortable' => true
+                'sortable' => true,
+                'type' => $field->getFieldDataType()
             );
         }
 
@@ -86,7 +95,7 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
                 $values[$name] = decode_html($field->getDisplayValue($record->get($name), $recordId, $record));
             }
             $reactDetailUrl = 'index.php?module=Products&view=ReactDetail&record=' . (int) $recordId;
-            $legacyDetailUrl = 'index.php?module=Products&view=Detail&record=' . (int) $recordId;
+            $legacyDetailUrl = 'index.php?module=Products&view=Detail&record=' . (int) $recordId . '&legacy=1';
             $rows[] = array(
                 'id' => (int) $recordId,
                 'values' => $values,
@@ -107,7 +116,8 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
             array('name' => 'Project', 'label' => 'Projects'),
             array('name' => 'Calendar', 'label' => 'Calendar'),
             array('name' => 'Documents', 'label' => 'Documents'),
-            array('name' => 'Reports', 'label' => 'Reports')
+            array('name' => 'Reports', 'label' => 'Reports'),
+            array('name' => 'Campaigns', 'label' => 'Marketing')
         );
         $modules = array();
         foreach ($moduleDefinitions as $definition) {
@@ -120,6 +130,18 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
             );
         }
 
+        $db = PearDatabase::getInstance();
+        $totalResult = $db->pquery(
+            'SELECT COUNT(*) AS count FROM vtiger_products p INNER JOIN vtiger_crmentity e ON e.crmid=p.productid WHERE e.deleted=0',
+            array()
+        );
+        $monthResult = $db->pquery(
+            'SELECT COUNT(*) AS count FROM vtiger_products p INNER JOIN vtiger_crmentity e ON e.crmid=p.productid WHERE e.deleted=0 AND e.createdtime >= DATE_FORMAT(CURRENT_DATE, \'%Y-%m-01\')',
+            array()
+        );
+        $totalProducts = (int) $db->query_result($totalResult, 0, 'count');
+        $addedThisMonth = (int) $db->query_result($monthResult, 0, 'count');
+
         $response = new Vtiger_Response();
         $response->setResult(array(
             'filters' => $filterPayload,
@@ -128,11 +150,20 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
             'rows' => $rows,
             'modules' => $modules,
             'page' => $page,
+            'limit' => $limit,
+            'filteredCount' => $filteredCount,
+            'pageCount' => $pageCount,
             'hasPrevious' => $page > 1,
-            'hasNext' => $paging->isNextPageExists(),
+            'hasNext' => $page < $pageCount,
             'sortBy' => $sortBy,
             'sortOrder' => $sortOrder,
             'alphabet' => $alphabet,
+            'metrics' => array(
+                'total' => $totalProducts,
+                'filtered' => $filteredCount,
+                'visible' => count($rows),
+                'addedThisMonth' => $addedThisMonth
+            ),
             'canCreate' => $canEdit,
             'createUrl' => 'index.php?module=Products&view=Edit',
             'legacyUrl' => 'index.php?module=Products&view=List&viewname=' . $filterId,
