@@ -33,11 +33,11 @@ function Dashboard() {
       <nav>
         <p>Workspace</p>
         <a className="active" href="index.php?module=Vtiger&view=ReactDashboard"><LayoutDashboard size={18}/> Overview</a>
-        {data.modules.slice(0, 6).map(module => { const Icon = icons[module.name] || Command; return <a href={module.url} key={module.name}><Icon size={18}/>{module.label}</a>; })}
+        {data.modules.map(module => { const Icon = icons[module.name] || Command; return <a href={module.url} key={module.name}><Icon size={18}/>{module.label}</a>; })}
         <p>Management</p>
         {data.user.admin && <a href={data.legacySettingsUrl}><Settings size={18}/>Settings <em>Legacy</em></a>}
       </nav>
-      <div className="sidebar-insight"><Sparkles size={17}/><strong>12,002 properties</strong><span>Your inventory is ready for the next React module.</span></div>
+      <div className="sidebar-insight"><Sparkles size={17}/><strong>{number.format(data.metrics.properties)} properties</strong><span>Your complete permitted module navigation is available above.</span></div>
     </aside>
     {menuOpen && <button className="scrim" onClick={() => setMenuOpen(false)} aria-label="Close navigation"/>}
 
@@ -57,8 +57,8 @@ function Dashboard() {
           <article><span className="metric-icon blue"><Users size={21}/></span><div><small>Contacts</small><strong>{number.format(data.metrics.contacts)}</strong><em>Relationship network</em></div></article>
         </section>
         <section className="content-grid">
-          <article className="panel recent"><header><div><h2>Recently updated properties</h2><p>Latest movement in your inventory</p></div><a href="index.php?module=Products&view=List">View all</a></header><div className="property-list">{data.recentProperties.map((property, index) => <a href={property.url} key={property.id}><span className="property-rank">{String(index+1).padStart(2,'0')}</span><div><strong>{property.name || 'Untitled property'}</strong><small>{property.number || `Property #${property.id}`}</small></div><time>{property.modified?.slice(0,10)}</time></a>)}</div></article>
-          <aside className="panel quick"><header><h2>Quick access</h2><p>Your essential tools</p></header><div>{data.modules.slice(0,6).map(module => {const Icon=icons[module.name]||Command; return <a href={module.url} key={module.name}><span><Icon size={19}/></span><div><strong>{module.label}</strong><small>Open module</small></div></a>})}</div></aside>
+          <article className="panel recent"><header><div><h2>Recently updated properties</h2><p>Latest movement in your inventory</p></div><a href="index.php?module=Products&view=ReactList">View all</a></header><div className="property-list">{data.recentProperties.map((property, index) => <a href={property.url} key={property.id}><span className="property-rank">{String(index+1).padStart(2,'0')}</span><div><strong>{property.name || 'Untitled property'}</strong><small>{property.number || `Property #${property.id}`}</small></div><time>{property.modified?.slice(0,10)}</time></a>)}</div></article>
+          <aside className="panel quick"><header><h2>Quick access</h2><p>Your essential tools</p></header><div>{data.modules.map(module => {const Icon=icons[module.name]||Command; return <a href={module.url} key={module.name}><span><Icon size={19}/></span><div><strong>{module.label}</strong><small>Open module</small></div></a>})}</div></aside>
         </section>
       </main>
     </div>
