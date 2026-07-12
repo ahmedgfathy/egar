@@ -12,7 +12,8 @@ export default defineConfig({
       input: {
         login: resolve(import.meta.dirname, 'src/main.jsx'),
         dashboard: resolve(import.meta.dirname, 'src/dashboard.jsx'),
-        product: resolve(import.meta.dirname, 'src/product.jsx')
+        product: resolve(import.meta.dirname, 'src/product.jsx'),
+        'product-detail': resolve(import.meta.dirname, 'src/product-detail.jsx')
       },
       output: {
         entryFileNames: '[name].js',
