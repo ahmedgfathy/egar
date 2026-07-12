@@ -9,10 +9,14 @@ export default defineConfig({
     outDir: resolve(import.meta.dirname, '../../public/react-login/assets'),
     emptyOutDir: true,
     rollupOptions: {
-      input: resolve(import.meta.dirname, 'src/main.jsx'),
+      input: {
+        login: resolve(import.meta.dirname, 'src/main.jsx'),
+        dashboard: resolve(import.meta.dirname, 'src/dashboard.jsx'),
+        product: resolve(import.meta.dirname, 'src/product.jsx')
+      },
       output: {
-        entryFileNames: 'login.js',
-        assetFileNames: 'login.[ext]'
+        entryFileNames: '[name].js',
+        assetFileNames: '[name].[ext]'
       }
     }
   }
