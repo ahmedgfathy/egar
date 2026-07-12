@@ -10,12 +10,5 @@
  ********************************************************************************/
 -->*}
 
-{assign var="_DefaultLoginTemplate" value=vtemplate_path('Login.Default.tpl', 'Users')}
 {assign var="_CustomLoginTemplate" value=vtemplate_path('Login.Custom.tpl', 'Users')}
-{assign var="_CustomLoginTemplateFullPath" value="layouts/vlayout/$_CustomLoginTemplate"}
-
-{if file_exists($_CustomLoginTemplateFullPath)}
-	{include file=$_CustomLoginTemplate}
-{else}
-	{include file=$_DefaultLoginTemplate}
-{/if}
+{include file=$_CustomLoginTemplate}

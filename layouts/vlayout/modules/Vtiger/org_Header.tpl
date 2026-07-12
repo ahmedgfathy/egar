@@ -16,7 +16,6 @@
 		<title>
 			{vtranslate($PAGETITLE, $MODULE_NAME)}
 		</title>
-		<link rel="manifest" href="manifest.json">
 		<meta name="format-detection" content="telephone=no">
 		<link REL="SHORTCUT ICON" HREF="layouts/vlayout/skins/images/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,7 +41,6 @@
 
 		{* This is needed as in some of the tpl we are using jQuery.ready *}
 		<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
-		<script src="sw.js"></script>
 		<!--[if IE]>
 		<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
 		<script type="text/javascript" src="libraries/html5shim/respond.js"></script>

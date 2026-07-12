@@ -25,6 +25,13 @@ function LoginApp() {
     return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    const form = document.getElementById('egar-login-form');
+    const handleSubmit = () => window.setTimeout(() => setSubmitting(true), 0);
+    form?.addEventListener('submit', handleSubmit);
+    return () => form?.removeEventListener('submit', handleSubmit);
+  }, []);
+
   return (
     <main className="login-shell">
       <section className="story-panel" aria-label="EGAR real estate workspace">
@@ -78,7 +85,7 @@ function LoginApp() {
             </div>
           </div>
 
-          <button className="submit-button" type="submit" disabled={submitting} onClick={() => setSubmitting(true)}>
+          <button className="submit-button" type="submit" disabled={submitting}>
             <span>{submitting ? 'Signing in…' : 'Sign in to workspace'}</span><ArrowRight size={18} />
           </button>
           <p className="security-note">Protected by your organization’s secure CRM access.</p>
