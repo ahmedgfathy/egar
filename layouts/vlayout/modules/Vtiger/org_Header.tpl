@@ -60,14 +60,5 @@
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>
-			<script>
-			if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-        .then((reg) => {
-          console.log('Service worker registered.', reg);
-        });
-  });
-}</script>
 			
 {/strip}

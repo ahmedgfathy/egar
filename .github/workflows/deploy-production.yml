@@ -1,0 +1,32 @@
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update production checkout
+        # v1.2.5, pinned to an immutable commit.
+        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USER }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          script: |
+            set -eu
+            cd /var/www/html/egar
+            git fetch origin main
+            git merge --ff-only origin/main
+            sudo chown -R ubuntu:www-data /var/www/html/egar
+            sudo find cache storage -type d -exec chmod 775 {} +
+            sudo find cache storage -type f -exec chmod 664 {} +
+            sudo apache2ctl configtest
+            sudo systemctl reload apache2

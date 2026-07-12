@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerName egar.local
+    ServerAlias localhost
+    DocumentRoot "__PROJECT_ROOT__"
+
+    <Directory "__PROJECT_ROOT__">
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/egar-local-error.log
+    CustomLog ${APACHE_LOG_DIR}/egar-local-access.log combined
+</VirtualHost>

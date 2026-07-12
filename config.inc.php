@@ -88,7 +88,15 @@ $site_URL = 'https://egar.marakezeg.net';
 // url for customer portal (Example: http://vtiger.com/portal)
 //$PORTAL_URL = $site_URL.'/customerportal';
 // root directory path
-$root_directory = '/var/www/html/egar/';
+$root_directory = '/mnt/c/Users/ahmed/Downloads/egar/egar';
+
+// Optional per-machine overrides. This file is intentionally ignored by Git.
+// It may override $dbconfig, $site_URL, $root_directory, or other local settings.
+if (is_file(__DIR__ . '/config.local.php')) {
+	include __DIR__ . '/config.local.php';
+	$dbconfig['db_hostname'] = $dbconfig['db_server'].$dbconfig['db_port'];
+	$host_name = $dbconfig['db_hostname'];
+}
 
 // cache direcory path
 $cache_dir = 'cache/';

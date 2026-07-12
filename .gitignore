@@ -1,4 +1,6 @@
 # Configuration files with sensitive information
+*.pem
+config.local.php
 config.db.php
 config.csrf-secret.php
 config.security.php
@@ -10,7 +12,7 @@ logs/
 *.log
 
 # Cache directories
-cache/
+/cache/
 storage/temp/
 storage/cache/
 
@@ -56,6 +58,9 @@ npm-debug.log*
 # Backup files
 *.bak
 *.backup
+
+# Database exports (never commit production/customer data)
+*.sql
 
 # Runtime files
 user_privileges/sharing_privileges_*
