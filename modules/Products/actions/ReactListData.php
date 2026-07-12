@@ -25,6 +25,9 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
         $limit = min(50, max(10, (int) $request->get('limit') ?: 25));
         $filterId = (int) $request->get('filter');
         $search = trim($request->get('search'));
+        $alphabet = strtoupper(substr(trim($request->get('alphabet')), 0, 1));
+        $sortBy = trim($request->get('sortBy'));
+        $sortOrder = strtoupper(trim($request->get('sortOrder'))) === 'DESC' ? 'DESC' : 'ASC';
 
         $filters = CustomView_Record_Model::getAll('Products');
         $allowedFilters = array();
@@ -40,24 +43,41 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
         }
 
         $listModel = Vtiger_ListView_Model::getInstance('Products', $filterId);
-        if ($search !== '') {
+        $headers = $listModel->getListViewHeaders();
+        if ($sortBy !== '' && isset($headers[$sortBy])) {
+            $listModel->set('orderby', $sortBy);
+            $listModel->set('sortorder', $sortOrder);
+        } else {
+            $sortBy = '';
+        }
+        if ($alphabet !== '' && preg_match('/^[A-Z]$/', $alphabet)) {
+            $listModel->set('search_key', 'productname');
+            $listModel->set('search_value', $alphabet);
+            $listModel->set('operator', 's');
+        } elseif ($search !== '') {
             $listModel->set('search_key', 'productname');
             $listModel->set('search_value', $search);
             $listModel->set('operator', 'c');
         }
+
         $paging = new Vtiger_Paging_Model();
         $paging->set('page', $page);
         $paging->set('limit', $limit);
         $paging->set('viewid', $filterId);
-
-        $headers = $listModel->getListViewHeaders();
         $records = $listModel->getListViewEntries($paging);
+
         $headerPayload = array();
         foreach ($headers as $name => $field) {
             if (!$field) continue;
-            $headerPayload[] = array('name' => $name, 'label' => vtranslate($field->get('label'), 'Products'));
+            $headerPayload[] = array(
+                'name' => $name,
+                'label' => vtranslate($field->get('label'), 'Products'),
+                'sortable' => true
+            );
         }
 
+        $privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        $canEdit = $privileges->hasModuleActionPermission(getTabid('Products'), 'EditView');
         $rows = array();
         foreach ($records as $recordId => $record) {
             $values = array();
@@ -69,7 +89,30 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
                 'id' => (int) $recordId,
                 'values' => $values,
                 'detailUrl' => 'index.php?module=Products&view=Detail&record=' . (int) $recordId,
-                'editUrl' => 'index.php?module=Products&view=Edit&record=' . (int) $recordId
+                'fullDetailUrl' => 'index.php?module=Products&view=Detail&record=' . (int) $recordId . '&mode=showDetailViewByMode&requestMode=full',
+                'editUrl' => 'index.php?module=Products&view=Edit&record=' . (int) $recordId,
+                'canEdit' => $canEdit
+            );
+        }
+
+        $moduleDefinitions = array(
+            array('name' => 'Products', 'label' => 'Property'),
+            array('name' => 'Leads', 'label' => 'Leads'),
+            array('name' => 'Contacts', 'label' => 'Contacts'),
+            array('name' => 'Potentials', 'label' => 'Opportunities'),
+            array('name' => 'Project', 'label' => 'Projects'),
+            array('name' => 'Calendar', 'label' => 'Calendar'),
+            array('name' => 'Documents', 'label' => 'Documents'),
+            array('name' => 'Reports', 'label' => 'Reports')
+        );
+        $modules = array();
+        foreach ($moduleDefinitions as $definition) {
+            $module = Vtiger_Module_Model::getInstance($definition['name']);
+            if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
+            $modules[] = array(
+                'name' => $definition['name'],
+                'label' => $definition['label'],
+                'url' => $definition['name'] === 'Products' ? 'index.php?module=Products&view=ReactList' : $module->getListViewUrl()
             );
         }
 
@@ -79,9 +122,14 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
             'activeFilter' => $filterId,
             'headers' => $headerPayload,
             'rows' => $rows,
+            'modules' => $modules,
             'page' => $page,
+            'hasPrevious' => $page > 1,
             'hasNext' => $paging->isNextPageExists(),
-            'canCreate' => Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission(getTabid('Products'), 'EditView'),
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
+            'alphabet' => $alphabet,
+            'canCreate' => $canEdit,
             'createUrl' => 'index.php?module=Products&view=Edit',
             'legacyUrl' => 'index.php?module=Products&view=List&viewname=' . $filterId,
             'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard'
