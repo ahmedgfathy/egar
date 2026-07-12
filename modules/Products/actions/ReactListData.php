@@ -85,11 +85,15 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
                 if (!$field) continue;
                 $values[$name] = decode_html($field->getDisplayValue($record->get($name), $recordId, $record));
             }
+            $reactDetailUrl = 'index.php?module=Products&view=ReactDetail&record=' . (int) $recordId;
+            $legacyDetailUrl = 'index.php?module=Products&view=Detail&record=' . (int) $recordId;
             $rows[] = array(
                 'id' => (int) $recordId,
                 'values' => $values,
-                'detailUrl' => 'index.php?module=Products&view=Detail&record=' . (int) $recordId,
-                'fullDetailUrl' => 'index.php?module=Products&view=Detail&record=' . (int) $recordId . '&mode=showDetailViewByMode&requestMode=full',
+                'detailUrl' => $reactDetailUrl,
+                'reactDetailUrl' => $reactDetailUrl,
+                'legacyDetailUrl' => $legacyDetailUrl,
+                'fullDetailUrl' => $legacyDetailUrl . '&mode=showDetailViewByMode&requestMode=full',
                 'editUrl' => 'index.php?module=Products&view=Edit&record=' . (int) $recordId,
                 'canEdit' => $canEdit
             );
