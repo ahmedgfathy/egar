@@ -11,6 +11,17 @@
 Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
 
 	public function process(Vtiger_Request $request) {
+		if (!$request->isAjax()) {
+			$query = array(
+				'module' => 'CustomView',
+				'view' => 'ReactEdit',
+				'source_module' => $request->get('source_module')
+			);
+			$record = $request->get('record');
+			if (!empty($record)) $query['record'] = $record;
+			header('Location: index.php?' . http_build_query($query));
+			exit;
+		}
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->get('source_module');
 		$module = $request->getModule();
