@@ -172,16 +172,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 				'linkicon' => ''
 		);
 
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
-			$relatedLinks[] = array(
-					'linktype' => 'DETAILVIEWTAB',
-					'linklabel' => 'ModComments',
-					'linkurl' => $recordModel->getDetailViewUrl().'&mode=showAllComments',
-					'linkicon' => ''
-			);
-		}
-
 		if($parentModuleModel->isTrackingEnabled()) {
 			$relatedLinks[] = array(
 					'linktype' => 'DETAILVIEWTAB',
@@ -216,16 +206,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 	public function getWidgets() {
 		$moduleModel = $this->getModule();
 		$widgets = array();
-
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
-			$widgets[] = array(
-					'linktype' => 'DETAILVIEWWIDGET',
-					'linklabel' => 'ModComments',
-					'linkurl' => 'module='.$this->getModuleName().'&view=Detail&record='.$this->getRecord()->getId().
-							'&mode=showRecentComments&page=1&limit=5'
-			);
-		}
 
 		if($moduleModel->isTrackingEnabled()) {
 			$widgets[] = array(

@@ -302,6 +302,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 */
 	function showRecentActivities (Vtiger_Request $request) {
+		return '';
+	}
+
+	function showRecentActivitiesDisabled (Vtiger_Request $request) {
 		$parentRecordId = $request->get('record');
 		$pageNumber = $request->get('page');
 		$limit = $request->get('limit');
@@ -338,6 +342,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 	 * @return <type>
 	 */
 	function showRecentComments(Vtiger_Request $request) {
+		return '';
+	}
+
+	function showRecentCommentsDisabled(Vtiger_Request $request) {
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
 		$limit = $request->get('limit');
@@ -402,6 +410,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 	 * @return <type>
 	 */
 	function showChildComments(Vtiger_Request $request) {
+		return '';
+	}
+
+	function showChildCommentsDisabled(Vtiger_Request $request) {
 		$parentCommentId = $request->get('commentid');
 		$parentCommentModel = ModComments_Record_Model::getInstanceById($parentCommentId);
 		$childComments = $parentCommentModel->getChildComments();
@@ -422,6 +434,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 	 * @return <type>
 	 */
 	function showAllComments(Vtiger_Request $request) {
+		return '';
+	}
+
+	function showAllCommentsDisabled(Vtiger_Request $request) {
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
 		$moduleName = $request->getModule();

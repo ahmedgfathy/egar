@@ -71,14 +71,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 					$productRecordModel = Products_Record_Model::getInstanceById($request->get('product_id'));
 				}
 				$relatedProducts = $productRecordModel->getDetailsForInventoryModule($recordModel);
-			} elseif ($request->get('service_id') || $sourceModule === 'Services') {
-				if($sourceRecord) {
-					$serviceRecordModel = Services_Record_Model::getInstanceById($sourceRecord);
-				} else {
-					$serviceRecordModel = Services_Record_Model::getInstanceById($request->get('service_id'));
-				}
-				$relatedProducts = $serviceRecordModel->getDetailsForInventoryModule($recordModel);
-			} elseif ($sourceRecord && ($sourceModule === 'Accounts'
+				} elseif ($sourceRecord && ($sourceModule === 'Accounts'
 						|| $sourceModule === 'Contacts'
 						|| $sourceModule === 'Potentials')) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
@@ -139,8 +132,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 		$productModuleModel = Vtiger_Module_Model::getInstance('Products');
 		$viewer->assign('PRODUCT_ACTIVE', $productModuleModel->isActive());
 
-		$serviceModuleModel = Vtiger_Module_Model::getInstance('Services');
-		$viewer->assign('SERVICE_ACTIVE', $serviceModuleModel->isActive());
+		$viewer->assign('SERVICE_ACTIVE', false);
 
 		$viewer->view('EditView.tpl', 'Inventory');
 	}

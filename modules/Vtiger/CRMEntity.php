@@ -143,7 +143,7 @@ class Vtiger_CRMEntity extends CRMEntity {
 		include("include/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('ServiceContracts', "detail_view");
+		$sql = getPermittedFieldsQuery($currentModule, "detail_view");
 
 		$fields_list = getFieldsListFromQuery($sql);
 

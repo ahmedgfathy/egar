@@ -168,25 +168,7 @@ class Emails extends CRMEntity {
 			}
 		}
 		if ($_REQUEST['att_module'] == 'Webmails') {
-			require_once("modules/Webmails/Webmails.php");
-			require_once("modules/Webmails/MailParse.php");
-			require_once('modules/Webmails/MailBox.php');
-			//$mailInfo = getMailServerInfo($current_user);
-			//$temprow = $adb->fetch_array($mailInfo);
-
-			$MailBox = new MailBox($_REQUEST["mailbox"]);
-			$mbox = $MailBox->mbox;
-			$webmail = new Webmails($mbox, $_REQUEST['mailid']);
-			$array_tab = Array();
-			$webmail->loadMail($array_tab);
-			if (isset($webmail->att_details)) {
-				foreach ($webmail->att_details as $fileindex => $files) {
-					if ($files['name'] != '' && $files['size'] > 0) {
-						//print_r($files);
-						$file_saved = $this->saveForwardAttachments($id, $module, $files);
-					}
-				}
-			}
+			return;
 		}
 		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
 	}
@@ -196,7 +178,7 @@ class Emails extends CRMEntity {
 		$log->debug("Entering into saveForwardAttachments($id,$module,$file_details) method.");
 		global $adb, $current_user;
 		global $upload_badext;
-		require_once('modules/Webmails/MailBox.php');
+		return false;
 		$mailbox = $_REQUEST["mailbox"];
 		$MailBox = new MailBox($mailbox);
 		$mail = $MailBox->mbox;

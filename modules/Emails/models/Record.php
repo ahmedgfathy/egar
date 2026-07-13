@@ -155,11 +155,13 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 				$status = $mailer->getError();
 			} else {
                 $mailString=$mailer->getMailString();
-                $mailBoxModel = MailManager_Mailbox_Model::activeInstance();
-                $folderName = $mailBoxModel->folder();
-                if(!empty($folderName) && !empty($mailString)) {
-                    $connector = MailManager_Connector_Connector::connectorWithModel($mailBoxModel, '');
-                    imap_append($connector->mBox, $connector->mBoxUrl.$folderName, $mailString, "\\Seen");
+                if (class_exists('MailManager_Mailbox_Model')) {
+                    $mailBoxModel = MailManager_Mailbox_Model::activeInstance();
+                    $folderName = $mailBoxModel->folder();
+                    if(!empty($folderName) && !empty($mailString)) {
+                        $connector = MailManager_Connector_Connector::connectorWithModel($mailBoxModel, '');
+                        imap_append($connector->mBox, $connector->mBoxUrl.$folderName, $mailString, "\\Seen");
+                    }
                 }
             }
 		}

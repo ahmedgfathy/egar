@@ -1169,8 +1169,8 @@ class Products extends CRMEntity {
 		global $adb,$log;
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("HelpDesk"=>"vtiger_troubletickets","Products"=>"vtiger_seproductsrel","Attachments"=>"vtiger_seattachmentsrel",
-				"Quotes"=>"vtiger_inventoryproductrel","PurchaseOrder"=>"vtiger_inventoryproductrel","SalesOrder"=>"vtiger_inventoryproductrel",
+			$rel_table_arr = Array("HelpDesk"=>"vtiger_troubletickets","Products"=>"vtiger_seproductsrel","Attachments"=>"vtiger_seattachmentsrel",
+					"PurchaseOrder"=>"vtiger_inventoryproductrel","SalesOrder"=>"vtiger_inventoryproductrel",
 				"Invoice"=>"vtiger_inventoryproductrel","PriceBooks"=>"vtiger_pricebookproductrel","Leads"=>"vtiger_seproductsrel",
 				"Accounts"=>"vtiger_seproductsrel","Potentials"=>"vtiger_seproductsrel","Contacts"=>"vtiger_seproductsrel",
 				"Documents"=>"vtiger_senotesrel",);
@@ -1265,7 +1265,6 @@ class Products extends CRMEntity {
 	function setRelationTables($secmodule){
 		$rel_tables = array (
 			"HelpDesk" => array("vtiger_troubletickets"=>array("product_id","ticketid"),"vtiger_products"=>"productid"),
-			"Quotes" => array("vtiger_inventoryproductrel"=>array("productid","id"),"vtiger_products"=>"productid"),
 			"PurchaseOrder" => array("vtiger_inventoryproductrel"=>array("productid","id"),"vtiger_products"=>"productid"),
 			"SalesOrder" => array("vtiger_inventoryproductrel"=>array("productid","id"),"vtiger_products"=>"productid"),
 			"Invoice" => array("vtiger_inventoryproductrel"=>array("productid","id"),"vtiger_products"=>"productid"),

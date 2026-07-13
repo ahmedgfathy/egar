@@ -78,42 +78,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 	}
 	
 	/**
-	 * Function returns the Add Comment form
-	 * @param Vtiger_Request $request
-	 */
-	function showAddCommentForm(Vtiger_Request $request){
-		$sourceModule = $request->getModule();
-		$moduleName = 'ModComments';
-		$cvId = $request->get('viewname');
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
-
-		$viewer = $this->getViewer($request);
-		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('CVID', $cvId);
-		$viewer->assign('SELECTED_IDS', $selectedIds);
-		$viewer->assign('EXCLUDED_IDS', $excludedIds);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-        
-        $searchKey = $request->get('search_key');
-        $searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
-        if(!empty($operator)) {
-			$viewer->assign('OPERATOR',$operator);
-			$viewer->assign('ALPHABET_VALUE',$searchValue);
-            $viewer->assign('SEARCH_KEY',$searchKey);
-		}
-
-        $searchParams = $request->get('search_params');
-        if(!empty($searchParams)) {
-            $viewer->assign('SEARCH_PARAMS',$searchParams);
-        }
-
-		echo $viewer->view('AddCommentForm.tpl',$moduleName,true);
-	}
-
-	/**
 	 * Function returns the Compose Email form
 	 * @param Vtiger_Request $request
 	 */

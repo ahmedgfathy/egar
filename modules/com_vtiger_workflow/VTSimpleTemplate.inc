@@ -334,6 +334,7 @@ class VTSimpleTemplate{
 	 * @return <String> $comments
 	 */
 	public function getComments($moduleName, $fieldName, $fieldValue) {
+		return '';
 		global $adb, $log, $current_user;
 
 		$sql = 'SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ? ORDER BY modcommentsid DESC';

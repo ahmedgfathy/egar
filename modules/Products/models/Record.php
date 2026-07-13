@@ -82,10 +82,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	 * @return <String> Url to Create new Quote
 	 */
 	function getCreateQuoteUrl() {
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-
-		return "index.php?module=".$quotesModuleModel->getName()."&view=".$quotesModuleModel->getEditViewName()."&product_id=".$this->getId().
-				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true";
+		return '';
 	}
 
 	/**
@@ -323,10 +320,6 @@ class Products_Record_Model extends Vtiger_Record_Model {
 				$query = 'SELECT label, crmid, setype, createdtime FROM vtiger_crmentity INNER JOIN vtiger_products ON 
 							vtiger_products.productid = vtiger_crmentity.crmid WHERE label LIKE ? AND vtiger_crmentity.deleted = 0 
 							AND vtiger_products.discontinued = 1 AND setype = ?';
-			}else if($module == 'Services'){
-				$query = 'SELECT label, crmid, setype, createdtime FROM vtiger_crmentity INNER JOIN vtiger_service ON 
-							vtiger_service.serviceid = vtiger_crmentity.crmid WHERE label LIKE ? AND vtiger_crmentity.deleted = 0 
-							AND vtiger_service.discontinued = 1 AND setype = ?';
 			}
 			$params[] = $module;
 		}

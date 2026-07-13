@@ -168,13 +168,6 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
                         WHERE deleted=0 AND vtiger_campaigncontrel.campaignid = $parentId AND label like '%$searchValue%'";
 
             return $query;
-        } else if ($parentId && $parentModule == 'Quotes') {
-            $query = "SELECT * FROM vtiger_crmentity
-                        INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_quotes ON vtiger_quotes.contactid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_quotes.quoteid  = $parentId  AND label like '%$searchValue%'";
-
-            return $query;
         } else if ($parentId && $parentModule == 'PurchaseOrder') {
             $query = "SELECT * FROM vtiger_crmentity
                         INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
@@ -249,7 +242,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 	 * @return <String> Listview Query
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
-		if (in_array($sourceModule, array('Campaigns', 'Potentials', 'Products', 'Services', 'Emails'))
+		if (in_array($sourceModule, array('Campaigns', 'Potentials', 'Products', 'Emails'))
 				|| ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
 				case 'Campaigns'	: $tableName = 'vtiger_campaigncontrel';	$fieldName = 'contactid';	$relatedFieldName ='campaignid';	break;
@@ -257,9 +250,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 				case 'Products'		: $tableName = 'vtiger_seproductsrel';		$fieldName = 'crmid';		$relatedFieldName ='productid';		break;
 			}
 
-			if ($sourceModule === 'Services') {
-				$condition = " vtiger_contactdetails.contactid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
-			} elseif ($sourceModule === 'Emails') {
+			if ($sourceModule === 'Emails') {
 				$condition = ' vtiger_contactdetails.emailoptout = 0';
 			} elseif ($sourceModule === 'Contacts' && $field === 'contact_id') {
 				$condition = " vtiger_contactdetails.contactid != '$record'";

@@ -24,6 +24,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 	 * @return <Array>
 	 */
 	public function getComments($pagingModel) {
+		return array();
 		$db = PearDatabase::getInstance();
 
 		$nonAdminAccessQuery = Users_Privileges_Model::getNonAdminAccessControlQuery('ModComments');
@@ -74,6 +75,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 	 * @return <Array>
 	 */
 	public function getHistory($pagingModel, $type=false) {
+		return array();
 		if(empty($type)) {
 			$type = 'all';
 		}
