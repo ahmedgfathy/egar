@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowLeft, Menu, Search, X } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Menu, Search, X } from 'lucide-react';
 import MaterialIcon from './material-icon.jsx';
 import './settings.css';
 
@@ -10,7 +10,8 @@ function SettingsApp() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [query, setQuery] = useState('');
-  const [activeBlock, setActiveBlock] = useState(null);
+  const [expandedBlocks, setExpandedBlocks] = useState({});
+  const [activeItem, setActiveItem] = useState(null);
   const [sidebar, setSidebar] = useState(false);
 
   useEffect(() => {
@@ -19,7 +20,9 @@ function SettingsApp() {
       .then(payload => {
         if (!payload.result) throw new Error('Invalid settings response');
         setData(payload.result);
-        setActiveBlock(payload.result.menus?.[0]?.id || null);
+        const firstMenu = payload.result.menus?.[0];
+        setExpandedBlocks(firstMenu ? { [firstMenu.id]: true } : {});
+        setActiveItem(payload.result.shortcuts?.[0] || firstMenu?.items?.[0] || null);
       })
       .catch(() => setError(true));
   }, []);
@@ -34,10 +37,11 @@ function SettingsApp() {
     })).filter(menu => menu.items.length);
   }, [data, query]);
 
-  const activeMenu = useMemo(
-    () => filteredMenus.find(menu => menu.id === activeBlock) || filteredMenus[0],
-    [filteredMenus, activeBlock]
-  );
+  const toggleBlock = id => setExpandedBlocks(current => ({ ...current, [id]: !current[id] }));
+  const openSetting = item => {
+    setActiveItem(item);
+    setExpandedBlocks(current => ({ ...current, [item.blockId]: true }));
+  };
 
   if (error) return <div className="settings-state"><h1>Settings unavailable</h1><p>Please refresh or sign in as an administrator.</p><a href="index.php?module=Vtiger&view=ReactDashboard">Return to dashboard</a></div>;
   if (!data) return <div className="settings-state loading"><span/><p>Loading settings…</p></div>;
@@ -66,8 +70,14 @@ function SettingsApp() {
       <div className="settings-layout">
         <aside className="settings-local-sidebar">
           <div className="settings-local-title"><MaterialIcon name="tune" size={20}/><strong>Settings menu</strong></div>
-          <nav>{filteredMenus.map(menu => <button className={activeMenu?.id === menu.id ? 'active' : ''} onClick={() => setActiveBlock(menu.id)} key={menu.id}><span>{menu.label}</span><em>{menu.items.length}</em></button>)}</nav>
-          <a className="extension-link" href={data.extensionStoreUrl}><MaterialIcon name="add_circle" size={18}/>Extension store</a>
+          <nav>{filteredMenus.map(menu => {
+            const expanded = Boolean(query || expandedBlocks[menu.id]);
+            return <div className="settings-tree-group" key={menu.id}>
+              <button className={expanded ? 'active' : ''} onClick={() => toggleBlock(menu.id)}><span><MaterialIcon name={expanded ? 'expand_more' : 'chevron_right'} size={20}/>{menu.label}</span><em>{menu.items.length}</em></button>
+              {expanded && <div className="settings-tree-items">{menu.items.map(item => <button className={activeItem?.id === item.id ? 'selected' : ''} onClick={() => openSetting(item)} key={item.id}><MaterialIcon name={item.icon} size={18}/><span>{item.name}</span></button>)}</div>}
+            </div>;
+          })}</nav>
+          {data.extensionStoreUrl && <a className="extension-link" href={data.extensionStoreUrl}><MaterialIcon name="add_circle" size={18}/>Extension store</a>}
         </aside>
 
         <section className="settings-content">
@@ -75,11 +85,11 @@ function SettingsApp() {
 
           <section className="settings-metrics">{metrics.map(([label, value, icon, url]) => <a href={url} key={label}><MaterialIcon name={icon} size={24}/><small>{label}</small><strong>{number.format(value || 0)}</strong></a>)}</section>
 
-          {data.shortcuts.length > 0 && <section className="settings-shortcuts"><header><h2>Pinned shortcuts</h2><p>Your old settings shortcuts, redesigned.</p></header><div>{data.shortcuts.map(item => <a href={item.url} key={item.id}><MaterialIcon name={item.icon} size={22}/><strong>{item.name}</strong><span>{item.description}</span></a>)}</div></section>}
+          {data.shortcuts.length > 0 && <section className="settings-shortcuts"><header><h2>Pinned shortcuts</h2><p>Your old settings shortcuts, redesigned.</p></header><div>{data.shortcuts.map(item => <button className={activeItem?.id === item.id ? 'selected' : ''} onClick={() => openSetting(item)} key={item.id}><MaterialIcon name={item.icon} size={22}/><strong>{item.name}</strong><span>{item.description}</span></button>)}</div></section>}
 
           <section className="settings-panel">
-            <header><div><h2>{activeMenu?.label || 'Settings'}</h2><p>{activeMenu?.items?.length || 0} configuration areas</p></div></header>
-            <div className="settings-grid">{activeMenu?.items?.map(item => <a href={item.url} key={item.id}><span><MaterialIcon name={item.icon} size={24}/></span><div><strong>{item.name}</strong><p>{item.description}</p></div>{item.pinned && <em>Pinned</em>}</a>)}</div>
+            <header><div><h2>{activeItem?.name || 'Select a setting'}</h2><p>{activeItem?.description || 'Choose a setting from the left menu.'}</p></div>{activeItem && <a href={activeItem.url} target="_blank" rel="noreferrer"><ExternalLink size={16}/>Open full page</a>}</header>
+            {activeItem ? <iframe title={activeItem.name} src={activeItem.url} sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-downloads"/> : <div className="settings-empty"><MaterialIcon name="settings" size={34}/><strong>No setting selected</strong></div>}
           </section>
         </section>
       </div>

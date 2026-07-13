@@ -117,18 +117,14 @@ class Vtiger_MenuStructure_Model extends Vtiger_Base_Model {
 				'SalesOrder',
 				'HelpDesk',
 				'Faq',
-				'Project',
-				'Assets',
 				'ServiceContracts',
 				'Products',
 				'Services',
 				'PriceBooks',
-				'Vendors',
 				'PurchaseOrder',
 				'MailManager',
 				'Calendar',
 				'Documents',
-				'SMSNotifier',
 				'RecycleBin'				
 			);
 		}

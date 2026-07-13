@@ -13,7 +13,7 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const number = new Intl.NumberFormat('en-US');
 const moduleIcons = {
   Products: Building2, Leads: SlidersHorizontal, Contacts: Home, Potentials: BarChart3,
-  Project: Columns3, Calendar: CalendarDays, Documents: FileText, Reports: TrendingUp,
+  Calendar: CalendarDays, Documents: FileText, Reports: TrendingUp,
   Campaigns: Megaphone
 };
 const filterStorageKey = 'egar.lastFilter.Products';

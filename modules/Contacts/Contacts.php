@@ -139,8 +139,6 @@ class Contacts extends CRMEntity {
 		'ServiceContracts' => array('table_name' => 'vtiger_servicecontracts', 'table_index' => 'servicecontractsid', 'rel_index' => 'sc_related_to'),
 		'Services' => array('table_name' => 'vtiger_crmentityrel', 'table_index' => 'crmid', 'rel_index' => 'crmid'),
 		'Campaigns' => array('table_name' => 'vtiger_campaigncontrel', 'table_index' => 'campaignid', 'rel_index' => 'contactid'),
-		'Assets' => array('table_name' => 'vtiger_assets', 'table_index' => 'assetsid', 'rel_index' => 'contact'),
-		'Project' => array('table_name' => 'vtiger_project', 'table_index' => 'projectid', 'rel_index' => 'linktoaccountscontacts'),
 		'Emails' => array('table_name' => 'vtiger_seactivityrel', 'table_index' => 'crmid', 'rel_index' => 'activityid'),
 	);
 
@@ -1253,7 +1251,7 @@ function get_contactsforol($user_name)
 				"Emails"=>"vtiger_seactivityrel","HelpDesk"=>"vtiger_troubletickets","Quotes"=>"vtiger_quotes","PurchaseOrder"=>"vtiger_purchaseorder",
 				"SalesOrder"=>"vtiger_salesorder","Products"=>"vtiger_seproductsrel","Documents"=>"vtiger_senotesrel",
 				"Attachments"=>"vtiger_seattachmentsrel","Campaigns"=>"vtiger_campaigncontrel",'Invoice'=>'vtiger_invoice',
-                'ServiceContracts'=>'vtiger_servicecontracts','Project'=>'vtiger_project','Assets'=>'vtiger_assets');
+                'ServiceContracts'=>'vtiger_servicecontracts');
 
 		$tbl_field_arr = Array("vtiger_contpotentialrel"=>"potentialid","vtiger_potential"=>"potentialid","vtiger_cntactivityrel"=>"activityid",
 				"vtiger_seactivityrel"=>"activityid","vtiger_troubletickets"=>"ticketid","vtiger_quotes"=>"quoteid","vtiger_purchaseorder"=>"purchaseorderid",
@@ -1481,9 +1479,6 @@ function get_contactsforol($user_name)
 		} elseif($return_module == 'Products') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
-		} elseif($return_module == 'Vendors') {
-			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? AND contactid=?';
-			$this->db->pquery($sql, array($return_id, $id));
 		} else {
 			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
 			$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
@@ -1551,9 +1546,7 @@ function get_contactsforol($user_name)
 				$adb->pquery("insert into vtiger_contpotentialrel values(?,?)", array($crmid, $with_crmid));
 
 			}
-            else if($with_module == 'Vendors'){
-        		$adb->pquery("insert into vtiger_vendorcontactrel values (?,?)", array($with_crmid,$crmid));
-            }else {
+            else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			}
 		}

@@ -260,53 +260,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 	}
 
 	/**
-	 * Function shows form that will lets you send SMS
-	 * @param Vtiger_Request $request
-	 */
-	function showSendSMSForm(Vtiger_Request $request) {
-
-		$sourceModule = $request->getModule();
-		$moduleName = 'SMSNotifier';
-		$selectedIds = $this->getRecordsListFromRequest($request);
-		$excludedIds = $request->get('excluded_ids');
-		$cvId = $request->get('viewname');
-
-		$user = Users_Record_Model::getCurrentUserModel();
-        $moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
-        $phoneFields = $moduleModel->getFieldsByType('phone');
-		$viewer = $this->getViewer($request);
-		
-		if(count($selectedIds) == 1){
-			$recordId = $selectedIds[0];
-			$selectedRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $sourceModule);
-			$viewer->assign('SINGLE_RECORD', $selectedRecordModel);
-		}
-		$viewer->assign('VIEWNAME', $cvId);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		$viewer->assign('SELECTED_IDS', $selectedIds);
-		$viewer->assign('EXCLUDED_IDS', $excludedIds);
-		$viewer->assign('USER_MODEL', $user);
-		$viewer->assign('PHONE_FIELDS', $phoneFields);
-        
-        $searchKey = $request->get('search_key');
-        $searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
-        if(!empty($operator)) {
-			$viewer->assign('OPERATOR',$operator);
-			$viewer->assign('ALPHABET_VALUE',$searchValue);
-            $viewer->assign('SEARCH_KEY',$searchKey);
-		}
-
-        $searchParams = $request->get('search_params');
-        if(!empty($searchParams)) {
-            $viewer->assign('SEARCH_PARAMS',$searchParams);
-        }
-        
-		echo $viewer->view('SendSMSForm.tpl', $moduleName, true);
-	}
-
-	/**
 	 * Function returns the record Ids selected in the current filter
 	 * @param Vtiger_Request $request
 	 * @return integer

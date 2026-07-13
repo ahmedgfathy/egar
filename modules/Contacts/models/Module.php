@@ -168,13 +168,6 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
                         WHERE deleted=0 AND vtiger_campaigncontrel.campaignid = $parentId AND label like '%$searchValue%'";
 
             return $query;
-        } else if($parentId && $parentModule == 'Vendors') {
-            $query = "SELECT vtiger_crmentity.* FROM vtiger_crmentity
-                        INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_vendorcontactrel ON vtiger_vendorcontactrel.contactid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_vendorcontactrel.vendorid = $parentId AND label like '%$searchValue%'";
-
-            return $query;
         } else if ($parentId && $parentModule == 'Quotes') {
             $query = "SELECT * FROM vtiger_crmentity
                         INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
@@ -256,12 +249,11 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 	 * @return <String> Listview Query
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
-		if (in_array($sourceModule, array('Campaigns', 'Potentials', 'Vendors', 'Products', 'Services', 'Emails'))
+		if (in_array($sourceModule, array('Campaigns', 'Potentials', 'Products', 'Services', 'Emails'))
 				|| ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
 				case 'Campaigns'	: $tableName = 'vtiger_campaigncontrel';	$fieldName = 'contactid';	$relatedFieldName ='campaignid';	break;
 				case 'Potentials'	: $tableName = 'vtiger_contpotentialrel';	$fieldName = 'contactid';	$relatedFieldName ='potentialid';	break;
-				case 'Vendors'		: $tableName = 'vtiger_vendorcontactrel';	$fieldName = 'contactid';	$relatedFieldName ='vendorid';		break;
 				case 'Products'		: $tableName = 'vtiger_seproductsrel';		$fieldName = 'crmid';		$relatedFieldName ='productid';		break;
 			}
 

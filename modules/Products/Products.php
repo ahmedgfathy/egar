@@ -1173,11 +1173,11 @@ class Products extends CRMEntity {
 				"Quotes"=>"vtiger_inventoryproductrel","PurchaseOrder"=>"vtiger_inventoryproductrel","SalesOrder"=>"vtiger_inventoryproductrel",
 				"Invoice"=>"vtiger_inventoryproductrel","PriceBooks"=>"vtiger_pricebookproductrel","Leads"=>"vtiger_seproductsrel",
 				"Accounts"=>"vtiger_seproductsrel","Potentials"=>"vtiger_seproductsrel","Contacts"=>"vtiger_seproductsrel",
-				"Documents"=>"vtiger_senotesrel",'Assets'=>'vtiger_assets',);
+				"Documents"=>"vtiger_senotesrel",);
 
 		$tbl_field_arr = Array("vtiger_troubletickets"=>"ticketid","vtiger_seproductsrel"=>"crmid","vtiger_seattachmentsrel"=>"attachmentsid",
 				"vtiger_inventoryproductrel"=>"id","vtiger_pricebookproductrel"=>"pricebookid","vtiger_seproductsrel"=>"crmid",
-				"vtiger_senotesrel"=>"notesid",'vtiger_assets'=>'assetsid');
+				"vtiger_senotesrel"=>"notesid");
 
 		$entity_tbl_field_arr = Array("vtiger_troubletickets"=>"product_id","vtiger_seproductsrel"=>"crmid","vtiger_seattachmentsrel"=>"crmid",
 				"vtiger_inventoryproductrel"=>"productid","vtiger_pricebookproductrel"=>"productid","vtiger_seproductsrel"=>"productid",
@@ -1325,9 +1325,6 @@ class Products extends CRMEntity {
 		} elseif($return_module == 'Leads' || $return_module == 'Contacts' || $return_module == 'Potentials') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? AND crmid = ?';
 			$this->db->pquery($sql, array($id, $return_id));
-		} elseif($return_module == 'Vendors') {
-			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
-			$this->db->pquery($sql, array(null, $id));
 		} elseif($return_module == 'Accounts') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? AND (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE accountid=?))';
 			$param = array($id, $return_id,$return_id);
