@@ -13,12 +13,12 @@ class Products_Detail_View extends Vtiger_Detail_View {
 
     public function preProcess(Vtiger_Request $request, $display = true) {
         $recordId = (int) $request->get('record');
-        $legacy = (int) $request->get('legacy') === 1;
         $mode = $request->getMode();
 
-        // Make the normal Product detail URL open the React screen. Internal
-        // Vtiger detail/related AJAX modes and the explicit legacy route remain intact.
-        if ($recordId && !$legacy && empty($mode)) {
+        // The normal Product detail route is retired in favor of React. Internal
+        // detail/related AJAX modes remain available because Product relations,
+        // PriceBooks and other Vtiger services still consume them.
+        if ($recordId && empty($mode)) {
             header('Location: index.php?module=Products&view=ReactDetail&record=' . $recordId);
             exit;
         }
