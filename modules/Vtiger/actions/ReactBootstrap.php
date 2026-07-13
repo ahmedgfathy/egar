@@ -23,13 +23,14 @@ class Vtiger_ReactBootstrap_Action extends Vtiger_Action_Controller {
             $module = Vtiger_Module_Model::getInstance($definition['name']);
             if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
             $permittedNames[] = $definition['name'];
+            $url = $module->getListViewUrl();
+            if ($definition['name'] === 'Products') $url = 'index.php?module=Products&view=ReactList';
+            if ($definition['name'] === 'Leads') $url = 'index.php?module=Leads&view=ReactList';
             $modules[] = array(
                 'name' => $definition['name'],
                 'label' => $definition['label'],
                 'group' => $definition['group'],
-                'url' => $definition['name'] === 'Products'
-                    ? 'index.php?module=Products&view=ReactList'
-                    : $module->getListViewUrl()
+                'url' => $url
             );
         }
 
@@ -59,7 +60,7 @@ class Vtiger_ReactBootstrap_Action extends Vtiger_Action_Controller {
             for ($index = 0; $index < $db->num_rows($recentResult); $index++) {
                 $id = (int) $db->query_result($recentResult, $index, 'crmid');
                 $moduleName = $db->query_result($recentResult, $index, 'setype');
-                $detailView = $moduleName === 'Products' ? 'ReactDetail' : 'Detail';
+                $detailView = in_array($moduleName, array('Products', 'Leads')) ? 'ReactDetail' : 'Detail';
                 $recentRecords[] = array(
                     'id' => $id,
                     'module' => $moduleName,
