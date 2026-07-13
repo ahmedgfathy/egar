@@ -15,6 +15,13 @@ const moduleIcons = {
   Project: Columns3, Calendar: CalendarDays, Documents: FileText, Reports: TrendingUp,
   Campaigns: Megaphone
 };
+const saveFilterPreference = filterId => {
+  if (!filterId) return;
+  const body = new URLSearchParams({ module: 'Vtiger', action: 'ReactFilterPreference', source_module: 'Products', filter: String(filterId) });
+  if (window.csrfMagicName && window.csrfMagicToken) body.set(window.csrfMagicName, window.csrfMagicToken);
+  fetch('index.php', { method: 'POST', credentials: 'same-origin', headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' }, body })
+    .catch(() => {});
+};
 
 function ProductList() {
   const params = new URLSearchParams(location.search);
@@ -59,6 +66,10 @@ function ProductList() {
   };
 
   useEffect(load, [filter, page, limit, debouncedSearch, selectedAlphabet, sortBy, sortOrder]);
+
+  useEffect(() => {
+    saveFilterPreference(filter);
+  }, [filter]);
 
   const activeName = useMemo(
     () => data?.filters?.find(item => item.id === data.activeFilter)?.name || 'All Properties',
@@ -125,7 +136,7 @@ function ProductList() {
       <header className="property-topbar"><button className="mobile-menu" onClick={() => setSidebar(true)}><Menu size={20}/></button><div className="breadcrumbs"><a href="index.php?module=Vtiger&view=ReactDashboard">Workspace</a><span>/</span><strong>Property</strong></div><a className="back-dashboard" href="index.php?module=Vtiger&view=ReactDashboard"><ArrowLeft size={16}/>Dashboard</a></header>
 
       <div className="property-content">
-        <section className="property-heading"><div><span className="heading-label">Real estate inventory</span><div className="title-line"><h1>Properties</h1><span className="live-pill"><i/>Live data</span></div><p>Manage every property, apply accurate filters and move through large inventories quickly.</p></div><div className="heading-actions">{data?.canCreate && <a className="add-property" href={data.createUrl}><Plus size={18}/>Add property</a>}<div className="secondary-actions"><a href={data?.createFilterUrl || 'index.php?module=CustomView&view=EditAjax&source_module=Products'}>Create filter</a><a href={data?.legacyUrl || 'index.php?module=Products&view=List&legacy=1'}>Legacy list</a></div></div></section>
+        <section className="property-heading"><div><span className="heading-label">Real estate inventory</span><div className="title-line"><h1>Properties</h1><span className="live-pill"><i/>Live data</span></div><p>Manage every property, apply accurate filters and move through large inventories quickly.</p></div><div className="heading-actions">{data?.canCreate && <a className="add-property" href={data.createUrl}><Plus size={18}/>Add property</a>}<div className="secondary-actions"><a href={data?.createFilterUrl || 'index.php?module=CustomView&view=ReactEdit&source_module=Products'}>Create filter</a><a href={data?.legacyUrl || 'index.php?module=Products&view=List&legacy=1'}>Legacy list</a></div></div></section>
 
         <section className="property-toolbar">
           <div className="filter-select"><Filter size={17}/><select value={filter || ''} onChange={event => { setFilter(Number(event.target.value)); setPage(1); }}>{data?.filters?.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select><ChevronDown size={15}/></div>
