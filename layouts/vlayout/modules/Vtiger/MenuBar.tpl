@@ -140,32 +140,8 @@
 					</ul>
 				</div>
 				
-				<div class="span3 marginLeftZero pull-right" id="headerLinks">
-					<span id="headerLinksBig" class="pull-right headerLinksContainer">
-						<span class="dropdown span settingIcons">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-								<!--<img src="{vimage_path('theme_brush.png')}" alt="theme roller" title="{vtranslate('Theme Roller',$MODULE)}" />--!>
-							</a>
-							<ul class="dropdown-menu themeMenuContainer">
-								<div id="themeContainer">
-									{assign var=COUNTER value=0}
-									{assign var=THEMES_LIST value=Vtiger_Theme::getAllSkins()}
-									<div class="row-fluid themeMenu">
-									{foreach key=SKIN_NAME item=SKIN_COLOR from=$THEMES_LIST}
-										{if $COUNTER eq 3}
-											</div>
-											<div class="row-fluid themeMenu">
-											{assign var=COUNTER value=1}
-										{else}
-											{assign var=COUNTER value=$COUNTER+1}
-										{/if}
-										<div class="span4 themeElement {if $USER_MODEL->get('theme') eq $SKIN_NAME}themeSelected{/if}" data-skin-name="{$SKIN_NAME}" title="{ucfirst($SKIN_NAME)}" style="background-color:{$SKIN_COLOR};"></div>
-									{/foreach}
-									</div>
-								</div>
-								<div id="progressDiv"></div>
-							</ul>
-						</span>
+					<div class="span3 marginLeftZero pull-right" id="headerLinks">
+						<span id="headerLinksBig" class="pull-right headerLinksContainer">
 						{foreach key=index item=obj from=$HEADER_LINKS}
 							{assign var="src" value=$obj->getIconPath()}
 							{assign var="icon" value=$obj->getIcon()}
