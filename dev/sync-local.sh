@@ -3,6 +3,9 @@ set -euo pipefail
 
 SOURCE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 RUNTIME_ROOT="${EGAR_RUNTIME_ROOT:-$HOME/egar-runtime}"
+DB_NAME="${EGAR_DB_NAME:-egar}"
+DB_USER="${EGAR_DB_USER:-root}"
+DB_PASSWORD="${EGAR_DB_PASSWORD:-zerocall}"
 
 mkdir -p "$RUNTIME_ROOT"
 rsync -a --delete \
@@ -22,14 +25,16 @@ mkdir -p "$RUNTIME_ROOT/cache/images" "$RUNTIME_ROOT/cache/import" \
 chmod -R a+rwX "$RUNTIME_ROOT/cache" "$RUNTIME_ROOT/storage" \
   "$RUNTIME_ROOT/test/templates_c" "$RUNTIME_ROOT/user_privileges"
 
-install -m 0644 "$SOURCE_ROOT/config.csrf-secret.php" "$RUNTIME_ROOT/config.csrf-secret.php"
+if [[ -f "$SOURCE_ROOT/config.csrf-secret.php" ]]; then
+  install -m 0644 "$SOURCE_ROOT/config.csrf-secret.php" "$RUNTIME_ROOT/config.csrf-secret.php"
+fi
 cat > "$RUNTIME_ROOT/config.local.php" <<PHP
 <?php
 \$dbconfig['db_server'] = 'localhost';
 \$dbconfig['db_port'] = ':3306';
-\$dbconfig['db_username'] = 'egar';
-\$dbconfig['db_password'] = 'egar_local_dev';
-\$dbconfig['db_name'] = 'egar';
+\$dbconfig['db_username'] = '${DB_USER}';
+\$dbconfig['db_password'] = '${DB_PASSWORD}';
+\$dbconfig['db_name'] = '${DB_NAME}';
 \$site_URL = 'http://localhost';
 \$root_directory = '${RUNTIME_ROOT}/';
 PHP
