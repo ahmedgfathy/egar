@@ -1,4 +1,5 @@
 <?php
+require_once 'modules/Vtiger/helpers/ReactNavigation.php';
 
 class Vtiger_ReactBootstrap_Action extends Vtiger_Action_Controller {
     public function process(Vtiger_Request $request) {
@@ -6,32 +7,10 @@ class Vtiger_ReactBootstrap_Action extends Vtiger_Action_Controller {
         $user = Users_Record_Model::getCurrentUserModel();
         $privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-        $moduleDefinitions = array(
-            array('name' => 'Products', 'label' => 'Property', 'group' => 'Workspace'),
-            array('name' => 'Leads', 'label' => 'Leads', 'group' => 'Workspace'),
-            array('name' => 'Contacts', 'label' => 'Contacts', 'group' => 'Workspace'),
-            array('name' => 'Potentials', 'label' => 'Opportunities', 'group' => 'Workspace'),
-            array('name' => 'Project', 'label' => 'Projects', 'group' => 'Operations'),
-            array('name' => 'Calendar', 'label' => 'Calendar', 'group' => 'Operations'),
-            array('name' => 'Documents', 'label' => 'Documents', 'group' => 'Operations'),
-            array('name' => 'Reports', 'label' => 'Reports', 'group' => 'Insights')
-        );
-
-        $modules = array();
+        $modules = Egar_ReactNavigation_Helper::getModules('Vtiger');
         $permittedNames = array();
-        foreach ($moduleDefinitions as $definition) {
-            $module = Vtiger_Module_Model::getInstance($definition['name']);
-            if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
-            $permittedNames[] = $definition['name'];
-            $url = $module->getListViewUrl();
-            if ($definition['name'] === 'Products') $url = 'index.php?module=Products&view=ReactList';
-            if ($definition['name'] === 'Leads') $url = 'index.php?module=Leads&view=ReactList';
-            $modules[] = array(
-                'name' => $definition['name'],
-                'label' => $definition['label'],
-                'group' => $definition['group'],
-                'url' => $url
-            );
+        foreach ($modules as $moduleInfo) {
+            if ($moduleInfo['isEntity']) $permittedNames[] = $moduleInfo['name'];
         }
 
         $metrics = array();
@@ -128,7 +107,7 @@ class Vtiger_ReactBootstrap_Action extends Vtiger_Action_Controller {
             'recentRecords' => $recentRecords,
             'upcomingActivities' => $upcoming,
             'leadStatus' => $leadStatus,
-            'legacySettingsUrl' => 'index.php?module=Users&parent=Settings&view=List'
+            'legacySettingsUrl' => Egar_ReactNavigation_Helper::getSettingsUrl()
         ));
         $response->emit();
     }

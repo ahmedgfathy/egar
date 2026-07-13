@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BarChart3, Bell, Building2, CalendarDays, ChevronDown, CircleUserRound, Command, FileText, Home, LayoutDashboard, LogOut, Menu, Search, Settings, Sparkles, Users, X } from 'lucide-react';
 import './dashboard.css';
 import './dashboard-system.css';
+import MaterialIcon from './material-icon.jsx';
 
 const icons = { Products: Building2, Leads: Sparkles, Contacts: Users, Potentials: BarChart3, Project: Command, Calendar: CalendarDays, Documents: FileText, Reports: BarChart3 };
 const number = new Intl.NumberFormat('en-US');
@@ -40,8 +41,8 @@ function Dashboard() {
 
   return <div className="crm-shell">
     <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
-      <div className="sidebar-brand"><span><Building2 size={22}/></span><div><strong>EGAR</strong><small>Real Estate CRM</small></div><button onClick={() => setMenuOpen(false)}><X size={20}/></button></div>
-      <nav><p>Workspace</p><a className="active" href="index.php?module=Vtiger&view=ReactDashboard"><LayoutDashboard size={18}/> Overview</a>{data.modules.map(module => { const Icon = icons[module.name] || Command; return <a href={module.url} key={module.name}><Icon size={18}/>{module.label}</a>; })}<p>Management</p>{data.user.admin && <a href={data.legacySettingsUrl}><Settings size={18}/>Settings <em>Legacy</em></a>}</nav>
+      <div className="sidebar-brand"><span><MaterialIcon name="apartment" size={23}/></span><div><strong>EGAR</strong><small>Real Estate CRM</small></div><button onClick={() => setMenuOpen(false)}><X size={20}/></button></div>
+      <nav><p>Workspace</p>{data.modules.map(module => <a className={module.active ? 'active' : ''} href={module.url} key={module.name}><MaterialIcon name={module.icon || 'apps'} size={20}/>{module.label}</a>)}<p>Management</p>{data.user.admin && <a href={data.legacySettingsUrl}><MaterialIcon name="settings" size={20}/>Settings</a>}</nav>
       <div className="sidebar-insight"><Sparkles size={17}/><strong>{number.format(data.recentRecords.length)} recent system updates</strong><span>The dashboard now summarizes all permitted CRM modules.</span></div>
     </aside>
     {menuOpen && <button className="scrim" onClick={() => setMenuOpen(false)} aria-label="Close navigation"/>}
@@ -51,7 +52,7 @@ function Dashboard() {
 
       <main>
         <section className="welcome"><div><span className="kicker"><Home size={14}/> Full system workspace</span><h1>Good day, {data.user.name.split(' ')[0]}.</h1><p>Here is the latest activity across every CRM module you are allowed to access.</p></div><a className="primary-action" href="index.php?module=Products&view=Edit"><span>+</span> Add property</a></section>
-        {query && <section className="module-results"><h2>Modules</h2><div>{Object.entries(groups).map(([group, modules]) => <div key={group}><small>{group}</small>{modules.map(module => {const Icon=icons[module.name]||Command; return <a href={module.url} key={module.name}><Icon size={18}/>{module.label}</a>})}</div>)}</div></section>}
+        {query && <section className="module-results"><h2>Modules</h2><div>{Object.entries(groups).map(([group, modules]) => <div key={group}><small>{group}</small>{modules.map(module => <a href={module.url} key={module.name}><MaterialIcon name={module.icon || 'apps'} size={19}/>{module.label}</a>)}</div>)}</div></section>}
 
         <section className="metrics system-metrics">{visibleMetrics.map(([key, label, Icon, note], index) => <article key={key}><span className={`metric-icon ${index % 3 === 0 ? 'green' : index % 3 === 1 ? 'amber' : 'blue'}`}><Icon size={21}/></span><div><small>{label}</small><strong>{number.format(data.metrics[key] || 0)}</strong><em>{note}</em></div></article>)}</section>
 
@@ -63,7 +64,7 @@ function Dashboard() {
 
         <section className="content-grid lower-grid">
           <article className="panel lead-summary"><header><div><h2>Lead status overview</h2><p>Distribution of all permitted lead records</p></div><a href="index.php?module=Leads&view=List">View leads</a></header><div className="status-bars">{data.leadStatus.length ? data.leadStatus.map(item => <div key={item.label}><span><strong>{item.label}</strong><em>{number.format(item.count)}</em></span><i><b style={{width: `${(item.count / maxLeadStatus) * 100}%`}}/></i></div>) : <p className="empty-panel">No lead data available.</p>}</div></article>
-          <aside className="panel quick"><header><h2>Quick access</h2><p>All permitted modules</p></header><div>{data.modules.map(module => {const Icon=icons[module.name]||Command; return <a href={module.url} key={module.name}><span><Icon size={19}/></span><div><strong>{module.label}</strong><small>Open module</small></div></a>})}</div></aside>
+          <aside className="panel quick"><header><h2>Quick access</h2><p>All permitted modules</p></header><div>{data.modules.map(module => <a href={module.url} key={module.name}><span><MaterialIcon name={module.icon || 'apps'} size={21}/></span><div><strong>{module.label}</strong><small>Open module</small></div></a>)}</div></aside>
         </section>
       </main>
     </div>

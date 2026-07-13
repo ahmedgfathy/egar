@@ -15,7 +15,8 @@ export default defineConfig({
         product: resolve(import.meta.dirname, 'src/product.jsx'),
         'product-detail': resolve(import.meta.dirname, 'src/product-detail.jsx'),
         leads: resolve(import.meta.dirname, 'src/leads.jsx'),
-        'lead-detail': resolve(import.meta.dirname, 'src/lead-detail.jsx')
+        'lead-detail': resolve(import.meta.dirname, 'src/lead-detail.jsx'),
+        settings: resolve(import.meta.dirname, 'src/settings.jsx')
       },
       output: {
         entryFileNames: '[name].js',

@@ -65,6 +65,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View {
 	}
 
 	public function preProcess (Vtiger_Request $request) {
+		if ($request->get('legacy') != '1') {
+			header('Location: index.php?module=Vtiger&parent=Settings&view=ReactIndex');
+			exit;
+		}
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
 	}

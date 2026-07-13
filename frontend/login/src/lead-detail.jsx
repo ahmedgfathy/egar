@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ArrowLeft, Building2, ChevronLeft, ChevronRight, Command, Eye, LayoutDashboard, Menu, Pencil, Rows3, Users, X } from 'lucide-react';
 import './product-detail.css';
+import MaterialIcon from './material-icon.jsx';
 
 const icons = { Products: Building2, Leads: Users };
 const buildStats = blocks => {
@@ -34,8 +35,8 @@ function LeadDetail() {
 
   return <div className="detail-app">
     <aside className={`detail-sidebar ${sidebar ? 'open' : ''}`}>
-      <div className="detail-brand"><span><Users size={22}/></span><div><strong>EGAR</strong><small>Real Estate CRM</small></div><button onClick={() => setSidebar(false)}><X size={19}/></button></div>
-      <nav><small>Workspace</small><a href="index.php?module=Vtiger&view=ReactDashboard"><LayoutDashboard size={18}/>Overview</a>{data.modules.map(module => { const Icon = icons[module.name] || Command; return <a className={module.name === 'Leads' ? 'active' : ''} href={module.url} key={module.name}><Icon size={18}/>{module.label}</a>; })}</nav>
+      <div className="detail-brand"><span><MaterialIcon name="group_add" size={23}/></span><div><strong>EGAR</strong><small>Real Estate CRM</small></div><button onClick={() => setSidebar(false)}><X size={19}/></button></div>
+      <nav><small>Workspace</small>{data.modules.map(module => <a className={module.active ? 'active' : ''} href={module.url} key={module.name}><MaterialIcon name={module.icon || 'apps'} size={20}/>{module.label}</a>)}{data.settingsUrl && <><small>Management</small><a href={data.settingsUrl}><MaterialIcon name="settings" size={20}/>Settings</a></>}</nav>
     </aside>
     {sidebar && <button className="detail-scrim" onClick={() => setSidebar(false)}/>}
     <main className="detail-main">

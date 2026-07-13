@@ -97,7 +97,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 					array (
 						'linktype' => 'HEADERLINK',
 						'linklabel' => 'LBL_CRM_SETTINGS',
-						'linkurl' => '?module=Vtiger&parent=Settings&view=Index',
+						'linkurl' => '?module=Vtiger&parent=Settings&view=ReactIndex',
 						'linkicon' => '',
 					),
                                         array(), // separator 
@@ -218,4 +218,3 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 	}
 
 }
-

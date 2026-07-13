@@ -1,4 +1,5 @@
 <?php
+require_once 'modules/Vtiger/helpers/ReactNavigation.php';
 
 class Leads_ReactListData_Action extends Vtiger_Action_Controller {
     public function checkPermission(Vtiger_Request $request) {
@@ -91,20 +92,7 @@ class Leads_ReactListData_Action extends Vtiger_Action_Controller {
                 );
             }
 
-            $definitions = array(
-                array('Products', 'Property'), array('Leads', 'Leads'), array('Contacts', 'Contacts'),
-                array('Potentials', 'Opportunities'), array('Project', 'Projects'), array('Calendar', 'Calendar'),
-                array('Documents', 'Documents'), array('Reports', 'Reports')
-            );
-            $modules = array();
-            foreach ($definitions as $definition) {
-                $module = Vtiger_Module_Model::getInstance($definition[0]);
-                if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
-                $url = $module->getListViewUrl();
-                if ($definition[0] === 'Products') $url = 'index.php?module=Products&view=ReactList';
-                if ($definition[0] === 'Leads') $url = 'index.php?module=Leads&view=ReactList';
-                $modules[] = array('name' => $definition[0], 'label' => $definition[1], 'url' => $url);
-            }
+            $modules = Egar_ReactNavigation_Helper::getModules('Leads');
 
             $db = PearDatabase::getInstance();
             $totalResult = $db->pquery("SELECT COUNT(*) AS count FROM vtiger_crmentity WHERE deleted=0 AND setype='Leads'", array());
@@ -140,7 +128,8 @@ class Leads_ReactListData_Action extends Vtiger_Action_Controller {
                 'exportUrl' => 'index.php?module=Leads&view=Export&viewname=' . $filterId,
                 'createFilterUrl' => 'index.php?module=CustomView&view=ReactEdit&source_module=Leads',
                 'legacyUrl' => 'index.php?module=Leads&view=List&legacy=1&viewname=' . $filterId,
-                'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard'
+                'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard',
+                'settingsUrl' => Users_Record_Model::getCurrentUserModel()->isAdminUser() ? Egar_ReactNavigation_Helper::getSettingsUrl() : null
             ));
             $response->emit();
         } catch (Throwable $error) {
