@@ -123,10 +123,13 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
         foreach ($moduleDefinitions as $definition) {
             $module = Vtiger_Module_Model::getInstance($definition['name']);
             if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
+            $url = $module->getListViewUrl();
+            if ($definition['name'] === 'Products') $url = 'index.php?module=Products&view=ReactList';
+            if ($definition['name'] === 'Leads') $url = 'index.php?module=Leads&view=ReactList';
             $modules[] = array(
                 'name' => $definition['name'],
                 'label' => $definition['label'],
-                'url' => $definition['name'] === 'Products' ? 'index.php?module=Products&view=ReactList' : $module->getListViewUrl()
+                'url' => $url
             );
         }
 
@@ -166,7 +169,8 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
             ),
             'canCreate' => $canEdit,
             'createUrl' => 'index.php?module=Products&view=Edit',
-            'legacyUrl' => 'index.php?module=Products&view=List&viewname=' . $filterId,
+            'legacyUrl' => 'index.php?module=Products&view=List&legacy=1&viewname=' . $filterId,
+            'createFilterUrl' => 'index.php?module=CustomView&view=EditAjax&source_module=Products',
             'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard'
         ));
         $response->emit();
