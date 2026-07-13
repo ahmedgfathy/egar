@@ -1,0 +1,66 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { ArrowDown, ArrowLeft, ArrowUp, BarChart3, Building2, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Columns3, FileText, Filter, Home, LayoutDashboard, Menu, MoreHorizontal, Pencil, Plus, RefreshCw, Search, SlidersHorizontal, Sparkles, TrendingUp, Users, X } from 'lucide-react';
+import './product.css';
+
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const number = new Intl.NumberFormat('en-US');
+const moduleIcons = { Products: Building2, Leads: Sparkles, Contacts: Home, Potentials: BarChart3, Project: Columns3, Calendar: CalendarDays, Documents: FileText, Reports: TrendingUp };
+
+function LeadsList() {
+  const params = new URLSearchParams(location.search);
+  const [filter, setFilter] = useState(Number(params.get('filter')) || 0);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(25);
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [selectedAlphabet, setSelectedAlphabet] = useState('');
+  const [sortBy, setSortBy] = useState('');
+  const [sortOrder, setSortOrder] = useState('ASC');
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [sidebar, setSidebar] = useState(false);
+  const [openAction, setOpenAction] = useState(null);
+  const [advanced, setAdvanced] = useState(true);
+  const [columnFilters, setColumnFilters] = useState({});
+
+  useEffect(() => { const timer = setTimeout(() => { setPage(1); setDebouncedSearch(search); }, 350); return () => clearTimeout(timer); }, [search]);
+  const load = () => {
+    setLoading(true); setError(false);
+    const query = new URLSearchParams({ module: 'Leads', action: 'ReactListData', page, limit, sortOrder });
+    if (filter) query.set('filter', filter); if (debouncedSearch) query.set('search', debouncedSearch); if (selectedAlphabet) query.set('alphabet', selectedAlphabet); if (sortBy) query.set('sortBy', sortBy);
+    fetch(`index.php?${query}`, { credentials: 'same-origin', headers: { Accept: 'application/json' } })
+      .then(response => response.ok ? response.json() : Promise.reject())
+      .then(payload => { if (!payload.result) throw new Error(); setData(payload.result); if (!filter) setFilter(payload.result.activeFilter); setLoading(false); })
+      .catch(() => { setError(true); setLoading(false); });
+  };
+  useEffect(load, [filter, page, limit, debouncedSearch, selectedAlphabet, sortBy, sortOrder]);
+
+  const activeName = useMemo(() => data?.filters?.find(item => item.id === data.activeFilter)?.name || 'All Leads', [data]);
+  const visibleRows = useMemo(() => data?.rows?.filter(row => Object.entries(columnFilters).every(([field, value]) => !value.trim() || String(row.values[field] || '').toLowerCase().includes(value.toLowerCase()))) || [], [data, columnFilters]);
+  const pages = useMemo(() => { const total = data?.pageCount || 1; const values=[]; const start=Math.max(1,Math.min(page-2,total-4)); const end=Math.min(total,start+4); for(let value=start;value<=end;value+=1) values.push(value); return values; }, [data,page]);
+  const changeSort = name => { setPage(1); if (sortBy === name) setSortOrder(current => current === 'ASC' ? 'DESC' : 'ASC'); else { setSortBy(name); setSortOrder('ASC'); } };
+  const clearAll = () => { setSearch(''); setSelectedAlphabet(''); setSortBy(''); setSortOrder('ASC'); setColumnFilters({}); setPage(1); };
+  const metrics = [
+    { label:'Total Leads', value:data?.metrics?.total||0, note:'All time', icon:Users },
+    { label:'Current Filter', value:data?.metrics?.filtered||0, note:activeName, icon:Filter },
+    { label:'Visible Now', value:visibleRows.length, note:`${limit} per page`, icon:Columns3 },
+    { label:'This Month', value:data?.metrics?.addedThisMonth||0, note:'New leads', icon:Sparkles }
+  ];
+
+  return <div className="property-app" onClick={() => openAction && setOpenAction(null)}>
+    <aside className={`property-sidebar ${sidebar?'open':''}`}><div className="property-brand"><span><Users size={22}/></span><div><strong>EGAR</strong><small>Real Estate CRM</small></div><button onClick={()=>setSidebar(false)}><X size={19}/></button></div><nav><small>Workspace</small><a href="index.php?module=Vtiger&view=ReactDashboard"><LayoutDashboard size={18}/>Overview</a>{data?.modules?.map(module=>{const Icon=moduleIcons[module.name]||Columns3;return <a className={module.name==='Leads'?'active':''} href={module.url} key={module.name}><Icon size={18}/>{module.label}</a>})}</nav><div className="inventory-note"><Users size={18}/><strong>Lead workspace</strong><p>Saved Vtiger filters, permissions, sorting and paging are applied directly.</p></div></aside>
+    {sidebar&&<button className="property-scrim" onClick={()=>setSidebar(false)}/>}
+    <main className="property-main"><header className="property-topbar"><button className="mobile-menu" onClick={()=>setSidebar(true)}><Menu size={20}/></button><div className="breadcrumbs"><a href="index.php?module=Vtiger&view=ReactDashboard">Workspace</a><span>/</span><strong>Leads</strong></div><a className="back-dashboard" href="index.php?module=Vtiger&view=ReactDashboard"><ArrowLeft size={16}/>Dashboard</a></header>
+      <div className="property-content"><section className="property-heading"><div><span className="heading-label">Sales pipeline</span><div className="title-line"><h1>Leads</h1><span className="live-pill"><i/>Live data</span></div><p>Manage prospects, apply accurate filters and move through your pipeline quickly.</p></div><div className="heading-actions">{data?.canCreate&&<a className="add-property" href={data.createUrl}><Plus size={18}/>Add lead</a>}</div></section>
+        <section className="property-toolbar"><div className="filter-select"><Filter size={17}/><select value={filter||''} onChange={event=>{setFilter(Number(event.target.value));setPage(1)}}>{data?.filters?.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}</select><ChevronDown size={15}/></div><div className="property-search"><Search size={18}/><input value={search} onChange={event=>{setSearch(event.target.value);setSelectedAlphabet('')}} placeholder="Search leads by last name..."/>{search&&<button onClick={()=>setSearch('')}><X size={16}/></button>}</div><button className={`advanced-toggle ${advanced?'active':''}`} onClick={()=>setAdvanced(value=>!value)}><SlidersHorizontal size={16}/>Advanced filters</button><button className="refresh" onClick={load}><RefreshCw size={17}/></button></section>
+        <section className="metric-strip">{metrics.map(({label,value,note,icon:Icon})=><article key={label}><div><small>{label}</small><strong>{number.format(value)}</strong><span>{note}</span></div><b><Icon size={22}/></b></article>)}</section>
+        <section className="alphabet-filter"><button className={!selectedAlphabet?'active':''} onClick={()=>{setSelectedAlphabet('');setPage(1)}}>All</button>{alphabet.map(letter=><button className={selectedAlphabet===letter?'active':''} key={letter} onClick={()=>{setSelectedAlphabet(letter);setSearch('');setPage(1)}}>{letter}</button>)}<button className="clear-all" onClick={clearAll}><X size={14}/>Clear all</button></section>
+        <section className="list-card"><div className="table-scroll"><table><thead><tr><th className="check-col"><input type="checkbox"/></th>{data?.headers?.map(header=><th key={header.name}><button className="sort-header" onClick={()=>changeSort(header.name)}>{header.label}{sortBy===header.name?(sortOrder==='ASC'?<ArrowUp size={13}/>:<ArrowDown size={13}/>):<span className="sort-hint">↕</span>}</button></th>)}<th className="actions-col">Actions</th></tr>{advanced&&<tr className="column-search-row"><th></th>{data?.headers?.map(header=><th key={header.name}><input value={columnFilters[header.name]||''} onChange={event=>setColumnFilters(current=>({...current,[header.name]:event.target.value}))} placeholder={`Filter ${header.label}`}/></th>)}<th><button onClick={()=>setColumnFilters({})}>Clear</button></th></tr>}</thead><tbody>{loading?Array.from({length:8}).map((_,index)=><tr className="skeleton-row" key={index}><td colSpan={(data?.headers?.length||4)+2}><span/></td></tr>):error?<tr><td className="empty-state" colSpan={(data?.headers?.length||4)+2}>Unable to load leads. <button onClick={load}>Try again</button></td></tr>:visibleRows.length===0?<tr><td className="empty-state" colSpan={data.headers.length+2}><Users size={28}/><strong>No leads found</strong><span>Try another filter, letter or column search.</span></td></tr>:visibleRows.map(row=><tr key={row.id}><td className="check-col"><input type="checkbox"/></td>{data.headers.map((header,index)=><td key={header.name} className={index===0?'primary-cell':''}>{index===0?<a href={row.detailUrl}>{row.values[header.name]||'—'}</a>:<span>{row.values[header.name]||'—'}</span>}</td>)}<td className="row-actions"><div className="action-menu"><button onClick={event=>{event.stopPropagation();setOpenAction(openAction===row.id?null:row.id)}}><MoreHorizontal size={17}/></button>{openAction===row.id&&<div onClick={event=>event.stopPropagation()}><a href={row.detailUrl}>Open record</a>{row.canEdit&&<a href={row.editUrl}><Pencil size={14}/>Edit</a>}</div>}</div></td></tr>)}</tbody></table></div>
+          <footer className="premium-pagination"><div className="result-summary">Showing <strong>{data?((page-1)*limit)+1:0}</strong> to <strong>{data?Math.min(page*limit,data.filteredCount):0}</strong> of <strong>{number.format(data?.filteredCount||0)}</strong> records</div><div className="page-size"><select value={limit} onChange={event=>{setLimit(Number(event.target.value));setPage(1)}}><option value="10">10 per page</option><option value="25">25 per page</option><option value="50">50 per page</option><option value="100">100 per page</option></select></div><div className="page-controls"><button disabled={page===1||loading} onClick={()=>setPage(1)}><ChevronsLeft size={16}/></button><button disabled={page===1||loading} onClick={()=>setPage(value=>Math.max(1,value-1))}><ChevronLeft size={16}/></button>{pages.map(value=><button className={value===page?'active':''} key={value} onClick={()=>setPage(value)}>{value}</button>)}<button disabled={!data?.hasNext||loading} onClick={()=>setPage(value=>value+1)}><ChevronRight size={16}/></button><button disabled={!data?.hasNext||loading} onClick={()=>setPage(data.pageCount)}><ChevronsRight size={16}/></button></div></footer>
+        </section></div></main>
+  </div>;
+}
+
+createRoot(document.getElementById('egar-react-leads')).render(<LeadsList/>);
