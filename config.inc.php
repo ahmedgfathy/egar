@@ -82,13 +82,13 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'https://egar.marakezeg.net';
+$site_URL = 'http://localhost';
 //$site_URL = 'https://egar.contaboo.com/404.html';
 
 // url for customer portal (Example: http://vtiger.com/portal)
 //$PORTAL_URL = $site_URL.'/customerportal';
 // root directory path
-$root_directory = '/mnt/c/Users/ahmed/Downloads/egar/egar';
+$root_directory = '/home/xinreal/egar/';
 
 // Optional per-machine overrides. This file is intentionally ignored by Git.
 // It may override $dbconfig, $site_URL, $root_directory, or other local settings.
@@ -96,6 +96,9 @@ if (is_file(__DIR__ . '/config.local.php')) {
 	include __DIR__ . '/config.local.php';
 	$dbconfig['db_hostname'] = $dbconfig['db_server'].$dbconfig['db_port'];
 	$host_name = $dbconfig['db_hostname'];
+}
+if (!empty($root_directory)) {
+	$root_directory = rtrim($root_directory, '/\\') . '/';
 }
 
 // cache direcory path

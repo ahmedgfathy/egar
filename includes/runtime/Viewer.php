@@ -46,21 +46,21 @@ class Vtiger_Viewer extends SmartyBC {
 		if(!empty($media)) {
 			self::$currentLayout = $media;
 			$templatesDir = $THISDIR . '/../../layouts/'.$media;
-			$compileDir = $THISDIR . '/../../test/templates_c/'.$media;
+			$compileDir = sys_get_temp_dir() . '/egar-templates_c/'.$media;
 		}
 		global $default_layout;
           $checkforlayout = file_exists($THISDIR . '/../../layouts/'.$default_layout) ;
           if($default_layout && $checkforlayout )
-        {
-            self::$currentLayout = $default_layout;
+		{
+	            self::$currentLayout = $default_layout;
 			$templatesDir = $THISDIR . '/../../layouts/'.$default_layout;
-			$compileDir = $THISDIR . '/../../test/templates_c/'.$default_layout;
-            
-        }
-       else  if(empty($templatesDir) || !file_exists($templatesDir)) {
+			$compileDir = sys_get_temp_dir() . '/egar-templates_c/'.$default_layout;
+	            
+	        }
+	       else  if(empty($templatesDir) || !file_exists($templatesDir)) {
 			self::$currentLayout = self::getDefaultLayoutName();
 			$templatesDir = $THISDIR . '/../../layouts/'.self::getDefaultLayoutName();
-			$compileDir = $THISDIR . '/../../test/templates_c/'.self::getDefaultLayoutName();
+			$compileDir = sys_get_temp_dir() . '/egar-templates_c/'.self::getDefaultLayoutName();
 		}
 
 		if (!file_exists($compileDir)) {

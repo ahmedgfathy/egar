@@ -11,8 +11,18 @@ REAL_PROJECT_ROOT="$(realpath "$PROJECT_ROOT")"
 DEV_USER="${SUDO_USER:-$USER}"
 
 apt-get update
-apt-get install -y software-properties-common ca-certificates curl
-add-apt-repository -y ppa:ondrej/php
+apt-get install -y software-properties-common ca-certificates curl gnupg
+source /etc/os-release
+if [[ "${VERSION_CODENAME:-}" == "resolute" ]]; then
+  install -d -m 0755 /etc/apt/keyrings
+  curl -fsSL https://packages.sury.org/php/apt.gpg -o /tmp/sury-php.gpg.asc
+  gpg --dearmor --yes -o /tmp/sury-php.gpg /tmp/sury-php.gpg.asc
+  install -m 0644 /tmp/sury-php.gpg /etc/apt/keyrings/sury-php.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/sury-php.gpg] https://packages.sury.org/php/ resolute main" \
+    > /etc/apt/sources.list.d/sury-php.list
+else
+  add-apt-repository -y ppa:ondrej/php
+fi
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
   apache2 mariadb-server libapache2-mod-php7.4 php7.4-cli php7.4-common \
@@ -46,21 +56,32 @@ if ! "${DB_ADMIN[@]}" --execute='SELECT 1' >/dev/null 2>&1; then
   DB_ADMIN+=(--password="$DB_ROOT_PASSWORD")
 fi
 
-"${DB_ADMIN[@]}" <<'SQL'
-CREATE DATABASE IF NOT EXISTS egar CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE USER IF NOT EXISTS 'egar'@'localhost' IDENTIFIED BY 'egar_local_dev';
-ALTER USER 'egar'@'localhost' IDENTIFIED BY 'egar_local_dev';
-GRANT ALL PRIVILEGES ON egar.* TO 'egar'@'localhost';
+DB_NAME="${EGAR_DB_NAME:-egar}"
+DB_USER="${EGAR_DB_USER:-root}"
+DB_PASSWORD="${EGAR_DB_PASSWORD:-zerocall}"
+
+"${DB_ADMIN[@]}" <<SQL
+CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
 FLUSH PRIVILEGES;
 SQL
+
+if [[ "$DB_USER" != "root" ]]; then
+  mariadb --user=root --password="$DB_PASSWORD" <<SQL
+CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
+ALTER USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
+GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'localhost';
+FLUSH PRIVILEGES;
+SQL
+fi
 
 cat > "$PROJECT_ROOT/config.local.php" <<PHP
 <?php
 \$dbconfig['db_server'] = 'localhost';
 \$dbconfig['db_port'] = ':3306';
-\$dbconfig['db_username'] = 'egar';
-\$dbconfig['db_password'] = 'egar_local_dev';
-\$dbconfig['db_name'] = 'egar';
+\$dbconfig['db_username'] = '${DB_USER}';
+\$dbconfig['db_password'] = '${DB_PASSWORD}';
+\$dbconfig['db_name'] = '${DB_NAME}';
 \$site_URL = 'http://localhost';
 \$root_directory = '${REAL_PROJECT_ROOT}/';
 PHP
@@ -79,4 +100,4 @@ else
 fi
 
 echo "Local stack is ready at http://localhost"
-echo "Import a sanitized database with: mysql -u egar -pegar_local_dev egar < backup.sql"
+echo "Import a database with: mysql -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME} < backup.sql"
