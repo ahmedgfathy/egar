@@ -1,4 +1,5 @@
 <?php
+require_once 'modules/Vtiger/helpers/ReactNavigation.php';
 
 class Products_ReactDetailData_Action extends Vtiger_Action_Controller {
     public function checkPermission(Vtiger_Request $request) {
@@ -63,24 +64,7 @@ class Products_ReactDetailData_Action extends Vtiger_Action_Controller {
             }
 
             $privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-            $modules = array();
-            $definitions = array(
-                array('Products', 'Property'), array('Leads', 'Leads'), array('Contacts', 'Contacts'),
-                array('Potentials', 'Opportunities'), array('Project', 'Projects'), array('Calendar', 'Calendar'),
-                array('Documents', 'Documents'), array('Reports', 'Reports')
-            );
-            foreach ($definitions as $definition) {
-                $module = Vtiger_Module_Model::getInstance($definition[0]);
-                if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
-                $url = $module->getListViewUrl();
-                if ($definition[0] === 'Products') $url = 'index.php?module=Products&view=ReactList';
-                if ($definition[0] === 'Leads') $url = 'index.php?module=Leads&view=ReactList';
-                $modules[] = array(
-                    'name' => $definition[0],
-                    'label' => $definition[1],
-                    'url' => $url
-                );
-            }
+            $modules = Egar_ReactNavigation_Helper::getModules('Products');
 
             $response = new Vtiger_Response();
             $response->setResult(array(
@@ -95,6 +79,7 @@ class Products_ReactDetailData_Action extends Vtiger_Action_Controller {
                 'editUrl' => 'index.php?module=Products&view=Edit&record=' . $recordId,
                 'legacyDetailUrl' => 'index.php?module=Products&view=Detail&record=' . $recordId . '&legacy=1&mode=showDetailViewByMode&requestMode=full',
                 'listUrl' => 'index.php?module=Products&view=ReactList',
+                'settingsUrl' => Users_Record_Model::getCurrentUserModel()->isAdminUser() ? Egar_ReactNavigation_Helper::getSettingsUrl() : null,
                 'previousUrl' => $previousId ? 'index.php?module=Products&view=ReactDetail&record=' . $previousId : null,
                 'nextUrl' => $nextId ? 'index.php?module=Products&view=ReactDetail&record=' . $nextId : null
             ));

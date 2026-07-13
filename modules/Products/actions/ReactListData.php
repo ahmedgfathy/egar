@@ -1,4 +1,5 @@
 <?php
+require_once 'modules/Vtiger/helpers/ReactNavigation.php';
 
 class Products_ReactListData_Action extends Vtiger_Action_Controller {
     public function checkPermission(Vtiger_Request $request) {
@@ -111,30 +112,7 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
             );
         }
 
-        $moduleDefinitions = array(
-            array('name' => 'Products', 'label' => 'Property'),
-            array('name' => 'Leads', 'label' => 'Leads'),
-            array('name' => 'Contacts', 'label' => 'Contacts'),
-            array('name' => 'Potentials', 'label' => 'Opportunities'),
-            array('name' => 'Project', 'label' => 'Projects'),
-            array('name' => 'Calendar', 'label' => 'Calendar'),
-            array('name' => 'Documents', 'label' => 'Documents'),
-            array('name' => 'Reports', 'label' => 'Reports'),
-            array('name' => 'Campaigns', 'label' => 'Marketing')
-        );
-        $modules = array();
-        foreach ($moduleDefinitions as $definition) {
-            $module = Vtiger_Module_Model::getInstance($definition['name']);
-            if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
-            $url = $module->getListViewUrl();
-            if ($definition['name'] === 'Products') $url = 'index.php?module=Products&view=ReactList';
-            if ($definition['name'] === 'Leads') $url = 'index.php?module=Leads&view=ReactList';
-            $modules[] = array(
-                'name' => $definition['name'],
-                'label' => $definition['label'],
-                'url' => $url
-            );
-        }
+        $modules = Egar_ReactNavigation_Helper::getModules('Products');
 
         $db = PearDatabase::getInstance();
         $totalResult = $db->pquery(
@@ -178,7 +156,8 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
             'exportUrl' => 'index.php?module=Products&view=Export&viewname=' . $filterId,
             'legacyUrl' => 'index.php?module=Products&view=List&legacy=1&viewname=' . $filterId,
             'createFilterUrl' => 'index.php?module=CustomView&view=ReactEdit&source_module=Products',
-            'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard'
+            'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard',
+            'settingsUrl' => Users_Record_Model::getCurrentUserModel()->isAdminUser() ? Egar_ReactNavigation_Helper::getSettingsUrl() : null
         ));
         $response->emit();
     }

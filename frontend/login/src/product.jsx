@@ -7,6 +7,7 @@ import {
   Search, SlidersHorizontal, Sparkles, TrendingUp, Upload, Download, X
 } from 'lucide-react';
 import './product.css';
+import MaterialIcon from './material-icon.jsx';
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const number = new Intl.NumberFormat('en-US');
@@ -130,8 +131,8 @@ function ProductList() {
 
   return <div className="property-app" onClick={() => openAction && setOpenAction(null)}>
     <aside className={`property-sidebar ${sidebar ? 'open' : ''}`}>
-      <div className="property-brand"><span><Building2 size={22}/></span><div><strong>EGAR</strong><small>Real Estate CRM</small></div><button onClick={() => setSidebar(false)}><X size={19}/></button></div>
-      <nav><small>Workspace</small><a href="index.php?module=Vtiger&view=ReactDashboard"><LayoutDashboard size={18}/>Overview</a>{data?.modules?.map(module => { const Icon = moduleIcons[module.name] || Columns3; return <a className={module.name === 'Products' ? 'active' : ''} href={module.url} key={module.name}><Icon size={18}/>{module.label}</a>; })}</nav>
+      <div className="property-brand"><span><MaterialIcon name="apartment" size={23}/></span><div><strong>EGAR</strong><small>Real Estate CRM</small></div><button onClick={() => setSidebar(false)}><X size={19}/></button></div>
+      <nav><small>Workspace</small>{data?.modules?.map(module => <a className={module.active ? 'active' : ''} href={module.url} key={module.name}><MaterialIcon name={module.icon || 'apps'} size={20}/>{module.label}</a>)}{data?.settingsUrl && <><small>Management</small><a href={data.settingsUrl}><MaterialIcon name="settings" size={20}/>Settings</a></>}</nav>
       <div className="inventory-note"><Columns3 size={18}/><strong>Inventory workspace</strong><p>Saved Vtiger filters, permissions, sorting and paging are applied directly.</p></div>
     </aside>
 
@@ -141,7 +142,7 @@ function ProductList() {
       <header className="property-topbar"><button className="mobile-menu" onClick={() => setSidebar(true)}><Menu size={20}/></button><div className="breadcrumbs"><a href="index.php?module=Vtiger&view=ReactDashboard">Workspace</a><span>/</span><strong>Property</strong></div><a className="back-dashboard" href="index.php?module=Vtiger&view=ReactDashboard"><ArrowLeft size={16}/>Dashboard</a></header>
 
       <div className="property-content">
-        <section className="property-heading"><div><span className="heading-label">Real estate inventory</span><div className="title-line"><h1>Properties</h1><span className="live-pill"><i/>Live data</span></div><p>Manage every property, apply accurate filters and move through large inventories quickly.</p></div><div className="heading-actions">{data?.canCreate && <a className="add-property" href={data.createUrl}><Plus size={18}/>Add property</a>}<div className="secondary-actions">{data?.canImport && <a href={data.importUrl}><Upload size={15}/>Import</a>}{data?.canExport && <a href={data.exportUrl}><Download size={15}/>Export</a>}<a href={data?.createFilterUrl || 'index.php?module=CustomView&view=ReactEdit&source_module=Products'}>Create filter</a><a href={data?.legacyUrl || 'index.php?module=Products&view=List&legacy=1'}>Legacy list</a></div></div></section>
+        <section className="property-heading"><div><span className="heading-label">Real estate inventory</span><div className="title-line"><h1>Properties</h1><span className="live-pill"><i/>Live data</span></div><p>Manage every property, apply accurate filters and move through large inventories quickly.</p></div><div className="heading-actions">{data?.canCreate && <a className="add-property" href={data.createUrl}><Plus size={18}/>Add property</a>}<div className="secondary-actions">{data?.canImport && <a href={data.importUrl}><MaterialIcon name="upload_file" size={18}/>Import</a>}{data?.canExport && <a href={data.exportUrl}><MaterialIcon name="download" size={18}/>Export</a>}<a href={data?.createFilterUrl || 'index.php?module=CustomView&view=ReactEdit&source_module=Products'}>Create filter</a><a href={data?.legacyUrl || 'index.php?module=Products&view=List&legacy=1'}>Legacy list</a></div></div></section>
 
         <section className="property-toolbar">
           <div className="filter-select"><Filter size={17}/><select value={filter || ''} onChange={event => { setFilter(Number(event.target.value)); setPage(1); }}>{data?.filters?.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select><ChevronDown size={15}/></div>
