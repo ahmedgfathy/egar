@@ -1,65 +1,74 @@
-Vtiger CRM
-==========
+# EGAR CRM
 
-Vtiger is a PHP based web application that enables businesses to increase sales wins, marketing ROI, and support satisfaction by providing tools for employees and management work more effectively, capture more data, and derive new actionable insights from across the customer lifecycle.
+EGAR CRM is a customized real estate customer management system for handling properties, leads, contacts, documents, campaigns, reports, invoices, and user administration.
 
-Get involved
-------------
+The application combines the existing PHP backend with a React-based user experience for the main CRM workflows. It is configured for a focused production setup with unused modules, legacy themes, and extra language packs removed.
 
-Development on vtiger is done at http://code.vtiger.com
+## Main Features
 
-To register for an account, please contact info @ vtiger.com, you will need this to file issues and/or fix the code
-Once you have an account, you can [browse the code](http://code.vtiger.com/vtiger/vtigercrm/tree/master),
-[see if your issue is already reported](http://code.vtiger.com/vtiger/vtigercrm/issues) and if you have a new problem
-to report you can [create an issue](http://code.vtiger.com/vtiger/vtigercrm/issues/new?issue)
+- Property inventory and detail management
+- Leads list, filters, saved filter preferences, and detail views
+- Contacts and document management
+- Campaigns, reports, invoices, and user settings
+- React dashboard, module navigation, settings experience, and modern list/detail pages
+- English and Arabic language support
+- Single maintained legacy skin for backend compatibility
 
-If you then want to fix the issue (or another issue) you can create your own fork of vtiger to work on using the
-fork button on the vtiger project, this will create a new git repository for you at
-    
-    http://code.vtiger.com/yourname/vtigercrm.git
+## Local Environment
 
-on your computer you will need a git client installed and you need to tell git who you are:
+Expected local stack:
 
-    git config --global user.name "YOUR NAME"
-    git config --global user.email "YOUR EMAIL ADDRESS"
+- Ubuntu or WSL Ubuntu
+- Apache
+- MySQL
+- PHP compatible with the current application setup
+- Node.js for rebuilding React frontend assets
 
-now clone your fork of vtiger
+Common local database credentials used in this workspace:
 
-    git clone http://code.vtiger.com/yourname/vtigercrm.git
+```text
+Database user: root
+Database password: zerocall
+```
 
-this will pull down from the server your copy of the vtiger code and all the history.
+## Frontend Build
 
-You will make a new branch for your changes, you can give it a descriptive name, once the branch is created
-you will switch to that branch using the checkout command
+React source files live in:
 
-    git branch fix_projects_on_calendar
-    git checkout fix_projects_on_calendar
+```text
+frontend/login
+```
 
-Now you can make your changes and commit all changed files with
+Build frontend assets with:
 
-    git commit -a
+```bash
+cd frontend/login
+npm run build
+```
 
-Do reference the issue number in your commit message, e.g. "fix #2 display projects on the calendar" the number will
-allow the system to link the commit to the issue.
+The built assets are written to:
 
-Now you can push your branch to the server, this creates the branch on the server end and populates it
+```text
+public/react-login/assets
+```
 
-    git push --set-upstream origin fix_projects_on_calendar
+## Runtime Notes
 
-look at the branch on code.vtiger.com and create a merge request from your branch
-to the upstream master, this will be reviewed to see if it fixes the 
-issue and if all is good will be merged into the upstream code.
-You can then switch back to your master branch with
+- Keep `config.inc.php`, `config.security.php`, and local database settings aligned with the target machine.
+- Writable runtime/cache directories must remain writable by Apache.
+- Only `en_us` and `ar_ae` language packs are kept.
+- Removed legacy modules should not be reintroduced unless the database tables, permissions, navigation, layouts, and language files are restored together.
 
-    git checkout master
+## Useful Maintenance Commands
 
-And you can create additional feature branches from there to fix different things.
+Clear compiled templates:
 
-If there have been other changes to the central vtiger code that you want in your work area then you can add the central
-repository as an upstream remote (only need to do this bit once), then you can fetch changes and merge them
+```bash
+find test/templates_c /tmp/egar-templates_c -type f -delete 2>/dev/null || true
+```
 
-    git remote add upstream http://code.vtiger.com/vtiger/vtigercrm.git
-    git fetch upstream
-    git merge upstream/master
+Restart Apache:
 
-# egar
+```bash
+sudo service apache2 restart
+```
