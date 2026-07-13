@@ -15,8 +15,14 @@ const moduleIcons = {
   Project: Columns3, Calendar: CalendarDays, Documents: FileText, Reports: TrendingUp,
   Campaigns: Megaphone
 };
+const filterStorageKey = 'egar.lastFilter.Products';
+const getInitialFilter = () => {
+  const params = new URLSearchParams(location.search);
+  return Number(params.get('filter')) || Number(localStorage.getItem(filterStorageKey)) || 0;
+};
 const saveFilterPreference = filterId => {
   if (!filterId) return;
+  localStorage.setItem(filterStorageKey, String(filterId));
   const body = new URLSearchParams({ module: 'Vtiger', action: 'ReactFilterPreference', source_module: 'Products', filter: String(filterId) });
   if (window.csrfMagicName && window.csrfMagicToken) body.set(window.csrfMagicName, window.csrfMagicToken);
   fetch('index.php', { method: 'POST', credentials: 'same-origin', headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' }, body })
@@ -24,8 +30,7 @@ const saveFilterPreference = filterId => {
 };
 
 function ProductList() {
-  const params = new URLSearchParams(location.search);
-  const [filter, setFilter] = useState(Number(params.get('filter')) || 0);
+  const [filter, setFilter] = useState(getInitialFilter);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(25);
   const [search, setSearch] = useState('');
@@ -59,7 +64,7 @@ function ProductList() {
       .then(payload => {
         if (!payload.result) throw new Error('Invalid response');
         setData(payload.result);
-        if (!filter) setFilter(payload.result.activeFilter);
+        if (!filter || !payload.result.filters.some(item => item.id === filter)) setFilter(payload.result.activeFilter);
         setLoading(false);
       })
       .catch(() => { setError(true); setLoading(false); });

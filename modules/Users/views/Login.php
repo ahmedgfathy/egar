@@ -13,6 +13,14 @@ class Users_Login_View extends Vtiger_View_Controller {
 	function loginRequired() {
 		return false;
 	}
+
+	function preProcess(Vtiger_Request $request, $display = true) {
+		return true;
+	}
+
+	function postProcess(Vtiger_Request $request) {
+		return true;
+	}
 	
 	function checkPermission(Vtiger_Request $request) {
 		return true;

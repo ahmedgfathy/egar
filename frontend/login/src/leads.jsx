@@ -6,8 +6,11 @@ import './product.css';
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const number = new Intl.NumberFormat('en-US');
 const moduleIcons = { Products: Building2, Leads: Sparkles, Contacts: Home, Potentials: BarChart3, Project: Columns3, Calendar: CalendarDays, Documents: FileText, Reports: TrendingUp };
+const filterStorageKey = 'egar.lastFilter.Leads';
+const getInitialFilter = () => { const params = new URLSearchParams(location.search); return Number(params.get('filter')) || Number(localStorage.getItem(filterStorageKey)) || 0; };
 const saveFilterPreference = filterId => {
   if (!filterId) return;
+  localStorage.setItem(filterStorageKey, String(filterId));
   const body = new URLSearchParams({ module: 'Vtiger', action: 'ReactFilterPreference', source_module: 'Leads', filter: String(filterId) });
   if (window.csrfMagicName && window.csrfMagicToken) body.set(window.csrfMagicName, window.csrfMagicToken);
   fetch('index.php', { method: 'POST', credentials: 'same-origin', headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' }, body })
@@ -15,8 +18,7 @@ const saveFilterPreference = filterId => {
 };
 
 function LeadsList() {
-  const params = new URLSearchParams(location.search);
-  const [filter, setFilter] = useState(Number(params.get('filter')) || 0);
+  const [filter, setFilter] = useState(getInitialFilter);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(25);
   const [search, setSearch] = useState('');
@@ -39,7 +41,7 @@ function LeadsList() {
     if (filter) query.set('filter', filter); if (debouncedSearch) query.set('search', debouncedSearch); if (selectedAlphabet) query.set('alphabet', selectedAlphabet); if (sortBy) query.set('sortBy', sortBy);
     fetch(`index.php?${query}`, { credentials: 'same-origin', headers: { Accept: 'application/json' } })
       .then(response => response.ok ? response.json() : Promise.reject())
-      .then(payload => { if (!payload.result) throw new Error(); setData(payload.result); if (!filter) setFilter(payload.result.activeFilter); setLoading(false); })
+      .then(payload => { if (!payload.result) throw new Error(); setData(payload.result); if (!filter || !payload.result.filters.some(item => item.id === filter)) setFilter(payload.result.activeFilter); setLoading(false); })
       .catch(() => { setError(true); setLoading(false); });
   };
   useEffect(load, [filter, page, limit, debouncedSearch, selectedAlphabet, sortBy, sortOrder]);
