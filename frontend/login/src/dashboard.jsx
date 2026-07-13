@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BarChart3, Bell, Building2, CalendarDays, ChevronDown, CircleUserRound, Command, FileText, Home, LayoutDashboard, LogOut, Menu, Search, Settings, Sparkles, Users, X } from 'lucide-react';
 import './dashboard.css';
+import './dashboard-system.css';
 
 const icons = { Products: Building2, Leads: Sparkles, Contacts: Users, Potentials: BarChart3, Project: Command, Calendar: CalendarDays, Documents: FileText, Reports: BarChart3 };
 const number = new Intl.NumberFormat('en-US');
