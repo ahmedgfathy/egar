@@ -14,7 +14,7 @@ rm -rf "$ASSET_ROOT"
 npm --prefix "$APP_ROOT" install
 npm --prefix "$APP_ROOT" run build
 
-for asset in login.js dashboard.js product.js product-detail.js; do
+for asset in login.js dashboard.js product.js product-detail.js leads.js lead-detail.js; do
   if [[ ! -s "$ASSET_ROOT/$asset" ]]; then
     echo "Frontend build failed: missing $ASSET_ROOT/$asset" >&2
     exit 1
