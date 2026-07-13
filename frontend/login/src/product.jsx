@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowDown, ArrowLeft, ArrowUp, BarChart3, Building2, CalendarDays, ChevronDown,
-  ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Columns3, ExternalLink,
-  FileText, Filter, Home, LayoutDashboard, Megaphone, Menu, MoreHorizontal, Pencil,
-  Plus, RefreshCw, Search, SlidersHorizontal, Sparkles, TrendingUp, Users, X
+  ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Columns3, FileText, Filter,
+  Home, LayoutDashboard, Megaphone, Menu, MoreHorizontal, Pencil, Plus, RefreshCw,
+  Search, SlidersHorizontal, Sparkles, TrendingUp, X
 } from 'lucide-react';
 import './product.css';
 
@@ -108,7 +108,7 @@ function ProductList() {
     <aside className={`property-sidebar ${sidebar ? 'open' : ''}`}>
       <div className="property-brand"><span><Building2 size={22}/></span><div><strong>EGAR</strong><small>Real Estate CRM</small></div><button onClick={() => setSidebar(false)}><X size={19}/></button></div>
       <nav><small>Workspace</small><a href="index.php?module=Vtiger&view=ReactDashboard"><LayoutDashboard size={18}/>Overview</a>{data?.modules?.map(module => { const Icon = moduleIcons[module.name] || Columns3; return <a className={module.name === 'Products' ? 'active' : ''} href={module.url} key={module.name}><Icon size={18}/>{module.label}</a>; })}</nav>
-      <div className="inventory-note"><Columns3 size={18}/><strong>Inventory workspace</strong><p>Saved Vtiger filters, permissions, sorting and paging are applied directly.</p><a href={data?.legacyUrl || '#'}>Open legacy list</a></div>
+      <div className="inventory-note"><Columns3 size={18}/><strong>Inventory workspace</strong><p>Saved Vtiger filters, permissions, sorting and paging are applied directly.</p></div>
     </aside>
 
     {sidebar && <button className="property-scrim" onClick={() => setSidebar(false)}/>}
@@ -117,7 +117,7 @@ function ProductList() {
       <header className="property-topbar"><button className="mobile-menu" onClick={() => setSidebar(true)}><Menu size={20}/></button><div className="breadcrumbs"><a href="index.php?module=Vtiger&view=ReactDashboard">Workspace</a><span>/</span><strong>Property</strong></div><a className="back-dashboard" href="index.php?module=Vtiger&view=ReactDashboard"><ArrowLeft size={16}/>Dashboard</a></header>
 
       <div className="property-content">
-        <section className="property-heading"><div><span className="heading-label">Real estate inventory</span><div className="title-line"><h1>Properties</h1><span className="live-pill"><i/>Live data</span></div><p>Manage every property, apply accurate filters and move through large inventories quickly.</p></div><div className="heading-actions">{data?.canCreate && <a className="add-property" href={data.createUrl}><Plus size={18}/>Add property</a>}{data && <a className="legacy-link" href={data.legacyUrl}><ExternalLink size={15}/>Compare legacy list</a>}</div></section>
+        <section className="property-heading"><div><span className="heading-label">Real estate inventory</span><div className="title-line"><h1>Properties</h1><span className="live-pill"><i/>Live data</span></div><p>Manage every property, apply accurate filters and move through large inventories quickly.</p></div><div className="heading-actions">{data?.canCreate && <a className="add-property" href={data.createUrl}><Plus size={18}/>Add property</a>}</div></section>
 
         <section className="property-toolbar">
           <div className="filter-select"><Filter size={17}/><select value={filter || ''} onChange={event => { setFilter(Number(event.target.value)); setPage(1); }}>{data?.filters?.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select><ChevronDown size={15}/></div>
@@ -133,7 +133,7 @@ function ProductList() {
         <section className="list-card">
           <div className="table-scroll">
             <table><thead><tr><th className="check-col"><input type="checkbox" aria-label="Select all visible records"/></th>{data?.headers?.map(header => <th key={header.name}><button className="sort-header" onClick={() => changeSort(header.name)}>{header.label}{sortBy === header.name ? (sortOrder === 'ASC' ? <ArrowUp size={13}/> : <ArrowDown size={13}/>) : <span className="sort-hint">↕</span>}</button></th>)}<th className="actions-col">Actions</th></tr>{advanced && <tr className="column-search-row"><th></th>{data?.headers?.map(header => <th key={header.name}><input value={columnFilters[header.name] || ''} onChange={event => setColumnFilters(current => ({ ...current, [header.name]: event.target.value }))} placeholder={`Filter ${header.label}`}/></th>)}<th><button onClick={() => setColumnFilters({})}>Clear</button></th></tr>}</thead>
-              <tbody>{loading ? Array.from({ length: 8 }).map((_, index) => <tr className="skeleton-row" key={index}><td colSpan={(data?.headers?.length || 4) + 2}><span/></td></tr>) : error ? <tr><td className="empty-state" colSpan={(data?.headers?.length || 4) + 2}>Unable to load properties. <button onClick={load}>Try again</button></td></tr> : visibleRows.length === 0 ? <tr><td className="empty-state" colSpan={data.headers.length + 2}><Building2 size={28}/><strong>No properties found</strong><span>Try another saved filter, letter or column search.</span></td></tr> : visibleRows.map(row => <tr key={row.id}><td className="check-col"><input type="checkbox" aria-label={`Select record ${row.id}`}/></td>{data.headers.map((header, index) => <td key={header.name} className={index === 0 ? 'primary-cell' : ''}>{index === 0 ? <a href={row.detailUrl}>{row.values[header.name] || '—'}</a> : <span>{row.values[header.name] || '—'}</span>}</td>)}<td className="row-actions"><div className="action-menu"><button title="Actions" onClick={event => { event.stopPropagation(); setOpenAction(openAction === row.id ? null : row.id); }}><MoreHorizontal size={17}/></button>{openAction === row.id && <div onClick={event => event.stopPropagation()}><a href={row.detailUrl}>Open record</a><a href={row.legacyDetailUrl}>Legacy details</a>{row.canEdit && <a href={row.editUrl}><Pencil size={14}/>Edit</a>}</div>}</div></td></tr>)}</tbody>
+              <tbody>{loading ? Array.from({ length: 8 }).map((_, index) => <tr className="skeleton-row" key={index}><td colSpan={(data?.headers?.length || 4) + 2}><span/></td></tr>) : error ? <tr><td className="empty-state" colSpan={(data?.headers?.length || 4) + 2}>Unable to load properties. <button onClick={load}>Try again</button></td></tr> : visibleRows.length === 0 ? <tr><td className="empty-state" colSpan={data.headers.length + 2}><Building2 size={28}/><strong>No properties found</strong><span>Try another saved filter, letter or column search.</span></td></tr> : visibleRows.map(row => <tr key={row.id}><td className="check-col"><input type="checkbox" aria-label={`Select record ${row.id}`}/></td>{data.headers.map((header, index) => <td key={header.name} className={index === 0 ? 'primary-cell' : ''}>{index === 0 ? <a href={row.detailUrl}>{row.values[header.name] || '—'}</a> : <span>{row.values[header.name] || '—'}</span>}</td>)}<td className="row-actions"><div className="action-menu"><button title="Actions" onClick={event => { event.stopPropagation(); setOpenAction(openAction === row.id ? null : row.id); }}><MoreHorizontal size={17}/></button>{openAction === row.id && <div onClick={event => event.stopPropagation()}><a href={row.detailUrl}>Open record</a>{row.canEdit && <a href={row.editUrl}><Pencil size={14}/>Edit</a>}</div>}</div></td></tr>)}</tbody>
             </table>
           </div>
 
