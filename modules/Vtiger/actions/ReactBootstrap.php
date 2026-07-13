@@ -18,11 +18,11 @@ class Vtiger_ReactBootstrap_Action extends Vtiger_Action_Controller {
         );
 
         $modules = array();
+        $permittedNames = array();
         foreach ($moduleDefinitions as $definition) {
             $module = Vtiger_Module_Model::getInstance($definition['name']);
-            if (!$module || !$privileges->hasModulePermission($module->getId())) {
-                continue;
-            }
+            if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
+            $permittedNames[] = $definition['name'];
             $modules[] = array(
                 'name' => $definition['name'],
                 'label' => $definition['label'],
@@ -33,32 +33,85 @@ class Vtiger_ReactBootstrap_Action extends Vtiger_Action_Controller {
             );
         }
 
-        $metricQueries = array(
-            'properties' => "SELECT COUNT(*) count FROM vtiger_products p INNER JOIN vtiger_crmentity e ON e.crmid=p.productid WHERE e.deleted=0",
-            'leads' => "SELECT COUNT(*) count FROM vtiger_leaddetails l INNER JOIN vtiger_crmentity e ON e.crmid=l.leadid WHERE e.deleted=0",
-            'contacts' => "SELECT COUNT(*) count FROM vtiger_contactdetails c INNER JOIN vtiger_crmentity e ON e.crmid=c.contactid WHERE e.deleted=0"
-        );
         $metrics = array();
-        foreach ($metricQueries as $key => $sql) {
-            $result = $db->pquery($sql, array());
-            $metrics[$key] = (int) $db->query_result($result, 0, 'count');
+        foreach ($permittedNames as $moduleName) {
+            if ($moduleName === 'Reports') continue;
+            $result = $db->pquery(
+                'SELECT COUNT(*) AS count FROM vtiger_crmentity WHERE deleted=0 AND setype=?',
+                array($moduleName)
+            );
+            $metrics[strtolower($moduleName)] = (int) $db->query_result($result, 0, 'count');
+        }
+        $metrics['properties'] = isset($metrics['products']) ? $metrics['products'] : 0;
+        $metrics['opportunities'] = isset($metrics['potentials']) ? $metrics['potentials'] : 0;
+        $metrics['activities'] = (isset($metrics['calendar']) ? $metrics['calendar'] : 0) + (isset($metrics['events']) ? $metrics['events'] : 0);
+
+        $recentRecords = array();
+        if ($permittedNames) {
+            $placeholders = implode(',', array_fill(0, count($permittedNames), '?'));
+            $recentResult = $db->pquery(
+                "SELECT crmid, setype, label, createdtime, modifiedtime
+                 FROM vtiger_crmentity
+                 WHERE deleted=0 AND setype IN ($placeholders)
+                 ORDER BY modifiedtime DESC LIMIT 12",
+                $permittedNames
+            );
+            for ($index = 0; $index < $db->num_rows($recentResult); $index++) {
+                $id = (int) $db->query_result($recentResult, $index, 'crmid');
+                $moduleName = $db->query_result($recentResult, $index, 'setype');
+                $detailView = $moduleName === 'Products' ? 'ReactDetail' : 'Detail';
+                $recentRecords[] = array(
+                    'id' => $id,
+                    'module' => $moduleName,
+                    'label' => decode_html($db->query_result($recentResult, $index, 'label')),
+                    'created' => $db->query_result($recentResult, $index, 'createdtime'),
+                    'modified' => $db->query_result($recentResult, $index, 'modifiedtime'),
+                    'url' => 'index.php?module=' . urlencode($moduleName) . '&view=' . $detailView . '&record=' . $id
+                );
+            }
         }
 
-        $recent = array();
-        $recentResult = $db->pquery(
-            "SELECT p.productid, p.productname, p.product_no, e.modifiedtime
-             FROM vtiger_products p INNER JOIN vtiger_crmentity e ON e.crmid=p.productid
-             WHERE e.deleted=0 ORDER BY e.modifiedtime DESC LIMIT 6", array()
-        );
-        for ($index = 0; $index < $db->num_rows($recentResult); $index++) {
-            $id = (int) $db->query_result($recentResult, $index, 'productid');
-            $recent[] = array(
-                'id' => $id,
-                'name' => $db->query_result($recentResult, $index, 'productname'),
-                'number' => $db->query_result($recentResult, $index, 'product_no'),
-                'modified' => $db->query_result($recentResult, $index, 'modifiedtime'),
-                'url' => 'index.php?module=Products&view=Detail&record=' . $id
+        $upcoming = array();
+        if (in_array('Calendar', $permittedNames)) {
+            $activityResult = $db->pquery(
+                "SELECT a.activityid, a.subject, a.activitytype, a.date_start, a.time_start,
+                        a.status, a.eventstatus
+                 FROM vtiger_activity a
+                 INNER JOIN vtiger_crmentity e ON e.crmid=a.activityid
+                 WHERE e.deleted=0 AND a.date_start >= CURRENT_DATE
+                 ORDER BY a.date_start ASC, a.time_start ASC LIMIT 8",
+                array()
             );
+            for ($index = 0; $index < $db->num_rows($activityResult); $index++) {
+                $id = (int) $db->query_result($activityResult, $index, 'activityid');
+                $upcoming[] = array(
+                    'id' => $id,
+                    'subject' => decode_html($db->query_result($activityResult, $index, 'subject')),
+                    'type' => $db->query_result($activityResult, $index, 'activitytype'),
+                    'date' => $db->query_result($activityResult, $index, 'date_start'),
+                    'time' => $db->query_result($activityResult, $index, 'time_start'),
+                    'status' => $db->query_result($activityResult, $index, 'eventstatus') ?: $db->query_result($activityResult, $index, 'status'),
+                    'url' => 'index.php?module=Calendar&view=Detail&record=' . $id
+                );
+            }
+        }
+
+        $leadStatus = array();
+        if (in_array('Leads', $permittedNames)) {
+            $leadResult = $db->pquery(
+                "SELECT l.leadstatus, COUNT(*) AS count
+                 FROM vtiger_leaddetails l
+                 INNER JOIN vtiger_crmentity e ON e.crmid=l.leadid
+                 WHERE e.deleted=0
+                 GROUP BY l.leadstatus ORDER BY count DESC LIMIT 8",
+                array()
+            );
+            for ($index = 0; $index < $db->num_rows($leadResult); $index++) {
+                $leadStatus[] = array(
+                    'label' => decode_html($db->query_result($leadResult, $index, 'leadstatus')) ?: 'Unspecified',
+                    'count' => (int) $db->query_result($leadResult, $index, 'count')
+                );
+            }
         }
 
         $response = new Vtiger_Response();
@@ -71,13 +124,13 @@ class Vtiger_ReactBootstrap_Action extends Vtiger_Action_Controller {
             ),
             'modules' => $modules,
             'metrics' => $metrics,
-            'recentProperties' => $recent,
+            'recentRecords' => $recentRecords,
+            'upcomingActivities' => $upcoming,
+            'leadStatus' => $leadStatus,
             'legacySettingsUrl' => 'index.php?module=Users&parent=Settings&view=List'
         ));
         $response->emit();
     }
 
-    public function validateRequest(Vtiger_Request $request) {
-        return true;
-    }
+    public function validateRequest(Vtiger_Request $request) { return true; }
 }
