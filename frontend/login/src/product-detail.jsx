@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowLeft, Building2, ChevronLeft, ChevronRight, ExternalLink, LayoutDashboard, Menu, Pencil, X, Command } from 'lucide-react';
+import { ArrowLeft, Building2, ChevronLeft, ChevronRight, LayoutDashboard, Menu, Pencil, X, Command } from 'lucide-react';
 import './product-detail.css';
 
 const icons = { Products: Building2 };
@@ -31,7 +31,7 @@ function ProductDetail() {
     <main className="detail-main">
       <header className="detail-topbar"><button className="mobile-menu" onClick={() => setSidebar(true)}><Menu size={20}/></button><a className="back-link" href={data.listUrl}><ArrowLeft size={16}/>Properties</a><div className="record-nav"><a className={!data.previousUrl ? 'disabled' : ''} href={data.previousUrl || '#'}><ChevronLeft size={17}/>Previous</a><a className={!data.nextUrl ? 'disabled' : ''} href={data.nextUrl || '#'}>Next<ChevronRight size={17}/></a></div></header>
       <div className="detail-content">
-        <section className="detail-hero"><div><span className="eyebrow">Property record</span><h1>{data.name || 'Untitled property'}</h1><p>{data.number || `Record #${data.id}`}</p></div><div className="hero-actions">{data.canEdit && <a className="primary" href={data.editUrl}><Pencil size={16}/>Edit property</a>}<a className="secondary" href={data.legacyUrl}><ExternalLink size={15}/>Legacy detail</a></div></section>
+        <section className="detail-hero"><div><span className="eyebrow">Property record</span><h1>{data.name || 'Untitled property'}</h1><p>{data.number || `Record #${data.id}`}</p></div><div className="hero-actions">{data.canEdit && <a className="primary" href={data.editUrl}><Pencil size={16}/>Edit property</a>}</div></section>
         {data.images.length > 0 && <section className="gallery">{data.images.slice(0, 4).map((image, index) => <img src={image} alt={`${data.name} ${index + 1}`} key={image}/>)}</section>}
         <section className="detail-grid">{data.blocks.map(block => <article className="detail-card" key={block.label}><header><h2>{block.label}</h2></header><div className="field-grid">{block.fields.map(field => <div className="field" key={field.name}><span>{field.label}</span><strong>{field.value || '—'}</strong></div>)}</div></article>)}</section>
       </div>
