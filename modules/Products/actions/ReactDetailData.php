@@ -90,7 +90,6 @@ class Products_ReactDetailData_Action extends Vtiger_Action_Controller {
                 'canEdit' => $record->isEditable('Products'),
                 'canDelete' => $record->isDeletable('Products'),
                 'editUrl' => 'index.php?module=Products&view=Edit&record=' . $recordId,
-                'legacyUrl' => 'index.php?module=Products&view=Detail&record=' . $recordId . '&legacy=1',
                 'listUrl' => 'index.php?module=Products&view=ReactList',
                 'previousUrl' => $previousId ? 'index.php?module=Products&view=ReactDetail&record=' . $previousId : null,
                 'nextUrl' => $nextId ? 'index.php?module=Products&view=ReactDetail&record=' . $nextId : null
