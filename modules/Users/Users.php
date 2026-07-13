@@ -1740,32 +1740,22 @@ class Users_CRMSetup {
 			'Support' => array(
 				'label' => 'Support',
 				'imageName' => 'Support.png',
-				'description' => 'Create and track customer requests/tasks via tickets, and even allow your customers to create and monitor their own tickets and details through a professional customer portal.',
-				'modules' => array(
-					'HelpDesk' => 'Tickets',
-					'ServiceContracts' => 'Service Contracts',
-					'CustomerPortal' => 'Customer Portal'
-				)),
+					'description' => 'Create and track customer requests/tasks via tickets and service contracts.',
+					'modules' => array(
+						'HelpDesk' => 'Tickets',
+						'ServiceContracts' => 'Service Contracts'
+					)),
 			'Inventory' => array(
 				'label' => 'Invoicing & Inventory Management',
 				'imageName' => 'Inventory.png',
 				'description' => 'Build a database of your products and services, maintain inventories, standard prices and prices books, and use these to create quotes, invoices, and sales orders.',
-				'modules' => array(
-					'Quotes' => 'Quotes',
-					'Invoice' => 'Invoice',
-					'SalesOrder' => 'Sales Order',
-					'PurchaseOrder' => 'Purchase Orders',
-					'PriceBooks' => 'Price Books',
-				)),
-			'Project' => array(
-				'label' => 'Project Management',
-				'imageName' => 'ProjectManagement.png',
-				'description' => 'Build and manage customer-associated projects, with detailed tasks that can be assigned to CRM users and placed on their calendars.',
-				'modules' => array(
-					'Project' => 'Projects',
-					'ProjectTask' => 'Tasks',
-					'ProjectMilestone' => 'Milestones'
-				))
+					'modules' => array(
+						'Quotes' => 'Quotes',
+						'Invoice' => 'Invoice',
+						'SalesOrder' => 'Sales Order',
+						'PurchaseOrder' => 'Purchase Orders',
+						'PriceBooks' => 'Price Books',
+					))
 		);
 
 		global $adb;

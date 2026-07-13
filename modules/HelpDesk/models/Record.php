@@ -31,6 +31,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model {
 	 * @return <String>
 	 */
 	public function getCommentsList() {
+		return array();
 		$db = PearDatabase::getInstance();
 		$commentsList = array();
 

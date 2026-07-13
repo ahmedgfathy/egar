@@ -112,23 +112,15 @@ class Vtiger_MenuStructure_Model extends Vtiger_Base_Model {
 				'Contacts',
 				'Accounts',
 				'Potentials',
-				'Quotes',
 				'Invoice',
 				'SalesOrder',
 				'HelpDesk',
 				'Faq',
-				'Project',
-				'Assets',
-				'ServiceContracts',
 				'Products',
-				'Services',
 				'PriceBooks',
-				'Vendors',
 				'PurchaseOrder',
-				'MailManager',
 				'Calendar',
 				'Documents',
-				'SMSNotifier',
 				'RecycleBin'				
 			);
 		}

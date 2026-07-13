@@ -65,22 +65,6 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 								'ship_code' : 'ship_code',
 								'bill_country' : 'bill_country',
 								'ship_country' : 'ship_country'
-								},
-
-							'Vendors' :
-								{
-								'bill_street' : 'street',
-								'ship_street' : 'street',
-								'bill_pobox' : 'pobox',
-								'ship_pobox' : 'pobox',
-								'bill_city' : 'city',
-								'ship_city'  : 'city',
-								'bill_state' : 'state',
-								'ship_state' : 'state',
-								'bill_code' : 'postalcode',
-								'ship_code' : 'postalcode',
-								'bill_country' : 'country',
-								'ship_country' : 'country'
 								}
 							},
 

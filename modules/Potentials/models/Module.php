@@ -327,11 +327,9 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	 * @return <String> Listview Query
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
-		if (in_array($sourceModule, array('Products', 'Services'))) {
+		if (in_array($sourceModule, array('Products'))) {
 			if ($sourceModule === 'Products') {
 				$condition = " vtiger_potential.potentialid NOT IN (SELECT crmid FROM vtiger_seproductsrel WHERE productid = '$record')";
-			} elseif ($sourceModule === 'Services') {
-				$condition = " vtiger_potential.potentialid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
 			}
 
 			$pos = stripos($listQuery, 'where');

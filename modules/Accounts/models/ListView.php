@@ -31,18 +31,7 @@ class Accounts_ListView_Model extends Vtiger_ListView_Model {
 			$massActionLinks['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
 
-		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
-		if(!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
-			$massActionLink = array(
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendSms("index.php?module='.$this->getModule()->getName().'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => ''
-			);
-			$massActionLinks['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
-		}
-		
-		$moduleModel = $this->getModule();
+			$moduleModel = $this->getModule();
 		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',

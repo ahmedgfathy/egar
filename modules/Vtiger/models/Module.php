@@ -101,9 +101,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <Boolean>
 	 */
 	public function isTrackingEnabled() {
-		require_once 'modules/ModTracker/ModTracker.php';
-		$trackingEnabled = ModTracker::isTrackingEnabledForModule($this->getName());
-		return ($this->isActive() && $trackingEnabled);
+		return false;
 	}
 
 	/**
@@ -111,28 +109,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return boolean
 	 */
 	public function isCommentEnabled() {
-		$enabled = false;
-		$db = PearDatabase::getInstance();
-		$commentsModuleModel = Vtiger_Module_Model::getInstance('ModComments');
-		if($commentsModuleModel && $commentsModuleModel->isActive()) {
-			$relatedToFieldResult = $db->pquery('SELECT fieldid FROM vtiger_field WHERE fieldname = ? AND tabid = ?',
-					array('related_to', $commentsModuleModel->getId()));
-			$fieldId = $db->query_result($relatedToFieldResult, 0, 'fieldid');
-			if(!empty($fieldId)) {
-				$relatedModuleResult = $db->pquery('SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid = ?', array($fieldId));
-				$rows = $db->num_rows($relatedModuleResult);
-
-				for($i=0; $i<$rows; $i++) {
-					$relatedModule = $db->query_result($relatedModuleResult, $i, 'relmodule');
-					if($this->getName() == $relatedModule) {
-						$enabled = true;
-					}
-				}
-			}
-		} else {
-			$enabled = false;
-		}
-		return $enabled;
+		return false;
 	}
 
 	/**
@@ -917,6 +894,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 */
 	public function getComments($pagingModel) {
 		$comments = array();
+		return $comments;
 		if(!$this->isCommentEnabled()) {
 			return $comments;
 		}
@@ -952,52 +930,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <Array>
 	 */
 	public function getHistory($pagingModel, $type=false) {
-		if(empty($type)) {
-			$type = 'all';
-		}
-		//TODO: need to handle security
-		$comments = array();
-		if($type == 'all' || $type == 'comments') {
-			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-			if($modCommentsModel->isPermitted('DetailView')){
-				$comments = $this->getComments($pagingModel);
-			}
-			if($type == 'comments') {
-				return $comments;
-			}
-		}
-
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT vtiger_modtracker_basic.*
-								FROM vtiger_modtracker_basic
-								INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-									AND deleted = 0 AND module = ?
-								ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?',
-								array($this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
-
-		$activites = array();
-		for($i=0; $i<$db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			if(Users_Privileges_Model::isPermitted($row['module'], 'DetailView', $row['crmid'])){
-				$modTrackerRecorModel = new ModTracker_Record_Model();
-				$modTrackerRecorModel->setData($row)->setParent($row['crmid'], $row['module']);
-				$time = $modTrackerRecorModel->get('changedon');
-				$activites[$time] = $modTrackerRecorModel;
-			}
-		}
-
-		$history = array_merge($activites, $comments);
-
-		$dateTime = array();
-		foreach($history as $time=>$model) {
-				$dateTime[] = $time;
-		}
-
-		if(!empty($history)) {
-			array_multisort($dateTime,SORT_DESC,SORT_STRING,$history);
-			return $history;
-		}
-		return false;
+		return array();
 	}
 
 	/**
@@ -1229,14 +1162,6 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			);
 		}
 
-        $webformSupportedModule = Settings_Webforms_Module_Model :: getSupportedModulesList();
-        if(array_key_exists($this->getName(), $webformSupportedModule)){
-            $settingsLinks[] =	array(
-					'linktype' => 'LISTVIEWSETTING',
-					'linklabel' => 'LBL_SETUP_WEBFORMS',
-					'linkurl' => 'index.php?module=Webforms&parent=Settings&view=Edit&sourceModule='.$this->getName(),
-					'linkicon' => '');
-        }
 		return $settingsLinks;
 	}
 
@@ -1367,7 +1292,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <String>
 	 */
 	public function getNonAdminAccessControlQueryForRelation($relatedModuleName) {
-		$modulesList = array('Faq', 'PriceBook', 'Vendors', 'Users');
+		$modulesList = array('Faq', 'PriceBook', 'Users');
 
 		if (!in_array($relatedModuleName, $modulesList)) {
 			return Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleName);

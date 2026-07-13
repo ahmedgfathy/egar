@@ -115,14 +115,6 @@ class SalesOrder extends CRMEntity {
 	function save_module($module)
 	{
 
-		//Checking if quote_id is present and updating the quote status
-		if($this->column_fields["quote_id"] != '')
-		{
-        		$qt_id = $this->column_fields["quote_id"];
-        		$query1 = "update vtiger_quotes set quotestage='Accepted' where quoteid=?";
-        		$this->db->pquery($query1, array($qt_id));
-		}
-
 		//in ajax save we should not call this function, because this will delete all the existing product values
 		if($_REQUEST['action'] != 'SalesOrderAjax' && $_REQUEST['ajxaction'] != 'DETAILVIEW'
 				&& $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates'
@@ -329,11 +321,11 @@ class SalesOrder extends CRMEntity {
 	function generateReportsSecQuery($module,$secmodule,$queryPlanner){
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentitySalesOrder', array('vtiger_usersSalesOrder', 'vtiger_groupsSalesOrder', 'vtiger_lastModifiedBySalesOrder'));
-		$matrix->setDependency('vtiger_inventoryproductrelSalesOrder', array('vtiger_productsSalesOrder', 'vtiger_serviceSalesOrder'));
+		$matrix->setDependency('vtiger_inventoryproductrelSalesOrder', array('vtiger_productsSalesOrder'));
 		$matrix->setDependency('vtiger_salesorder',array('vtiger_crmentitySalesOrder', "vtiger_currency_info$secmodule",
 				'vtiger_salesordercf', 'vtiger_potentialRelSalesOrder', 'vtiger_sobillads','vtiger_soshipads',
 				'vtiger_inventoryproductrelSalesOrder', 'vtiger_contactdetailsSalesOrder', 'vtiger_accountSalesOrder',
-				'vtiger_invoice_recurring_info','vtiger_quotesSalesOrder'));
+				'vtiger_invoice_recurring_info'));
 
 		if (!$queryPlanner->requireTable('vtiger_salesorder', $matrix)) {
 			return '';
@@ -358,19 +350,14 @@ class SalesOrder extends CRMEntity {
 		if ($queryPlanner->requireTable("vtiger_inventoryproductrelSalesOrder", $matrix)){
 			$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelSalesOrder on vtiger_salesorder.salesorderid = vtiger_inventoryproductrelSalesOrder.id";
             // To Eliminate duplicates in reports
-            if(($module == 'Products' || $module == 'Services') && $secmodule == "SalesOrder"){
+            if($module == 'Products' && $secmodule == "SalesOrder"){
                 if($module == 'Products'){
                     $query .= " and vtiger_inventoryproductrelSalesOrder.productid = vtiger_products.productid ";    
-                }else if($module == 'Services'){
-                    $query .= " and vtiger_inventoryproductrelSalesOrder.productid = vtiger_service.serviceid "; 
                 }
             }
 		}
 		if ($queryPlanner->requireTable("vtiger_productsSalesOrder")){
 			$query .= " left join vtiger_products as vtiger_productsSalesOrder on vtiger_productsSalesOrder.productid = vtiger_inventoryproductrelSalesOrder.productid";
-		}
-		if ($queryPlanner->requireTable("vtiger_serviceSalesOrder")){
-			$query .= " left join vtiger_service as vtiger_serviceSalesOrder on vtiger_serviceSalesOrder.serviceid = vtiger_inventoryproductrelSalesOrder.productid";
 		}
 		if ($queryPlanner->requireTable("vtiger_groupsSalesOrder")){
 			$query .= " left join vtiger_groups as vtiger_groupsSalesOrder on vtiger_groupsSalesOrder.groupid = vtiger_crmentitySalesOrder.smownerid";
@@ -386,9 +373,6 @@ class SalesOrder extends CRMEntity {
 		}
 		if ($queryPlanner->requireTable("vtiger_invoice_recurring_info")){
 			$query .= " left join vtiger_invoice_recurring_info on vtiger_salesorder.salesorderid = vtiger_invoice_recurring_info.salesorderid";
-		}
-		if ($queryPlanner->requireTable("vtiger_quotesSalesOrder")){
-			$query .= " left join vtiger_quotes as vtiger_quotesSalesOrder on vtiger_salesorder.quoteid = vtiger_quotesSalesOrder.quoteid";
 		}
 		if ($queryPlanner->requireTable("vtiger_accountSalesOrder")){
 			$query .= " left join vtiger_account as vtiger_accountSalesOrder on vtiger_accountSalesOrder.accountid = vtiger_salesorder.accountid";
@@ -507,13 +491,11 @@ class SalesOrder extends CRMEntity {
 				LEFT JOIN vtiger_soshipads ON vtiger_soshipads.soshipaddressid = vtiger_salesorder.salesorderid
 				LEFT JOIN vtiger_inventoryproductrel ON vtiger_inventoryproductrel.id = vtiger_salesorder.salesorderid
 				LEFT JOIN vtiger_products ON vtiger_products.productid = vtiger_inventoryproductrel.productid
-				LEFT JOIN vtiger_service ON vtiger_service.serviceid = vtiger_inventoryproductrel.productid
 				LEFT JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_salesorder.contactid
 				LEFT JOIN vtiger_invoice_recurring_info ON vtiger_invoice_recurring_info.salesorderid = vtiger_salesorder.salesorderid
 				LEFT JOIN vtiger_potential ON vtiger_potential.potentialid = vtiger_salesorder.potentialid
 				LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_salesorder.accountid
 				LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = vtiger_salesorder.currency_id
-				LEFT JOIN vtiger_quotes ON vtiger_quotes.quoteid = vtiger_salesorder.quoteid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
 

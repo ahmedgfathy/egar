@@ -4465,12 +4465,8 @@ $columnSQL = "date_format (" . $selectedfields[0] . "." . $selectedfields[1] . "
 					$referenceTableName = 'vtiger_accountInvoice';
 				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Campaigns') {
 					$referenceTableName = 'vtiger_campaignPotentials';
-				} elseif ($moduleName == 'Products' && $referenceModule == 'Vendors') {
-					$referenceTableName = 'vtiger_vendorRelProducts';
 				} elseif ($moduleName == 'PurchaseOrder' && $referenceModule == 'Contacts') {
 					$referenceTableName = 'vtiger_contactdetailsPurchaseOrder';
-				} elseif ($moduleName == 'PurchaseOrder' && $referenceModule == 'Vendors') {
-					$referenceTableName = 'vtiger_vendorRelPurchaseOrder';
 				} elseif ($moduleName == 'Quotes' && $referenceModule == 'Potentials') {
 					$referenceTableName = 'vtiger_potentialRelQuotes';
 				} elseif ($moduleName == 'Quotes' && $referenceModule == 'Accounts') {

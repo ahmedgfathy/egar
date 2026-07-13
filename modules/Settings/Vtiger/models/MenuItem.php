@@ -42,12 +42,9 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model {
 		'index.php?module=com_vtiger_workflow&action=workflowlist' => 'index.php?module=Workflows&parent=Settings&view=List',
 		'index.php?module=ConfigEditor&action=index' => 'index.php?module=Vtiger&parent=Settings&view=ConfigEditorDetail',
 		'index.php?module=Tooltip&action=QuickView&parenttab=Settings' => 'index.php?module=Settings&submodule=Tooltip&view=Index',
-		'index.php?module=CustomerPortal&action=index&parenttab=Settings' => 'index.php?module=CustomerPortal&parent=Settings&view=Index',
 		'index.php?module=Settings&action=Announcements&parenttab=Settings' => 'index.php?parent=Settings&module=Vtiger&view=AnnouncementEdit',
 		'index.php?module=PickList&action=PickListDependencySetup&parenttab=Settings' => 'index.php?parent=Settings&module=PickListDependency&view=List',
-		'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker' => 'index.php?module=Settings&submodule=ModTracker&view=Index',
 		'index.php?module=CronTasks&action=ListCronJobs&parenttab=Settings' => 'index.php?module=CronTasks&parent=Settings&view=List',
-		'index.php?module=Webforms&action=index&parenttab=Settings' => 'index.php?module=Webforms&parent=Settings&view=List',
 		'index.php?module=Settings&action=MenuEditor&parenttab=Settings' => 'index.php?module=MenuEditor&parent=Settings&view=Index',
                 'index.php?module=ExchangeConnector&action=index&parenttab=Settings' => 'index.php?module=ExchangeConnector&parent=Settings&view=Index'
 	);
@@ -251,7 +248,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model {
 	public static function getAll($menuModel=false, $onlyActive=true) {
 		$skipMenuItemList = array('LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
 								'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-								'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST','LBL_TOOLTIP_MANAGEMENT','Webforms Configuration Editor');
+								'INVENTORYNOTIFICATION', 'LBL_WORKFLOW_LIST','LBL_TOOLTIP_MANAGEMENT');
 
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM '.self::$itemsTable;
@@ -297,7 +294,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model {
     public static function getPinnedItems($fieldList = array()) {
 		$skipMenuItemList = array('LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
 								'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-								'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST','LBL_TOOLTIP_MANAGEMENT','Webforms Configuration Editor');
+								'INVENTORYNOTIFICATION', 'LBL_WORKFLOW_LIST','LBL_TOOLTIP_MANAGEMENT');
 		
         $db = PearDatabase::getInstance();
         

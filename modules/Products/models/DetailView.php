@@ -23,17 +23,6 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 		$recordModel = $this->getRecord();
 
 		if ($recordModel->getActiveStatusOfRecord()) {
-			$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-			if($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'EditView')) {
-				$basicActionLink = array(
-						'linktype' => 'DETAILVIEW',
-						'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($quotesModuleModel->getSingularLabelKey(), 'Quotes'),
-						'linkurl' => $recordModel->getCreateQuoteUrl(),
-						'linkicon' => ''
-				);
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-			}
-
 			$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
 			if($currentUserModel->hasModuleActionPermission($invoiceModuleModel->getId(), 'EditView')) {
 				$basicActionLink = array(

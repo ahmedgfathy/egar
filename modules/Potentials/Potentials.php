@@ -568,12 +568,11 @@ class Potentials extends CRMEntity {
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "select vtiger_crmentity.*, vtiger_salesorder.*, vtiger_quotes.subject as quotename
+		$query = "select vtiger_crmentity.*, vtiger_salesorder.*, '' as quotename
 			, vtiger_account.accountname, vtiger_potential.potentialname,case when
 			(vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname
 			end as user_name from vtiger_salesorder
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_salesorder.salesorderid
-			left outer join vtiger_quotes on vtiger_quotes.quoteid=vtiger_salesorder.quoteid
 			left outer join vtiger_account on vtiger_account.accountid=vtiger_salesorder.accountid
 			left outer join vtiger_potential on vtiger_potential.potentialid=vtiger_salesorder.potentialid
 			left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
@@ -604,15 +603,15 @@ class Potentials extends CRMEntity {
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Activities"=>"vtiger_seactivityrel","Contacts"=>"vtiger_contpotentialrel","Products"=>"vtiger_seproductsrel",
-						"Attachments"=>"vtiger_seattachmentsrel","Quotes"=>"vtiger_quotes","SalesOrder"=>"vtiger_salesorder",
+						"Attachments"=>"vtiger_seattachmentsrel","SalesOrder"=>"vtiger_salesorder",
 						"Documents"=>"vtiger_senotesrel");
 
 		$tbl_field_arr = Array("vtiger_seactivityrel"=>"activityid","vtiger_contpotentialrel"=>"contactid","vtiger_seproductsrel"=>"productid",
-						"vtiger_seattachmentsrel"=>"attachmentsid","vtiger_quotes"=>"quoteid","vtiger_salesorder"=>"salesorderid",
+						"vtiger_seattachmentsrel"=>"attachmentsid","vtiger_salesorder"=>"salesorderid",
 						"vtiger_senotesrel"=>"notesid");
 
 		$entity_tbl_field_arr = Array("vtiger_seactivityrel"=>"crmid","vtiger_contpotentialrel"=>"potentialid","vtiger_seproductsrel"=>"crmid",
-						"vtiger_seattachmentsrel"=>"crmid","vtiger_quotes"=>"potentialid","vtiger_salesorder"=>"potentialid",
+						"vtiger_seattachmentsrel"=>"crmid","vtiger_salesorder"=>"potentialid",
 						"vtiger_senotesrel"=>"crmid");
 
 		foreach($transferEntityIds as $transferId) {
@@ -695,7 +694,6 @@ class Potentials extends CRMEntity {
 		$rel_tables = array (
 			"Calendar" => array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_potential"=>"potentialid"),
 			"Products" => array("vtiger_seproductsrel"=>array("crmid","productid"),"vtiger_potential"=>"potentialid"),
-			"Quotes" => array("vtiger_quotes"=>array("potentialid","quoteid"),"vtiger_potential"=>"potentialid"),
 			"SalesOrder" => array("vtiger_salesorder"=>array("potentialid","salesorderid"),"vtiger_potential"=>"potentialid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_potential"=>"potentialid"),
 			"Accounts" => array("vtiger_potential"=>array("potentialid","related_to")),

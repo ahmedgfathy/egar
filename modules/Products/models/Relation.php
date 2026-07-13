@@ -45,9 +45,6 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 		if($functionName == 'get_product_pricebooks'){
 			$selectColumnSql = $selectColumnSql.' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_products.unit_price';
 		}
-		if($functionName == 'get_service_pricebooks'){
-			$selectColumnSql = $selectColumnSql.' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_service.unit_price';
-		}
 		$query = $selectColumnSql.' FROM '.$newQuery[1];
 		return $query;
 	}
@@ -60,7 +57,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 	public function deleteRelation($sourceRecordId, $relatedRecordId) {
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
-		if(($sourceModuleName == 'Products' || $sourceModuleName == 'Services') && $relatedModuleName == 'PriceBooks') {
+		if($sourceModuleName == 'Products' && $relatedModuleName == 'PriceBooks') {
 			//Description: deleteListPrice function is deleting the relation between Pricebook and Product/Service 
 			$priceBookModel = Vtiger_Record_Model::getInstanceById($relatedRecordId, $relatedModuleName);
 			$priceBookModel->deleteListPrice($sourceRecordId);
@@ -92,7 +89,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
     public function isDeletable() {
         $relatedModuleModel = $this->getRelationModuleModel();
         $relatedModuleName = $relatedModuleModel->get('name');
-        $inventoryModulesList = array('Invoice','Quotes','PurchaseOrder','SalesOrder');
+        $inventoryModulesList = array('Invoice','PurchaseOrder','SalesOrder');
         
         //Inventoty relationship cannot be deleted from the related list
         if(in_array($relatedModuleName, $inventoryModulesList)){

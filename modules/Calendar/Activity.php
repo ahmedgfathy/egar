@@ -961,7 +961,7 @@ function insertIntoRecurringTable(& $recurObj)
 		$matrix->setDependency('vtiger_cntactivityrel',array('vtiger_contactdetailsCalendar'));
 		$matrix->setDependency('vtiger_seactivityrel',array('vtiger_crmentityRelCalendar'));
 		$matrix->setDependency('vtiger_crmentityRelCalendar',array('vtiger_accountRelCalendar','vtiger_leaddetailsRelCalendar','vtiger_potentialRelCalendar',
-								'vtiger_quotesRelCalendar','vtiger_purchaseorderRelCalendar','vtiger_invoiceRelCalendar',
+								'vtiger_purchaseorderRelCalendar','vtiger_invoiceRelCalendar',
 								'vtiger_salesorderRelCalendar','vtiger_troubleticketsRelCalendar','vtiger_campaignRelCalendar'));
 		$matrix->setDependency('vtiger_activity',array('vtiger_crmentityCalendar','vtiger_cntactivityrel','vtiger_activitycf',
 								'vtiger_seactivityrel','vtiger_activity_reminder','vtiger_recurringevents'));
@@ -1004,9 +1004,6 @@ function insertIntoRecurringTable(& $recurObj)
 		}
 		if ($queryPlanner->requireTable("vtiger_potentialRelCalendar")){
 			$query .=" 	left join vtiger_potential as vtiger_potentialRelCalendar on vtiger_potentialRelCalendar.potentialid = vtiger_crmentityRelCalendar.crmid";
-		}
-		if ($queryPlanner->requireTable("vtiger_quotesRelCalendar")){
-			$query .=" 	left join vtiger_quotes as vtiger_quotesRelCalendar on vtiger_quotesRelCalendar.quoteid = vtiger_crmentityRelCalendar.crmid";
 		}
 		if ($queryPlanner->requireTable("vtiger_purchaseorderRelCalendar")){
 			$query .=" 	left join vtiger_purchaseorder as vtiger_purchaseorderRelCalendar on vtiger_purchaseorderRelCalendar.purchaseorderid = vtiger_crmentityRelCalendar.crmid";

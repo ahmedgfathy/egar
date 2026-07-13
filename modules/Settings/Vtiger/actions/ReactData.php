@@ -38,7 +38,7 @@ class Settings_Vtiger_ReactData_Action extends Vtiger_Action_Controller {
                 'modules' => Egar_ReactNavigation_Helper::getModules('Settings'),
                 'settingsUrl' => Egar_ReactNavigation_Helper::getSettingsUrl(),
                 'legacyUsersUrl' => 'index.php?module=Users&parent=Settings&view=List',
-                'extensionStoreUrl' => 'index.php?module=ExtensionStore&parent=Settings&view=ExtensionStore',
+                'extensionStoreUrl' => null,
                 'menus' => $menus,
                 'shortcuts' => $shortcuts,
                 'metrics' => array(

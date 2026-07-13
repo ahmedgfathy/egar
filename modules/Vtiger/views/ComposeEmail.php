@@ -149,12 +149,8 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 		$documentsModel = Vtiger_Module_Model::getInstance('Documents');
 		$documentsURL = $documentsModel->getInternalDocumentsURL();
 
-		$emailTemplateModuleModel = Settings_Vtiger_Module_Model::getInstance('Settings:EmailTemplates');
-                
-		$emailTemplateListURL = $emailTemplateModuleModel->getListViewUrl();
-		
 		$viewer->assign('DOCUMENTS_URL', $documentsURL);
-		$viewer->assign('EMAIL_TEMPLATE_URL', $emailTemplateListURL);
+		$viewer->assign('EMAIL_TEMPLATE_URL', '');
 		$viewer->assign('TO', $to);
 		$viewer->assign('TOMAIL_INFO', $toMailInfo);
 		$viewer->assign('TOMAIL_NAMES_LIST', $toMailNamesList);
@@ -163,10 +159,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 		$viewer->assign('BCC', $request->get('bcc'));
 		$viewer->assign('BCCMAIL_INFO', $bccMailInfo);
 		
-		//EmailTemplate module percission check
-		$userPrevilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$viewer->assign('MODULE_IS_ACTIVE', $userPrevilegesModel->hasModulePermission(Vtiger_Module_Model::getInstance('EmailTemplates')->getId()));
-		//
+		$viewer->assign('MODULE_IS_ACTIVE', false);
 		
 		if($relatedLoad){
 			$viewer->assign('RELATED_LOAD', true);

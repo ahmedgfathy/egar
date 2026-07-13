@@ -37,8 +37,6 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 
 				case 'Invoice': $this->pullInvoice($start, $end, $result, $color, $textColor); break;
 				case 'MultipleEvents' : $this->pullMultipleEvents($start,$end, $result,$request->get('mapping'));break;
-				case 'Project': $this->pullProjects($start, $end, $result, $color, $textColor); break;
-				case 'ProjectTask': $this->pullProjectTasks($start, $end, $result, $color, $textColor); break;
 			}
 			echo json_encode($result);
 		} catch (Exception $ex) {
@@ -315,77 +313,6 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 			$item['title'] = decode_html($record['subject']);
 			$item['start'] = $record['duedate'];
 			$item['url']   = sprintf('index.php?module=Invoice&view=Detail&record=%s', $crmid);
-			$item['color'] = $color;
-			$item['textColor'] = $textColor;
-			$result[] = $item;
-		}
-	}
-
-	/**
-	 * Function to pull all the current user projects
-	 * @param type $startdate
-	 * @param type $actualenddate
-	 * @param type $result
-	 * @param type $color
-	 * @param type $textColor
-	 */
-	protected function pullProjects($start, $end, &$result, $color = null,$textColor = 'white') {
-		$db = PearDatabase::getInstance();
-		$user = Users_Record_Model::getCurrentUserModel();
-		$userAndGroupIds = array_merge(array($user->getId()),$this->getGroupsIdsForUsers($user->getId()));
-        $params = array($start,$end,$start);
-        $params = array_merge($userAndGroupIds, $params);
-        
-		$query = "SELECT projectname, startdate, targetenddate, crmid FROM vtiger_project";
-		$query.= " INNER JOIN vtiger_crmentity ON vtiger_project.projectid = vtiger_crmentity.crmid";
-		$query.= " WHERE vtiger_crmentity.deleted=0 AND smownerid IN (". generateQuestionMarks($userAndGroupIds) .") AND ";
-		$query.= " ((startdate >= ? AND targetenddate < ?) OR ( targetenddate >= ?))";
-		$queryResult = $db->pquery($query, $params);
-
-		while($record = $db->fetchByAssoc($queryResult)){
-			$item = array();
-			$crmid = $record['crmid'];
-			$item['id'] = $crmid;
-			$item['title'] = decode_html($record['projectname']);
-			$item['start'] = $record['startdate'];
-			$item['end'] = $record['targetenddate'];
-			$item['url']   = sprintf('index.php?module=Project&view=Detail&record=%s', $crmid);
-			$item['color'] = $color;
-			$item['textColor'] = $textColor;
-			$result[] = $item;
-		}
-	}
-
-	/**
-	 * Function to pull all the current user porjecttasks
-	 * @param type $startdate
-	 * @param type $enddate
-	 * @param type $result
-	 * @param type $color
-	 * @param type $textColor
-	 */
-	protected function pullProjectTasks($start, $end, &$result, $color = null,$textColor = 'white') {
-		$db = PearDatabase::getInstance();
-		$user = Users_Record_Model::getCurrentUserModel();
-        $userAndGroupIds = array_merge(array($user->getId()),$this->getGroupsIdsForUsers($user->getId()));
-         $params = array($start,$end,$start);
-        $params = array_merge($params, $userAndGroupIds);
-		
-		$query = "SELECT projecttaskname, startdate, enddate, crmid FROM vtiger_projecttask";
-		$query.= " INNER JOIN vtiger_crmentity ON vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid";
-		$query.= " WHERE vtiger_crmentity.deleted=0 AND ";
-		$query.= " ((startdate >= ? AND enddate < ?) OR ( enddate >= ?))";
-                $query.= " AND smownerid IN (". generateQuestionMarks($userAndGroupIds) .")";
-		$queryResult = $db->pquery($query, $params);
-
-		while($record = $db->fetchByAssoc($queryResult)){
-			$item = array();
-			$crmid = $record['crmid'];
-			$item['id'] = $crmid;
-			$item['title'] = decode_html($record['projecttaskname']);
-			$item['start'] = $record['startdate'];
-			$item['end'] = $record['enddate'];
-			$item['url']   = sprintf('index.php?module=ProjectTask&view=Detail&record=%s', $crmid);
 			$item['color'] = $color;
 			$item['textColor'] = $textColor;
 			$result[] = $item;

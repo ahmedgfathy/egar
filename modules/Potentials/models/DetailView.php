@@ -21,7 +21,6 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
-        $quoteModuleModel = Vtiger_Module_Model::getInstance('Quotes');
 
 		if($currentUserModel->hasModuleActionPermission($invoiceModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(
@@ -33,16 +32,6 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
         
-        if($currentUserModel->hasModuleActionPermission($quoteModuleModel->getId(), 'EditView')) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($quoteModuleModel->getSingularLabelKey(), 'Quotes'),
-				'linkurl' => $recordModel->getCreateQuoteUrl(),
-				'linkicon' => ''
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
 		$CalendarActionLinks[] = array();
 		$CalendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		if($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {

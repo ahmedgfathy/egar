@@ -337,7 +337,7 @@ class PurchaseOrder extends CRMEntity {
 
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentityPurchaseOrder', array('vtiger_usersPurchaseOrder', 'vtiger_groupsPurchaseOrder', 'vtiger_lastModifiedByPurchaseOrder'));
-		$matrix->setDependency('vtiger_inventoryproductrelPurchaseOrder', array('vtiger_productsPurchaseOrder', 'vtiger_servicePurchaseOrder'));
+		$matrix->setDependency('vtiger_inventoryproductrelPurchaseOrder', array('vtiger_productsPurchaseOrder'));
 		$matrix->setDependency('vtiger_purchaseorder',array('vtiger_crmentityPurchaseOrder', "vtiger_currency_info$secmodule",
 				'vtiger_purchaseordercf', 'vtiger_vendorRelPurchaseOrder', 'vtiger_pobillads',
 				'vtiger_poshipads', 'vtiger_inventoryproductrelPurchaseOrder', 'vtiger_contactdetailsPurchaseOrder'));
@@ -365,19 +365,14 @@ class PurchaseOrder extends CRMEntity {
 		if ($queryPlanner->requireTable("vtiger_inventoryproductrelPurchaseOrder", $matrix)){
 			$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelPurchaseOrder on vtiger_purchaseorder.purchaseorderid = vtiger_inventoryproductrelPurchaseOrder.id";
             // To Eliminate duplicates in reports
-            if(($module == 'Products' || $module == 'Services') && $secmodule == "PurchaseOrder"){
+            if($module == 'Products' && $secmodule == "PurchaseOrder"){
                 if($module == 'Products'){
                     $query .= " and vtiger_inventoryproductrelPurchaseOrder.productid = vtiger_products.productid ";    
-                }else if($module == 'Services'){
-                    $query .= " and vtiger_inventoryproductrelPurchaseOrder.productid = vtiger_service.serviceid ";
                 }
             }
 		}
 		if ($queryPlanner->requireTable("vtiger_productsPurchaseOrder")){
 			$query .= " left join vtiger_products as vtiger_productsPurchaseOrder on vtiger_productsPurchaseOrder.productid = vtiger_inventoryproductrelPurchaseOrder.productid";
-		}
-		if ($queryPlanner->requireTable("vtiger_servicePurchaseOrder")){
-			$query .= " left join vtiger_service as vtiger_servicePurchaseOrder on vtiger_servicePurchaseOrder.serviceid = vtiger_inventoryproductrelPurchaseOrder.productid";
 		}
 		if ($queryPlanner->requireTable("vtiger_usersPurchaseOrder")){
 			$query .= " left join vtiger_users as vtiger_usersPurchaseOrder on vtiger_usersPurchaseOrder.id = vtiger_crmentityPurchaseOrder.smownerid";
@@ -419,10 +414,7 @@ class PurchaseOrder extends CRMEntity {
 		global $log;
 		if(empty($return_module) || empty($return_id)) return;
 
-		if($return_module == 'Vendors') {
-			$sql_req ='UPDATE vtiger_crmentity SET deleted = 1 WHERE crmid= ?';
-			$this->db->pquery($sql_req, array($id));
-		} elseif($return_module == 'Contacts') {
+		if($return_module == 'Contacts') {
 			$sql_req ='UPDATE vtiger_purchaseorder SET contactid=? WHERE purchaseorderid = ?';
 			$this->db->pquery($sql_req, array(null, $id));
 		} else {
@@ -490,9 +482,7 @@ class PurchaseOrder extends CRMEntity {
 				LEFT JOIN vtiger_poshipads ON vtiger_poshipads.poshipaddressid = vtiger_purchaseorder.purchaseorderid
 				LEFT JOIN vtiger_inventoryproductrel ON vtiger_inventoryproductrel.id = vtiger_purchaseorder.purchaseorderid
 				LEFT JOIN vtiger_products ON vtiger_products.productid = vtiger_inventoryproductrel.productid
-				LEFT JOIN vtiger_service ON vtiger_service.serviceid = vtiger_inventoryproductrel.productid
 				LEFT JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_purchaseorder.contactid
-				LEFT JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_purchaseorder.vendorid
 				LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = vtiger_purchaseorder.currency_id
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";

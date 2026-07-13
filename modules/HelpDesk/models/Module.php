@@ -165,7 +165,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 	 * @return <String> Listview Query
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
-		if (in_array($sourceModule, array('Assets', 'Project', 'ServiceContracts', 'Services'))) {
+		if (in_array($sourceModule, array('ServiceContracts', 'Services'))) {
 			$condition = " vtiger_troubletickets.ticketid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
 			$pos = stripos($listQuery, 'where');
 

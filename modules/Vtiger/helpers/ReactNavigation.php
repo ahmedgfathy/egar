@@ -58,17 +58,10 @@ class Egar_ReactNavigation_Helper {
             'Events' => 'event',
             'Documents' => 'description',
             'Reports' => 'bar_chart',
-            'Project' => 'workspaces',
-            'ProjectTask' => 'task_alt',
-            'ProjectMilestone' => 'flag',
             'Campaigns' => 'campaign',
-            'Quotes' => 'request_quote',
             'Invoice' => 'receipt_long',
             'SalesOrder' => 'shopping_cart',
             'PurchaseOrder' => 'assignment',
-            'Vendors' => 'storefront',
-            'Services' => 'home_repair_service',
-            'Assets' => 'inventory_2',
             'HelpDesk' => 'support_agent',
             'Faq' => 'help',
             'PriceBooks' => 'price_change',
@@ -81,7 +74,7 @@ class Egar_ReactNavigation_Helper {
     private static function getGroup($parent, $moduleName) {
         if ($moduleName === 'Dashboard') return 'Workspace';
         if (in_array($moduleName, array('Products', 'Leads', 'Contacts', 'Accounts', 'Potentials'))) return 'Sales';
-        if (in_array($moduleName, array('Project', 'ProjectTask', 'ProjectMilestone', 'Calendar', 'Events', 'Documents'))) return 'Operations';
+        if (in_array($moduleName, array('Calendar', 'Events', 'Documents'))) return 'Operations';
         if (in_array($moduleName, array('Reports', 'Campaigns'))) return 'Insights';
         return $parent ? decode_html($parent) : 'Other';
     }

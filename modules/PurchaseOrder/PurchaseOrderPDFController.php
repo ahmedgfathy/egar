@@ -22,7 +22,7 @@ class Vtiger_PurchaseOrderPDFController extends Vtiger_InventoryPDFController{
 
 	function buildHeaderModelColumnCenter() {
 		$contactName = $this->resolveReferenceLabel($this->focusColumnValue('contact_id'), 'Contacts');
-		$vendorName = $this->resolveReferenceLabel($this->focusColumnValue('vendor_id'), 'Vendors');
+		$vendorName = '';
 		$trackingNumber = $this->focusColumnValue('tracking_no');
 		$requisitionNumber = $this->focusColumnValue('requisition_no');
 

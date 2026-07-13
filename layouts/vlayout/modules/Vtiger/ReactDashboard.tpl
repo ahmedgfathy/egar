@@ -10,7 +10,7 @@
 </head>
 <body>
   <div id="egar-react-dashboard"></div>
-  <script type="module" src="public/react-login/assets/dashboard.js?v=3"></script>
+  <script type="module" src="public/react-login/assets/dashboard.js?v=4"></script>
 </body>
 </html>
 {/strip}

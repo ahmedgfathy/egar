@@ -6,7 +6,7 @@ import MaterialIcon from './material-icon.jsx';
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const number = new Intl.NumberFormat('en-US');
-const moduleIcons = { Products: Building2, Leads: Sparkles, Contacts: Home, Potentials: BarChart3, Project: Columns3, Calendar: CalendarDays, Documents: FileText, Reports: TrendingUp };
+const moduleIcons = { Products: Building2, Leads: Sparkles, Contacts: Home, Potentials: BarChart3, Calendar: CalendarDays, Documents: FileText, Reports: TrendingUp };
 const filterStorageKey = 'egar.lastFilter.Leads';
 const getInitialFilter = () => { const params = new URLSearchParams(location.search); return Number(params.get('filter')) || Number(localStorage.getItem(filterStorageKey)) || 0; };
 const saveFilterPreference = filterId => {

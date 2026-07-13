@@ -13,15 +13,7 @@
 	<div class="container-fluid" id="moduleManagerContents">
 		<div class="widget_header row-fluid">
 			<div class="span6"><h3>{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h3></div>
-			<div class="span6">
-				<span class="btn-toolbar pull-right">
-					<span class="btn-group">
-                                            <button class="btn" type="button" onclick='window.location.href="index.php?module=ExtensionStore&parent=Settings&view=ExtensionStore"'>
-                                                    <strong>{vtranslate('LBL_EXTENSION_STORE', $QUALIFIED_MODULE)}</strong>
-                                            </button>
-					</span>
-				</span>
-			</div>
+			<div class="span6"></div>
 		</div>
 		<hr>
 		

@@ -14,6 +14,6 @@ class Emails_List_View extends Vtiger_List_View {
 	}
 
 	public function process(Vtiger_Request $request) {
-		header('Location: index.php?module=MailManager&view=List');
+		header('Location: index.php?module=Vtiger&view=ReactDashboard');
 	}
 }

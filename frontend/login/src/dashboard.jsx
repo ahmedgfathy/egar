@@ -5,14 +5,13 @@ import './dashboard.css';
 import './dashboard-system.css';
 import MaterialIcon from './material-icon.jsx';
 
-const icons = { Products: Building2, Leads: Sparkles, Contacts: Users, Potentials: BarChart3, Project: Command, Calendar: CalendarDays, Documents: FileText, Reports: BarChart3 };
+const icons = { Products: Building2, Leads: Sparkles, Contacts: Users, Potentials: BarChart3, Calendar: CalendarDays, Documents: FileText, Reports: BarChart3 };
 const number = new Intl.NumberFormat('en-US');
 const metricDefinitions = [
   ['properties', 'Properties', Building2, 'Live inventory'],
   ['leads', 'Leads', Sparkles, 'Sales pipeline'],
   ['contacts', 'Contacts', Users, 'Relationship network'],
   ['opportunities', 'Opportunities', BarChart3, 'Open and historical deals'],
-  ['project', 'Projects', Command, 'Delivery workload'],
   ['documents', 'Documents', FileText, 'Shared files']
 ];
 
