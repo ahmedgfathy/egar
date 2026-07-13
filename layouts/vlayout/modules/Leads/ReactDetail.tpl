@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <meta name="theme-color" content="#10251c"/>
   <title>Lead details · EGAR CRM</title>
-  <link rel="stylesheet" href="public/react-login/assets/product-detail.css?v=3"/>
+  <link rel="stylesheet" href="public/react-login/assets/product-detail.css?v=4"/>
 </head>
 <body>
   <div id="egar-react-lead-detail" data-record="{$RECORD_ID}"></div>

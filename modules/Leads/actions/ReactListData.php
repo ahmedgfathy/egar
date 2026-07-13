@@ -131,6 +131,8 @@ class Leads_ReactListData_Action extends Vtiger_Action_Controller {
                 ),
                 'canCreate' => $canEdit,
                 'createUrl' => 'index.php?module=Leads&view=Edit',
+                'createFilterUrl' => 'index.php?module=CustomView&view=EditAjax&source_module=Leads',
+                'legacyUrl' => 'index.php?module=Leads&view=List&legacy=1&viewname=' . $filterId,
                 'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard'
             ));
             $response->emit();

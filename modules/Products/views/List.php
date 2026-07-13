@@ -19,6 +19,10 @@ class Products_List_View extends Vtiger_List_View {
     }
 
     public function preProcess(Vtiger_Request $request, $display = true) {
+        if ($request->get('legacy')) {
+            return parent::preProcess($request, $display);
+        }
+
         $query = array('module' => 'Products', 'view' => 'ReactList');
         $viewName = (int) $request->get('viewname');
         if ($viewName) {
@@ -30,6 +34,9 @@ class Products_List_View extends Vtiger_List_View {
     }
 
     public function process(Vtiger_Request $request) {
+        if ($request->get('legacy')) {
+            return parent::process($request);
+        }
         // preProcess performs the redirect before legacy Smarty rendering.
     }
 }

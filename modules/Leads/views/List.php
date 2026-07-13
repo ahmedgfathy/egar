@@ -11,6 +11,9 @@ class Leads_List_View extends Vtiger_List_View {
     }
 
     public function preProcess(Vtiger_Request $request, $display = true) {
+        if ($request->get('legacy')) {
+            return parent::preProcess($request, $display);
+        }
         $query = array('module' => 'Leads', 'view' => 'ReactList');
         $viewName = (int) $request->get('viewname');
         if ($viewName) $query['filter'] = $viewName;
@@ -18,5 +21,9 @@ class Leads_List_View extends Vtiger_List_View {
         exit;
     }
 
-    public function process(Vtiger_Request $request) {}
+    public function process(Vtiger_Request $request) {
+        if ($request->get('legacy')) {
+            return parent::process($request);
+        }
+    }
 }
