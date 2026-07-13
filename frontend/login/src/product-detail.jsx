@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowLeft, Building2, ChevronLeft, ChevronRight, LayoutDashboard, Menu, Pencil, X, Command } from 'lucide-react';
+import { ArrowLeft, Building2, ChevronLeft, ChevronRight, Command, Eye, LayoutDashboard, Menu, Pencil, Rows3, X } from 'lucide-react';
 import './product-detail.css';
 
 const icons = { Products: Building2 };
+const buildStats = blocks => {
+  const fields = blocks.flatMap(block => block.fields);
+  const filled = fields.filter(field => field.value && field.value !== '—');
+  return [
+    { label: 'Sections', value: blocks.length },
+    { label: 'Visible fields', value: fields.length },
+    { label: 'Completed', value: filled.length }
+  ];
+};
 
 function ProductDetail() {
   const mount = document.getElementById('egar-react-product-detail');
@@ -21,6 +30,7 @@ function ProductDetail() {
 
   if (error) return <div className="detail-state"><h1>Property unavailable</h1><p>The record could not be loaded or you do not have access.</p><a href="index.php?module=Products&view=ReactList">Return to Properties</a></div>;
   if (!data) return <div className="detail-state loading"><span/><p>Loading property details…</p></div>;
+  const stats = buildStats(data.blocks);
 
   return <div className="detail-app">
     <aside className={`detail-sidebar ${sidebar ? 'open' : ''}`}>
@@ -31,7 +41,8 @@ function ProductDetail() {
     <main className="detail-main">
       <header className="detail-topbar"><button className="mobile-menu" onClick={() => setSidebar(true)}><Menu size={20}/></button><a className="back-link" href={data.listUrl}><ArrowLeft size={16}/>Properties</a><div className="record-nav"><a className={!data.previousUrl ? 'disabled' : ''} href={data.previousUrl || '#'}><ChevronLeft size={17}/>Previous</a><a className={!data.nextUrl ? 'disabled' : ''} href={data.nextUrl || '#'}>Next<ChevronRight size={17}/></a></div></header>
       <div className="detail-content">
-        <section className="detail-hero"><div><span className="eyebrow">Property record</span><h1>{data.name || 'Untitled property'}</h1><p>{data.number || `Record #${data.id}`}</p></div><div className="hero-actions">{data.canEdit && <a className="primary" href={data.editUrl}><Pencil size={16}/>Edit property</a>}</div></section>
+        <section className="detail-hero"><div><span className="eyebrow">Property record</span><h1>{data.name || 'Untitled property'}</h1><p>{data.number || `Record #${data.id}`}</p></div><div className="hero-actions">{data.canEdit && <a className="primary" href={data.editUrl}><Pencil size={16}/>Edit property</a>}{data.legacyDetailUrl && <a className="secondary" href={data.legacyDetailUrl}><Eye size={16}/>Full detail</a>}</div></section>
+        <section className="detail-summary">{stats.map(item => <article key={item.label}><Rows3 size={18}/><span>{item.label}</span><strong>{item.value}</strong></article>)}</section>
         {data.images.length > 0 && <section className="gallery">{data.images.slice(0, 4).map((image, index) => <img src={image} alt={`${data.name} ${index + 1}`} key={image}/>)}</section>}
         <section className="detail-grid">{data.blocks.map(block => <article className="detail-card" key={block.label}><header><h2>{block.label}</h2></header><div className="field-grid">{block.fields.map(field => <div className="field" key={field.name}><span>{field.label}</span><strong>{field.value || '—'}</strong></div>)}</div></article>)}</section>
       </div>

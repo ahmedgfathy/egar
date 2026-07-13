@@ -76,6 +76,7 @@ class Leads_ReactDetailData_Action extends Vtiger_Action_Controller {
                 'canEdit' => $record->isEditable('Leads'),
                 'canDelete' => $record->isDeletable('Leads'),
                 'editUrl' => 'index.php?module=Leads&view=Edit&record=' . $recordId,
+                'legacyDetailUrl' => 'index.php?module=Leads&view=Detail&record=' . $recordId . '&legacy=1&mode=showDetailViewByMode&requestMode=full',
                 'listUrl' => 'index.php?module=Leads&view=ReactList',
                 'previousUrl' => $previousId ? 'index.php?module=Leads&view=ReactDetail&record=' . $previousId : null,
                 'nextUrl' => $nextId ? 'index.php?module=Leads&view=ReactDetail&record=' . $nextId : null

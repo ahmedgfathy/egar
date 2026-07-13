@@ -72,10 +72,13 @@ class Products_ReactDetailData_Action extends Vtiger_Action_Controller {
             foreach ($definitions as $definition) {
                 $module = Vtiger_Module_Model::getInstance($definition[0]);
                 if (!$module || !$privileges->hasModulePermission($module->getId())) continue;
+                $url = $module->getListViewUrl();
+                if ($definition[0] === 'Products') $url = 'index.php?module=Products&view=ReactList';
+                if ($definition[0] === 'Leads') $url = 'index.php?module=Leads&view=ReactList';
                 $modules[] = array(
                     'name' => $definition[0],
                     'label' => $definition[1],
-                    'url' => $definition[0] === 'Products' ? 'index.php?module=Products&view=ReactList' : $module->getListViewUrl()
+                    'url' => $url
                 );
             }
 
@@ -90,6 +93,7 @@ class Products_ReactDetailData_Action extends Vtiger_Action_Controller {
                 'canEdit' => $record->isEditable('Products'),
                 'canDelete' => $record->isDeletable('Products'),
                 'editUrl' => 'index.php?module=Products&view=Edit&record=' . $recordId,
+                'legacyDetailUrl' => 'index.php?module=Products&view=Detail&record=' . $recordId . '&legacy=1&mode=showDetailViewByMode&requestMode=full',
                 'listUrl' => 'index.php?module=Products&view=ReactList',
                 'previousUrl' => $previousId ? 'index.php?module=Products&view=ReactDetail&record=' . $previousId : null,
                 'nextUrl' => $nextId ? 'index.php?module=Products&view=ReactDetail&record=' . $nextId : null

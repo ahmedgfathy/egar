@@ -86,7 +86,10 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
         }
 
         $privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-        $canEdit = $privileges->hasModuleActionPermission(getTabid('Products'), 'EditView');
+        $tabId = getTabid('Products');
+        $canEdit = $privileges->hasModuleActionPermission($tabId, 'EditView');
+        $canImport = $privileges->hasModuleActionPermission($tabId, 'Import');
+        $canExport = $privileges->hasModuleActionPermission($tabId, 'Export');
         $rows = array();
         foreach ($records as $recordId => $record) {
             $values = array();
@@ -168,7 +171,11 @@ class Products_ReactListData_Action extends Vtiger_Action_Controller {
                 'addedThisMonth' => $addedThisMonth
             ),
             'canCreate' => $canEdit,
+            'canImport' => $canImport,
+            'canExport' => $canExport,
             'createUrl' => 'index.php?module=Products&view=Edit',
+            'importUrl' => 'index.php?module=Products&view=Import',
+            'exportUrl' => 'index.php?module=Products&view=Export&viewname=' . $filterId,
             'legacyUrl' => 'index.php?module=Products&view=List&legacy=1&viewname=' . $filterId,
             'createFilterUrl' => 'index.php?module=CustomView&view=ReactEdit&source_module=Products',
             'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard'

@@ -10,7 +10,7 @@
 </head>
 <body>
   <div id="egar-react-product"></div>
-  <script type="module" src="public/react-login/assets/product.js?v=6"></script>
+  <script type="module" src="public/react-login/assets/product.js?v=7"></script>
 </body>
 </html>
 {/strip}

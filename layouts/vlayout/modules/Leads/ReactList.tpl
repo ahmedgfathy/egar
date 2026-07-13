@@ -10,7 +10,7 @@
 </head>
 <body>
   <div id="egar-react-leads"></div>
-  <script type="module" src="public/react-login/assets/leads.js?v=3"></script>
+  <script type="module" src="public/react-login/assets/leads.js?v=4"></script>
 </body>
 </html>
 {/strip}

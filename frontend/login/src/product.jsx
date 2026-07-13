@@ -4,7 +4,7 @@ import {
   ArrowDown, ArrowLeft, ArrowUp, BarChart3, Building2, CalendarDays, ChevronDown,
   ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Columns3, FileText, Filter,
   Home, LayoutDashboard, Megaphone, Menu, MoreHorizontal, Pencil, Plus, RefreshCw,
-  Search, SlidersHorizontal, Sparkles, TrendingUp, X
+  Search, SlidersHorizontal, Sparkles, TrendingUp, Upload, Download, X
 } from 'lucide-react';
 import './product.css';
 
@@ -141,7 +141,7 @@ function ProductList() {
       <header className="property-topbar"><button className="mobile-menu" onClick={() => setSidebar(true)}><Menu size={20}/></button><div className="breadcrumbs"><a href="index.php?module=Vtiger&view=ReactDashboard">Workspace</a><span>/</span><strong>Property</strong></div><a className="back-dashboard" href="index.php?module=Vtiger&view=ReactDashboard"><ArrowLeft size={16}/>Dashboard</a></header>
 
       <div className="property-content">
-        <section className="property-heading"><div><span className="heading-label">Real estate inventory</span><div className="title-line"><h1>Properties</h1><span className="live-pill"><i/>Live data</span></div><p>Manage every property, apply accurate filters and move through large inventories quickly.</p></div><div className="heading-actions">{data?.canCreate && <a className="add-property" href={data.createUrl}><Plus size={18}/>Add property</a>}<div className="secondary-actions"><a href={data?.createFilterUrl || 'index.php?module=CustomView&view=ReactEdit&source_module=Products'}>Create filter</a><a href={data?.legacyUrl || 'index.php?module=Products&view=List&legacy=1'}>Legacy list</a></div></div></section>
+        <section className="property-heading"><div><span className="heading-label">Real estate inventory</span><div className="title-line"><h1>Properties</h1><span className="live-pill"><i/>Live data</span></div><p>Manage every property, apply accurate filters and move through large inventories quickly.</p></div><div className="heading-actions">{data?.canCreate && <a className="add-property" href={data.createUrl}><Plus size={18}/>Add property</a>}<div className="secondary-actions">{data?.canImport && <a href={data.importUrl}><Upload size={15}/>Import</a>}{data?.canExport && <a href={data.exportUrl}><Download size={15}/>Export</a>}<a href={data?.createFilterUrl || 'index.php?module=CustomView&view=ReactEdit&source_module=Products'}>Create filter</a><a href={data?.legacyUrl || 'index.php?module=Products&view=List&legacy=1'}>Legacy list</a></div></div></section>
 
         <section className="property-toolbar">
           <div className="filter-select"><Filter size={17}/><select value={filter || ''} onChange={event => { setFilter(Number(event.target.value)); setPage(1); }}>{data?.filters?.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select><ChevronDown size={15}/></div>

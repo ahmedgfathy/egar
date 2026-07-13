@@ -71,7 +71,10 @@ class Leads_ReactListData_Action extends Vtiger_Action_Controller {
             }
 
             $privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-            $canEdit = $privileges->hasModuleActionPermission(getTabid('Leads'), 'EditView');
+            $tabId = getTabid('Leads');
+            $canEdit = $privileges->hasModuleActionPermission($tabId, 'EditView');
+            $canImport = $privileges->hasModuleActionPermission($tabId, 'Import');
+            $canExport = $privileges->hasModuleActionPermission($tabId, 'Export');
             $rows = array();
             foreach ($records as $recordId => $record) {
                 $values = array();
@@ -130,7 +133,11 @@ class Leads_ReactListData_Action extends Vtiger_Action_Controller {
                     'addedThisMonth' => (int) $db->query_result($monthResult, 0, 'count')
                 ),
                 'canCreate' => $canEdit,
+                'canImport' => $canImport,
+                'canExport' => $canExport,
                 'createUrl' => 'index.php?module=Leads&view=Edit',
+                'importUrl' => 'index.php?module=Leads&view=Import',
+                'exportUrl' => 'index.php?module=Leads&view=Export&viewname=' . $filterId,
                 'createFilterUrl' => 'index.php?module=CustomView&view=ReactEdit&source_module=Leads',
                 'legacyUrl' => 'index.php?module=Leads&view=List&legacy=1&viewname=' . $filterId,
                 'dashboardUrl' => 'index.php?module=Vtiger&view=ReactDashboard'

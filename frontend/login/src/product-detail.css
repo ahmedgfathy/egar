@@ -11,3 +11,11 @@
 .field strong{font-size:17px;line-height:1.55}
 .detail-state{font-size:16px}
 @media(max-width:620px){.record-nav a{font-size:0}.field strong{font-size:16px}.detail-hero p{font-size:15px}}
+.detail-hero{margin-bottom:18px}
+.hero-actions{flex-wrap:wrap}
+.detail-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.detail-summary article{display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:11px;min-height:78px;padding:15px 17px;border:1px solid #dfe6e1;border-radius:13px;background:#fff}
+.detail-summary svg{grid-row:span 2;color:#326f4f}
+.detail-summary span{color:#75867d;font-size:13px;font-weight:700;text-transform:uppercase}
+.detail-summary strong{color:#22392f;font:700 26px 'Manrope'}
+@media(max-width:620px){.detail-summary{grid-template-columns:1fr}}

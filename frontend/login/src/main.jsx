@@ -27,7 +27,11 @@ function LoginApp() {
 
   useEffect(() => {
     const form = document.getElementById('egar-login-form');
-    const handleSubmit = () => window.setTimeout(() => setSubmitting(true), 0);
+    const handleSubmit = () => {
+      const username = form?.querySelector('input[name="username"]');
+      if (username) username.value = username.value.trim();
+      window.setTimeout(() => setSubmitting(true), 0);
+    };
     form?.addEventListener('submit', handleSubmit);
     return () => form?.removeEventListener('submit', handleSubmit);
   }, []);
