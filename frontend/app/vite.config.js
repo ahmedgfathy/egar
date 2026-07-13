@@ -20,7 +20,9 @@ export default defineConfig({
         login: resolve(legacySourceRoot, 'main.jsx'),
         dashboard: resolve(legacySourceRoot, 'dashboard.jsx'),
         product: resolve(legacySourceRoot, 'product.jsx'),
-        'product-detail': resolve(legacySourceRoot, 'product-detail.jsx')
+        'product-detail': resolve(legacySourceRoot, 'product-detail.jsx'),
+        leads: resolve(legacySourceRoot, 'leads.jsx'),
+        'lead-detail': resolve(legacySourceRoot, 'lead-detail.jsx')
       },
       output: {
         entryFileNames: '[name].js',
