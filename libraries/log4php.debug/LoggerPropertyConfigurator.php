@@ -4,7 +4,7 @@
  * 
  * <p>This framework is based on log4j (see {@link http://jakarta.apache.org/log4j log4j} for details).</p>
  * <p>Design, strategies and part of the methods documentation are developed by log4j team 
- * (Ceki Gülcü as log4j project founder and 
+ * (Ceki Gï¿½lcï¿½ as log4j project founder and 
  * {@link http://jakarta.apache.org/log4j/docs/contributors.html contributors}).</p>
  *
  * <p>PHP port, extensions and modifications by VxR. All rights reserved.<br>
@@ -519,7 +519,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
         // If value is not in the form ", appender.." or "", then we should set
         // the level of the loggeregory.
 
-        if(!(@$value{0} == ',' || empty($value))) {
+        if(!(@$value[0] == ',' || empty($value))) {
             // just to be on the safe side...
             if(sizeof($st) == 0)
 	            return;

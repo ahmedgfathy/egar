@@ -4,7 +4,7 @@
  * 
  * <p>This framework is based on log4j (see {@link http://jakarta.apache.org/log4j log4j} for details).</p>
  * <p>Design, strategies and part of the methods documentation are developed by log4j team 
- * (Ceki Gülcü as log4j project founder and 
+ * (Ceki Gï¿½lcï¿½ as log4j project founder and 
  * {@link http://jakarta.apache.org/log4j/docs/contributors.html contributors}).</p>
  *
  * <p>PHP port, extensions and modifications by VxR. All rights reserved.<br>
@@ -144,7 +144,7 @@ class LoggerPatternParser {
      */
     function extractOption()
     {
-        if(($this->i < $this->patternLength) and ($this->pattern{$this->i} == '{')) {
+        if(($this->i < $this->patternLength) and ($this->pattern[$this->i] == '{')) {
             $end = strpos($this->pattern, '}' , $this->i);
             if ($end !== false) {
                 $r = substr($this->pattern, ($this->i + 1), ($end - $this->i - 1));
@@ -185,7 +185,7 @@ class LoggerPatternParser {
         $this->i = 0;
         $this->currentLiteral = '';
         while ($this->i < $this->patternLength) {
-            $c = $this->pattern{$this->i++};
+            $c = $this->pattern[$this->i++];
 //            LoggerLog::debug("LoggerPatternParser::parse() char is now '$c' and currentLiteral is '{$this->currentLiteral}'");            
             switch($this->state) {
                 case LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE:
@@ -198,7 +198,7 @@ class LoggerPatternParser {
                     if($c == LOG4PHP_LOGGER_PATTERN_PARSER_ESCAPE_CHAR) {
                         // LoggerLog::debug("LoggerPatternParser::parse() char is an escape char");                    
                         // peek at the next char.
-                        switch($this->pattern{$this->i}) {
+                        switch($this->pattern[$this->i]) {
                             case LOG4PHP_LOGGER_PATTERN_PARSER_ESCAPE_CHAR:
                                 // LoggerLog::debug("LoggerPatternParser::parse() next char is an escape char");                    
                                 $this->currentLiteral .= $c;
@@ -372,7 +372,7 @@ class LoggerPatternParser {
                 break;
             case 'u':
                 if($this->i < $this->patternLength) {
-	                $cNext = $this->pattern{$this->i};
+	                $cNext = $this->pattern[$this->i];
                     if(ord($cNext) >= ord('0') and ord($cNext) <= ord('9')) {
 	                    $pc = new LoggerUserFieldPatternConverter($this->formattingInfo, (string)(ord($cNext) - ord('0')));
                         LoggerLog::debug("LoggerPatternParser::finalizeConverter() USER converter [{$cNext}].");
