@@ -83,3 +83,10 @@ phpunit.xml
 # Package files
 pkg/vtiger/modules/*/
 pkg/vtiger/patches/*/
+
+*.sql
+error_log
+cache/
+logs/
+storage/
+test/templates_c/
